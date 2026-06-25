@@ -23,6 +23,7 @@
 - 全局 Codex hooks 守门点
 - 仓库 guard 与 Git hooks 模板
 - 提交和推送前敏感内容扫描
+- 提交和推送前项目目录清洁检查
 - Git 分支、提交、发布与构建产物策略
 - 一键挂载脚本
 - 一键恢复官方原版状态脚本
@@ -146,6 +147,8 @@ bash scripts/codex-config-guard.sh
 
 该 guard 会同时执行高置信 secret scan，防止敏感内容进入提交或推送。
 
+该 guard 也会执行项目目录清洁检查，防止临时文件、日志和备份文件进入暂存区或散落在仓库根目录。
+
 如果当前目录已经是 git 仓库，可以安装提交和推送前守门：
 
 ```bash
@@ -227,6 +230,7 @@ bash /path/to/codex-config/scripts/restore-codex-global-links.sh
   - `hooks/`
   - `git-hooks/`
   - `scripts/secret-scan.py`
+  - `scripts/workspace-cleanliness-check.sh`
   - `docs/restore-*`
   - `docs/hook-enforcement-policy.md`
   - `docs/git-workflow-policy.md`

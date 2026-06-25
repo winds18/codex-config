@@ -1,2 +1,11 @@
 .DS_Store
 **/.DS_Store
+
+.tmp/
+.artifacts/
+.cache/
+
+*.tmp
+*.temp
+*.bak
+*.log

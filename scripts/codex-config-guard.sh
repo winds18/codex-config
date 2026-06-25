@@ -45,6 +45,7 @@ for path in \
   scripts/codex-config-guard.sh \
   scripts/install-git-hooks.sh \
   scripts/secret-scan.py \
+  scripts/workspace-cleanliness-check.sh \
   docs/project-expansion-workflow.md \
   docs/project-AGENTS-template.md \
   docs/hook-enforcement-policy.md \
@@ -59,6 +60,7 @@ bash -n scripts/restore-codex-global-links.sh
 bash -n scripts/restore-codex-official-state.sh
 bash -n scripts/codex-config-guard.sh
 bash -n scripts/install-git-hooks.sh
+bash -n scripts/workspace-cleanliness-check.sh
 bash -n git-hooks/pre-commit
 bash -n git-hooks/pre-push
 
@@ -66,6 +68,7 @@ python3 -m json.tool hooks/hooks.json >/dev/null
 python3 -m py_compile hooks/codex-policy-guard.py
 python3 -m py_compile scripts/secret-scan.py
 python3 scripts/secret-scan.py
+bash scripts/workspace-cleanliness-check.sh
 
 diff -u docs/project-expansion-workflow.md \
   skills/project-bootstrap/references/project-expansion-workflow.md >/dev/null
