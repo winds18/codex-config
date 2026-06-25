@@ -1,0 +1,54 @@
+{
+  "hooks": {
+    "UserPromptSubmit": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "python3 \"$HOME/.codex/hooks/codex-policy-guard.py\"",
+            "timeout": 10,
+            "statusMessage": "Checking prompt policy"
+          }
+        ]
+      }
+    ],
+    "PreToolUse": [
+      {
+        "matcher": "Bash|apply_patch|Edit|Write",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "python3 \"$HOME/.codex/hooks/codex-policy-guard.py\"",
+            "timeout": 10,
+            "statusMessage": "Checking tool policy"
+          }
+        ]
+      }
+    ],
+    "PermissionRequest": [
+      {
+        "matcher": "Bash|apply_patch|Edit|Write",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "python3 \"$HOME/.codex/hooks/codex-policy-guard.py\"",
+            "timeout": 10,
+            "statusMessage": "Checking approval policy"
+          }
+        ]
+      }
+    ],
+    "Stop": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "python3 \"$HOME/.codex/hooks/codex-policy-guard.py\"",
+            "timeout": 10,
+            "statusMessage": "Checking completion policy"
+          }
+        ]
+      }
+    ]
+  }
+}
