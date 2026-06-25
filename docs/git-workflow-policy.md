@@ -101,7 +101,7 @@ hotfix/<short-name>
 全局默认采用轻量提交格式：
 
 ```text
-type: short summary
+type: 中文简短说明
 ```
 
 常用类型：
@@ -117,7 +117,9 @@ type: short summary
 - `chore`
 - `revert`
 
-是否使用 emoji、版本号、详细 body，由项目级规则决定。
+`type` 可以保留英文约定，标题和 body 默认使用中文。
+
+是否使用 emoji、版本号、详细 body，由项目级规则决定，但自然语言说明仍默认中文。
 
 ---
 

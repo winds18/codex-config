@@ -55,6 +55,7 @@ bash scripts/codex-config-guard.sh
 - shell 脚本语法正确
 - hooks JSON 合法
 - Python hook 可编译
+- 暂存区或已跟踪文件中没有高置信 secret
 - `docs/` 模板和 skill 引用副本一致
 - 便携入口没有写死本机绝对路径
 
@@ -92,6 +93,21 @@ bash scripts/install-git-hooks.sh
 - API key
 - GitHub token
 - 私钥块
+
+### 提交和推送前
+
+仓库 guard 会扫描暂存区；如果当前没有暂存内容，则扫描已跟踪文件。
+
+默认阻断：
+
+- API key
+- GitHub token
+- AWS access key id
+- Slack token
+- 私钥块
+- 高熵 inline secret
+
+如果发现真实 secret，应先移除并轮换凭证，再继续提交或推送。
 
 ### 工具执行前
 

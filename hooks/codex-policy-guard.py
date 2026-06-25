@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Small Codex hook guard for global workflow safety."""
+"""用于全局工作流安全守门的 Codex hook。"""
 
 from __future__ import annotations
 

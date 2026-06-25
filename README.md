@@ -22,6 +22,7 @@
 - 全局 docs 模板与治理文档
 - 全局 Codex hooks 守门点
 - 仓库 guard 与 Git hooks 模板
+- 提交和推送前敏感内容扫描
 - Git 分支、提交、发布与构建产物策略
 - 一键挂载脚本
 - 一键恢复官方原版状态脚本
@@ -31,6 +32,7 @@
 - 只改这个仓库里的真源文件
 - 不直接手改 `~/.codex` 里的软连接内容
 - 改完后通过恢复脚本重新挂载或开新会话验证
+- 提交说明、文档记录、执行总结和代码注释默认使用中文
 
 ---
 
@@ -142,6 +144,8 @@ bash scripts/restore-codex-global-links.sh
 bash scripts/codex-config-guard.sh
 ```
 
+该 guard 会同时执行高置信 secret scan，防止敏感内容进入提交或推送。
+
 如果当前目录已经是 git 仓库，可以安装提交和推送前守门：
 
 ```bash
@@ -217,10 +221,12 @@ bash /path/to/codex-config/scripts/restore-codex-global-links.sh
 
 - `docs/` 里的项目模板是主要维护版本
 - `skills/project-bootstrap/references/` 中对应模板必须与 `docs/` 同步
+- 自然语言记录默认中文，只有命令、标识符、协议字段、外部 API 名称和错误原文保留英文
 - 任何会影响跨设备部署的改动，都必须同时检查：
   - `scripts/`
   - `hooks/`
   - `git-hooks/`
+  - `scripts/secret-scan.py`
   - `docs/restore-*`
   - `docs/hook-enforcement-policy.md`
   - `docs/git-workflow-policy.md`

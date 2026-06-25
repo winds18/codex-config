@@ -359,12 +359,14 @@ worktree 初始化要求：
 建议提交信息风格：
 
 ```text
-feat: ...
-fix: ...
-refactor: ...
-docs: ...
-test: ...
+feat: 增加用户登录入口
+fix: 修复启动失败问题
+refactor: 收敛配置加载逻辑
+docs: 更新部署说明
+test: 补充核心流程验证
 ```
+
+提交标题和 body 默认使用中文，`type` 可以保留英文约定。
 
 如果项目需要版本号、emoji 或 `commit-msg` 校验，在这里明确写出。
 
