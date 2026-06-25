@@ -1,70 +1,70 @@
 ---
 name: feature-thread-launch
-description: Use when the main project thread should delegate a bounded feature, bugfix, refactor, or noisy verification task into a separate feature thread with minimal overhead
+description: 功能线程启动 skill，用于把有边界的功能、修复、重构或高噪音验证任务，从主项目线程下沉到独立功能线程。
 ---
 
 # Feature Thread Launch
 
-## Overview
+## 概览
 
-Use this skill when the main thread should stay as the project control plane, and a concrete implementation task should be pushed into a separate feature thread.
+这个 skill 用于主线程需要保持项目控制面，而具体实现任务应下沉到独立功能线程的场景。
 
-This skill is intentionally lightweight. Its purpose is to launch reliable feature threads without turning handoff into bureaucracy.
+它刻意保持轻量，目标是可靠启动功能线程，而不是把交接变成繁琐流程。
 
-## When to Use
+## 适用场景
 
-Use when:
+适合使用：
 
-- the main thread has identified a concrete implementation task
-- the task will create logs, repeated edits, debugging loops, or noisy validation work
-- the task should be isolated in a feature thread, ideally in a worktree
-- the user wants the main thread context preserved for project control
+- 主线程已经识别出一个具体实现任务
+- 任务会产生日志、多轮编辑、调试循环或高噪音验证
+- 任务应隔离到功能线程中，最好放入 worktree
+- 用户希望主线程上下文保留给项目控制
 
-Do not use when:
+不适合使用：
 
-- the work is only a tiny low-noise control-plane edit
-- the task is still too vague to define a bounded objective
-- the repository has not yet been bootstrapped into a project-level workflow
+- 当前只是低噪音的小型控制面编辑
+- 任务仍然过于模糊，无法定义有边界目标
+- 仓库尚未初始化为项目级工作流
 
-## Required Launch Inputs
+## 必要启动信息
 
-Keep the launch packet minimal but sufficient:
+启动包应保持最小但足够：
 
-- bounded objective
-- acceptance criteria
-- relevant files or directories
-- constraints that must remain unchanged
-- worktree preference when applicable
+- 有边界的目标
+- 验收标准
+- 相关文件或目录
+- 必须保持不变的约束
+- 必要时说明 worktree 偏好
 
-Add subagent recommendations only when they will reduce noise or accelerate reading-heavy work.
+只有在能降噪或加速大量阅读工作时，才补充子代理建议。
 
-## Launch Workflow
+## 启动流程
 
-1. Confirm the task should not stay in the main thread.
-2. Define one bounded feature-thread objective.
-3. Define acceptance criteria close to the real delivery path.
-4. Point to the relevant code area and known risks.
-5. Prefer a worktree for long, noisy, or unattended work.
-6. Instruct the feature thread to use subagents early for exploration, log triage, test-gap scanning, and first-pass review when useful.
-7. Require a short return summary with verification evidence, changed files, goal delta, and known limits.
+1. 确认任务不应继续留在主线程。
+2. 定义一个有边界的功能线程目标。
+3. 定义贴近真实交付路径的验收标准。
+4. 指明相关代码区域和已知风险。
+5. 对长任务、高噪音任务或无人值守任务，优先使用 worktree。
+6. 在有用时，要求功能线程尽早使用子代理做探索、日志归因、测试缺口扫描和首轮 review。
+7. 要求功能线程回传简短摘要，包含验证证据、变更文件、goal delta 和已知限制。
 
-## Ground Rules
+## 基本规则
 
-- Keep launch packets short and executable.
-- Prefer framework and main delivery path before detail completion.
-- Do not let documentation, edge-case polish, or exhaustive test expansion block the main feature path before it is alive.
-- If a feature thread gets trapped in local optimization, correct its goal or stage objective quickly.
-- One feature thread should normally have one primary write path.
+- 启动包要短、可执行。
+- 先推进框架和主交付路径，再补细节。
+- 不要让文档、边界抛光或过度测试扩展阻塞主功能路径。
+- 如果功能线程陷入局部优化，应快速纠偏 goal 或 Stage Objective。
+- 一个功能线程通常只保留一个主要写入路径。
 
-## References
+## 参考资料
 
-Read this only when needed:
+仅在需要时读取：
 
 - `references/feature-thread-launch-checklist.md`
-  Use for the standard handoff checklist and lightweight launch format.
+  用于查看标准交接清单和轻量启动格式。
 
-## Expected Behavior
+## 预期结果
 
-After using this skill, the main thread should preserve project-level control context while the feature thread executes one bounded delivery unit with minimal noise.
+使用该 skill 后，主线程应保留项目级控制上下文，功能线程则以低噪音方式执行一个有边界的交付单元。
 
-If the launch packet becomes long, vague, or overloaded with premature detail work, the launch is too heavy.
+如果启动包变得冗长、含糊或塞入过早细节，说明交接过重，需要收敛。

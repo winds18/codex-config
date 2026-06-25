@@ -1,81 +1,81 @@
 ---
 name: autonomous-project-execution
-description: Use when a project already has basic repository documents and you want Codex to continue autonomous, goal-driven implementation with minimal interruptions, stage-based validation, and controlled goal correction
+description: 自主项目执行 skill，用于在项目已有基础文档后，让 Codex 以 goal 驱动、低打扰、阶段验证和可控纠偏的方式持续推进。
 ---
 
 # Autonomous Project Execution
 
-## Overview
+## 概览
 
-Use this skill after project bootstrap, when Codex should move from setup into sustained implementation.
+这个 skill 用于项目初始化之后，让 Codex 从“搭建结构”进入“持续实现”。
 
-This skill is for low-interruption, goal-driven execution across multiple stages.
+它适合低打扰、goal 驱动、跨阶段推进的执行场景。
 
-## When to Use
+## 适用场景
 
-Use when:
+适合使用：
 
-- the repository already has a project `AGENTS.md`
-- the project has at least a minimal `docs/spec.md` and `docs/plan.md`
-- the user wants Codex to keep pushing implementation forward
-- the workflow should support unattended or lightly supervised execution
+- 仓库已经有项目级 `AGENTS.md`
+- 项目至少已有 `docs/spec.md` 和 `docs/plan.md`
+- 用户希望 Codex 持续推动实现
+- 工作流需要支持无人值守或轻监督执行
 
-Do not use when:
+不适合使用：
 
-- the project has not been initialized yet
-- the user is still defining the core project shape
-- the current task is a one-off quick fix with no need for ongoing orchestration
+- 项目尚未完成初始化
+- 用户仍在定义项目核心形态
+- 当前只是一次性小修复，不需要持续编排
 
-## Preconditions
+## 前置条件
 
-Before relying on this skill, the project should already have:
+使用该 skill 前，项目应已经具备：
 
-- repository-level operating rules
-- a project mission and scope
-- a current working plan
-- a known validation path
+- 仓库级操作规则
+- 项目 Mission 和范围
+- 当前工作计划
+- 已知验证路径
 
-If those are missing, use `project-bootstrap` first.
+如果这些内容缺失，应先使用 `project-bootstrap`。
 
-## Execution Model
+## 执行模型
 
-The main thread should act as the orchestrator.
+主线程应作为主编排者。
 
-It should:
+主线程需要：
 
-1. read Mission and Constraints
-2. read or refine the current Working Goal
-3. execute one stage at a time
-4. validate before advancing
-5. correct the Working Goal when reality changes
-6. interrupt only on meaningful risk or boundary changes
+1. 读取 Mission 和 Constraints
+2. 读取或细化当前 Working Goal
+3. 一次推进一个阶段
+4. 先验证，再进入下一步
+5. 当现实变化时纠偏 Working Goal
+6. 只在真实风险或边界变化时打断用户
 
-## Ground Rules
+## 基本规则
 
-- Do not treat code generation as completion.
-- Do not continue indefinitely without validation.
-- Do not silently weaken the mission, scope, or quality floor.
-- Prefer one primary writing path per stage.
-- Use subagents to reduce noise, not to create uncontrolled parallel edits.
-- Record meaningful goal changes in project documents or execution summaries.
+- 不要把代码生成当作完成。
+- 不要在缺少验证时无限推进。
+- 不要静默弱化 Mission、范围或质量底线。
+- 每个阶段优先保持一个主要写入路径。
+- 使用子代理是为了降噪，不是制造失控并行编辑。
+- 有意义的 goal 变化必须记录到项目文档或执行总结中。
 
-## References
+## 参考资料
 
-Read these only when needed:
+仅在需要时读取：
 
 - `references/autonomous-execution-workflow.md`
-  Use for the stage loop, interruption rules, and goal-correction policy.
+  用于查看阶段循环、打断规则和 goal 纠偏策略。
 - `references/agent-role-matrix.md`
-  Use for recommended orchestrator, worker, and subagent role boundaries.
+  用于查看主编排者、主执行者和子代理的角色边界。
 
-## Expected Behavior
+## 预期结果
 
-After using this skill, Codex should be able to:
+使用该 skill 后，Codex 应能够：
 
-- keep a project moving stage by stage
-- validate before claiming completion
-- adjust short-term goals without drifting from the mission
-- use subagents intentionally
-- minimize unnecessary interruptions
+- 按阶段持续推进项目
+- 在宣称完成前先验证
+- 在不偏离 Mission 的前提下调整短期目标
+- 有意图地使用子代理
+- 尽量减少不必要打扰
 
-If these behaviors are missing, the autonomous execution setup is incomplete.
+如果这些行为缺失，说明自主执行设置还不完整。

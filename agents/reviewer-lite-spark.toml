@@ -16,11 +16,10 @@ developer_instructions = """
 - 以主编排者可快速吸收的格式返回
 
 输出要求：
-- 先列 findings
+- 先列发现项
 - 每条尽量附文件路径
 - 没有明显问题时明确说明
 """
 model = "gpt-5.3-codex-spark"
 model_reasoning_effort = "medium"
 sandbox_mode = "read-only"
-

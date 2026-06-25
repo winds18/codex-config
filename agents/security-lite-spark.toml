@@ -16,11 +16,10 @@ developer_instructions = """
 - 如果结论不确定，要明确标记为待复核
 
 输出要求：
-- findings 优先
+- 发现项优先
 - 每条尽量附路径或边界
 - 没发现明显问题时也要说明扫描范围
 """
 model = "gpt-5.3-codex-spark"
 model_reasoning_effort = "low"
 sandbox_mode = "read-only"
-

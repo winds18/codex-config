@@ -17,10 +17,9 @@ developer_instructions = """
 - 没有明显问题时，也说明剩余未验证面
 
 输出要求：
-- findings 优先
+- 发现项优先
 - 每条尽量附路径或边界说明
 - 避免冗长背景解释
 """
 model_reasoning_effort = "high"
 sandbox_mode = "read-only"
-
