@@ -30,9 +30,9 @@
 
 默认真源目录就是当前仓库根目录。
 
-当前本机路径示例：
+路径示例：
 
-`/Users/wings/Documents/Codex/global-config`
+`/path/to/codex-config`
 
 两个恢复脚本默认会根据自身所在位置自动推导这个目录，因此仓库 clone 到其他路径也可以直接工作。
 
@@ -72,205 +72,19 @@
 
 真源目录中当前包含：
 
-### `README.md`
-
-仓库级入口文档。
-
-作用：
-
-- 让人类或 AI 在新设备上快速接管这套体系
-- 提供最短部署路径
-- 提供最常用的恢复与校验命令
-
-建议：
-
-- 新设备首次接管时先读它
-- 日常维护时把它当作最高优先级的人工入口
-
----
-
-### `AGENTS.md`
-
-全局总纲。
-
-作用：
-
-- 定义 Codex 的总工作哲学
-- 定义 goal-first 规则
-- 定义少打扰、可纠偏、可无人值守的全局行为边界
-
-这是整套体系的最高层行为契约。
-
----
-
-### `agents/`
-
-全局自定义代理角色目录。
-
-当前角色包括：
-
-- `orchestrator`
-- `worker`
-- `planner`
-- `security-reviewer`
-- `security-lite-spark`
-- `explorer-spark`
-- `reviewer-lite-spark`
-- `tester-lite-spark`
-- `summarizer-spark`
-- `refiner`
-- `pr-preparer`
-
-作用：
-
-- 把不同类型的任务交给边界更清晰的代理
-- 让 spark 类额度主要用于轻量并行工作
-- 让主编排者和主执行者承担更稳定的高价值判断
-
----
-
-### `skills/`
-
-全局个人 skill 目录。
-
-当前包含：
-
-- `project-bootstrap`
-- `autonomous-project-execution`
-- `feature-thread-launch`
-
-作用：
-
-- `project-bootstrap`：新项目初始化，先铺项目级文档和规则
-- `autonomous-project-execution`：项目初始化后，进入 goal 驱动的持续执行阶段
-- `feature-thread-launch`：主线程把具体功能、修复或高噪音验证工作轻量下沉到功能线程
-
-推荐使用顺序：
-
-1. 新项目开始时先用 `project-bootstrap`
-2. 项目进入实际开发后切换到 `autonomous-project-execution`
-3. 主线程派发具体功能工作时使用 `feature-thread-launch`
-
----
-
-### `prompts/`
-
-当前放的是自定义 prompt 入口。
-
-当前包含：
-
-- `init-project.md`
-
-作用：
-
-- 提供一个快速启动新项目初始化的 prompt 入口
-
-说明：
-
-- 官方当前更推荐 skill，而不是 custom prompt
-- prompt 仍可用，但长期建议优先走 skill 路线
-
----
-
-### `docs/`
-
-全局参考与运维文档目录。
-
-当前包含：
-
-- `project-expansion-workflow.md`
-- `project-AGENTS-template.md`
-- `project-plan-template.md`
-- `thread-governance-policy.md`
-- `hook-enforcement-policy.md`
-- `git-workflow-policy.md`
-- `restore-codex-setup.md`
-- `restore-codex-official-state.md`
-- `codex-global-setup-overview.md`
-
-作用：
-
-- 放模板
-- 放展开流程
-- 放运维说明
-- 放恢复说明
-- 放 Git 分支、发布与构建产物策略
-
-注意：
-
-- `docs/` 是参考入口，不是自动执行入口
-- 它的目的是帮助你和 Codex 统一理解这套体系
-
----
-
-### `hooks/`
-
-Codex lifecycle hook 目录。
-
-当前包含：
-
-- `hooks.json`
-- `codex-policy-guard.py`
-
-作用：
-
-- 阻断高置信 secret 进入 prompt
-- 阻断明显危险命令
-- 阻断直接写 live `~/.codex` 入口
-- 在完成声明缺少验证证据时要求补充验证
-- 在推送前提醒运行仓库 guard
-
-注意：
-
-- hook 是守门点，不替代主编排判断
-- 新设备或 hook 改动后，需要在 Codex 中打开 `/hooks` 检查并信任
-
----
-
-### `git-hooks/`
-
-Git hook 模板目录。
-
-当前包含：
-
-- `pre-commit`
-- `pre-push`
-
-作用：
-
-- 在 commit 和 push 前运行仓库 guard
-- 防止模板不同步、hook 配置损坏、脚本语法错误等问题进入历史
-- 支持后续扩展 `commit-msg` 等 Git hook
-
-安装方式：
-
-```bash
-bash scripts/install-git-hooks.sh
-```
-
-安装脚本通过 worktree-local `core.hooksPath` 指向当前 worktree 的 `git-hooks/` 目录。
-
-每个新 worktree 都需要单独安装一次。
-
----
-
-### `scripts/`
-
-全局运维脚本目录。
-
-当前包含：
-
-- `restore-codex-global-links.sh`
-- `restore-codex-official-state.sh`
-- `codex-config-guard.sh`
-- `install-git-hooks.sh`
-
-作用：
-
-- 一键恢复我为你搭建的全局自定义体系
-- 一键回退到尽量接近修改前的官方/原始状态
-- 检查仓库自身一致性
-- 安装本仓库的 Git hooks
+| 路径 | 职责 |
+| --- | --- |
+| `README.md` | 仓库级入口，负责新设备部署、恢复和最短校验路径。 |
+| `AGENTS.md` | 全局总纲，定义 goal-first、少打扰、线程治理、验证和提交边界。 |
+| `agents/` | 全局代理角色，负责主编排、执行、审查、测试、总结等分工。 |
+| `skills/` | 全局可复用工作流，包括项目初始化、无人值守执行和功能线程启动。 |
+| `prompts/` | 轻量 prompt 入口，长期优先级低于 skill。 |
+| `docs/` | 模板、展开流程、线程治理、hook 策略、Git 策略和恢复说明。 |
+| `hooks/` | Codex lifecycle hooks 与运行时策略脚本。 |
+| `git-hooks/` | Git hook 模板，通过 `core.hooksPath` 激活。 |
+| `scripts/` | 恢复、官方还原、guard 和 Git hooks 安装脚本。 |
+
+详细职责以各目录内文档和脚本为准；本节只保留总览索引，避免同一规则在多处重复维护。
 
 ---
 

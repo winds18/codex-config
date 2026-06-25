@@ -69,7 +69,7 @@ diff -u docs/project-expansion-workflow.md \
 diff -u docs/project-AGENTS-template.md \
   skills/project-bootstrap/references/project-AGENTS-template.md >/dev/null
 
-if rg -n -F "$ROOT_DIR" scripts README.md >/dev/null; then
+if rg -n -F "$ROOT_DIR" scripts README.md docs >/dev/null; then
   fail "portable files contain hardcoded local global-config path"
 fi
 
