@@ -1,0 +1,4 @@
+interface:
+  display_name: "Refero Design System"
+  short_description: "Use Refero Styles for tasteful frontend design"
+  default_prompt: "Use $refero-design-system to choose a visual direction and produce a concrete frontend design brief."
