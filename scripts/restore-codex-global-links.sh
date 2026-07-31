@@ -22,15 +22,37 @@ BASE_DIR="${BASE_DIR:-$(cd "$SCRIPT_DIR/.." && pwd)}"
 CODEX_HOME="${CODEX_HOME:-$HOME/.codex}"
 TIMESTAMP="$(date +%Y%m%d-%H%M%S)"
 
+fail() {
+  printf 'Codex 全局入口恢复失败：%s\n' "$1" >&2
+  exit 1
+}
+
+is_managed_symlink() {
+  local path="$1"
+  local target
+
+  [ -L "$path" ] || return 1
+  target="$(readlink "$path")"
+  case "$target" in
+    "$BASE_DIR"/*) return 0 ;;
+    *) return 1 ;;
+  esac
+}
+
 backup_if_needed() {
   local path="$1"
+  local backup
 
-  if [ -L "$path" ]; then
+  if is_managed_symlink "$path"; then
     return 0
   fi
 
-  if [ -e "$path" ]; then
-    mv "$path" "${path}.bak.${TIMESTAMP}"
+  if [ -e "$path" ] || [ -L "$path" ]; then
+    backup="${path}.codex-config-backup.${TIMESTAMP}"
+    [ ! -e "$backup" ] && [ ! -L "$backup" ] ||
+      fail "备份路径已存在：$backup"
+    mv "$path" "$backup"
+    printf '已备份原入口：%s -> %s\n' "$path" "$backup"
   fi
 }
 
@@ -40,6 +62,7 @@ link_path() {
   local parent_dir
   parent_dir="$(dirname "$link_path")"
 
+  [ -e "$target" ] || fail "真源路径不存在：$target"
   mkdir -p "$parent_dir"
   backup_if_needed "$link_path"
   ln -sfn "$target" "$link_path"
@@ -68,7 +91,7 @@ link_path "$BASE_DIR/skills/feature-thread-launch" \
 link_path "$BASE_DIR/skills/refero-design-system" \
   "$CODEX_HOME/skills/refero-design-system"
 
-echo "Codex global links restored."
-echo "BASE_DIR=$BASE_DIR"
-echo "CODEX_HOME=$CODEX_HOME"
-echo "Reopen Codex or start a new session if new skills or prompts are not visible yet."
+printf 'Codex 全局入口已恢复。\n'
+printf '真源目录：%s\n' "$BASE_DIR"
+printf 'Codex 目录：%s\n' "$CODEX_HOME"
+printf '如果新 skill 或 prompt 尚未显示，请重新打开 Codex 或开启新任务。\n'

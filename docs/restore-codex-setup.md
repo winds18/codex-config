@@ -27,13 +27,15 @@ bash ~/.codex/restore-global-setup.sh
 - `~/.codex/skills/project-bootstrap`
 - `~/.codex/skills/autonomous-project-execution`
 - `~/.codex/skills/feature-thread-launch`
+- `~/.codex/skills/refero-design-system`
 
 恢复策略：
 
 - 如果目标路径不存在，直接创建软连接
-- 如果目标路径是普通文件或目录，会先备份为 `.bak.<timestamp>`
-- 如果目标路径已经是软连接，会直接刷新为最新链接
+- 如果目标路径是普通文件、目录或非本仓库软连接，会先备份为 `.codex-config-backup.<timestamp>`
+- 如果目标路径已经指向本仓库，会直接刷新为最新链接
 - 脚本默认会根据自身所在位置自动推导仓库根目录；只有在特殊场景下才需要手动传 `BASE_DIR`
+- 官方恢复脚本会优先恢复新格式备份，并兼容旧版 `.bak` 与 `.bak.<timestamp>` 备份
 
 建议：
 

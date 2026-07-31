@@ -7,27 +7,41 @@ import json
 import os
 import re
 import sys
+from pathlib import Path
 from typing import Any
 
 
 DESTRUCTIVE_PATTERNS = [
-    (r"\brm\s+-[^\n;&|]*[rf][^\n;&|]*\s+(/|~|\$HOME)(\s|$)", "refuse broad rm against home/root"),
-    (r"\bsudo\s+rm\b", "refuse sudo rm"),
-    (r"\bgit\s+reset\s+--hard\b", "refuse git reset --hard"),
-    (r"\bgit\s+clean\s+-[^\n;&|]*[fdx]", "refuse git clean destructive flags"),
-    (r"\bgit\s+checkout\s+--\b", "refuse git checkout -- destructive restore"),
-    (r"\bgit\s+restore\s+(\.|\*)\b", "refuse broad git restore"),
-    (r"\bgit\s+push\b[^\n;&|]*(--force|-f)\b", "refuse force push"),
-    (r"\bchmod\s+-R\s+777\b", "refuse recursive chmod 777"),
-    (r"--dangerously-bypass|danger-full-access|--yolo\b", "refuse bypassing sandbox/approvals"),
+    (
+        r"\brm\s+-[^\n;&|]*[rR][^\n;&|]*\s+"
+        r"(/|~|\$HOME|\$\{HOME\}|\.{1,2}(?:/|\s|$)|\*)(?:\s|$)",
+        "禁止对根目录、home、当前目录、上级目录或通配目标执行递归删除",
+    ),
+    (r"\bsudo\s+rm\b", "禁止使用 sudo rm"),
+    (r"\bgit\s+reset\s+--hard\b", "禁止 git reset --hard"),
+    (r"\bgit\s+clean\s+-[^\n;&|]*[fdx]", "禁止破坏性 git clean"),
+    (r"\bgit\s+checkout\s+--\b", "禁止使用 git checkout -- 丢弃改动"),
+    (
+        r"\bgit\s+restore\s+(?:\.|\*|:\(top\))(?=\s|$)",
+        "禁止大范围 git restore 丢弃改动",
+    ),
+    (r"\bgit\s+push\b[^\n;&|]*(--force|-f)\b", "禁止强制推送"),
+    (r"\bchmod\s+-R\s+777\b", "禁止递归 chmod 777"),
+    (
+        r"--dangerously-bypass|danger-full-access|--yolo\b",
+        "禁止绕过沙箱或审批机制",
+    ),
 ]
 
 SECRET_PATTERNS = [
-    (r"sk-[A-Za-z0-9_-]{20,}", "OpenAI-style API key"),
-    (r"ghp_[A-Za-z0-9_]{20,}", "GitHub personal token"),
-    (r"github_pat_[A-Za-z0-9_]{20,}", "GitHub fine-grained token"),
-    (r"-----BEGIN (RSA |EC |OPENSSH |DSA )?PRIVATE KEY-----", "private key block"),
-    (r"(?i)(api[_-]?key|secret|token|password)\s*[:=]\s*[\"']?[A-Za-z0-9_./+=-]{24,}", "inline secret"),
+    (r"sk-[A-Za-z0-9_-]{20,}", "OpenAI 风格 API 密钥"),
+    (r"ghp_[A-Za-z0-9_]{20,}", "GitHub 个人令牌"),
+    (r"github_pat_[A-Za-z0-9_]{20,}", "GitHub 细粒度令牌"),
+    (r"-----BEGIN (RSA |EC |OPENSSH |DSA )?PRIVATE KEY-----", "私钥内容"),
+    (
+        r"(?i)(api[_-]?key|secret|token|password)\s*[:=]\s*[\"']?[A-Za-z0-9_./+=-]{24,}",
+        "高熵内联敏感值",
+    ),
 ]
 
 COMPLETION_WORDS = re.compile(
@@ -90,16 +104,18 @@ def continue_turn(reason: str) -> None:
 
 def command_from_tool_input(tool_input: Any) -> str:
     if isinstance(tool_input, dict):
-        command = tool_input.get("command")
-        if isinstance(command, str):
-            return command
+        for key in ("command", "cmd"):
+            command = tool_input.get(key)
+            if isinstance(command, str):
+                return command
     if isinstance(tool_input, str):
         return tool_input
     return ""
 
 
 def has_override(text: str) -> bool:
-    return "CODEX_ALLOW_DESTRUCTIVE=1" in text or os.environ.get("CODEX_ALLOW_DESTRUCTIVE") == "1"
+    del text
+    return os.environ.get("CODEX_ALLOW_DESTRUCTIVE") == "1"
 
 
 def high_confidence_secret(text: str) -> str | None:
@@ -114,33 +130,90 @@ def destructive_reason(command: str) -> str | None:
         return None
     for pattern, label in DESTRUCTIVE_PATTERNS:
         if re.search(pattern, command):
-            return f"Blocked by global Codex policy: {label}. If this is intentional, stop and get explicit human approval before using CODEX_ALLOW_DESTRUCTIVE=1."
+            return (
+                f"已被全局 Codex 策略阻断：{label}。如果确实需要执行，"
+                "请先停止并获得明确人工批准；不要在命令中自行添加绕过变量。"
+            )
     return None
 
 
-def writes_live_codex_entry(command: str) -> bool:
-    if "restore-codex-global-links.sh" in command or "restore-global-setup.sh" in command:
+def writes_live_codex_entry(
+    command: str, *, tool_name: str, cwd: str = ""
+) -> bool:
+    if tool_name == "apply_patch":
+        live_root = Path(
+            os.path.abspath(Path.home() / (".co" + "dex"))
+        )
+        base_dir = Path(os.path.abspath(cwd or Path.cwd()))
+        headers = re.findall(
+            r"^\*\*\* (?:Add|Update|Delete) File: (.+)$",
+            command,
+            re.MULTILINE,
+        )
+        for raw_path in headers:
+            expanded = raw_path.strip()
+            expanded = expanded.replace("${HOME}", str(Path.home()))
+            expanded = expanded.replace("$HOME", str(Path.home()))
+            candidate = Path(expanded).expanduser()
+            if not candidate.is_absolute():
+                candidate = base_dir / candidate
+            candidate = Path(os.path.abspath(candidate))
+            if candidate == live_root or live_root in candidate.parents:
+                return True
         return False
 
-    live_entry = re.search(
-        r"(\$HOME|~|/Users/[^/\s]+)?/\.codex/(AGENTS\.md|agents|docs|prompts|skills|hooks|hooks\.json)",
-        command,
+    home = os.path.expanduser("~").rstrip("/")
+    home_prefixes = (
+        f"{home}/.codex/",
+        "$HOME/.codex/",
+        "${HOME}/.codex/",
+        "~/.codex/",
+    )
+    managed_names = (
+        "AGENTS.md",
+        "agents",
+        "docs",
+        "prompts",
+        "skills",
+        "hooks",
+        "hooks.json",
+        "restore-global-setup.sh",
+        "restore-official-state.sh",
+    )
+    live_entry = any(
+        f"{prefix}{name}" in command
+        for prefix in home_prefixes
+        for name in managed_names
     )
     if not live_entry:
         return False
 
     write_intent = re.search(
-        r"(\b(rm|mv|cp|ln|touch|mkdir|chmod|chown)\b|\bsed\s+-i\b|\bperl\s+-pi\b|\btee\b|>>|>)",
+        r"(\b(rm|mv|cp|ln|touch|mkdir|chmod|chown|install|truncate)\b|"
+        r"\bsed\s+-i\b|\bperl\s+-pi\b|\btee\b|>>|>)",
         command,
     )
-    return bool(write_intent or command.lstrip().startswith("*** Begin Patch"))
+    interpreter_write = re.search(
+        r"\b(python[0-9.]*|node|ruby|php)\b.*"
+        r"(write|unlink|remove|rename|replace|mkdir|chmod|chown)",
+        command,
+        re.IGNORECASE,
+    )
+    return bool(
+        write_intent
+        or interpreter_write
+        or command.lstrip().startswith("*** Begin Patch")
+    )
 
 
 def handle_user_prompt(event: dict[str, Any]) -> None:
     prompt = str(event.get("prompt") or "")
     label = high_confidence_secret(prompt)
     if label:
-        block_prompt(f"Blocked by global Codex policy: prompt appears to contain a {label}. Use a local env file or credential store instead of pasting secrets into the thread.")
+        block_prompt(
+            f"已被全局 Codex 策略阻断：提示词疑似包含{label}。"
+            "请改用本地环境文件或凭证存储，不要把真实敏感信息粘贴进任务。"
+        )
 
 
 def handle_pre_tool(event: dict[str, Any]) -> None:
@@ -154,9 +227,14 @@ def handle_pre_tool(event: dict[str, Any]) -> None:
         block_pre_tool(reason)
         return
 
-    if tool_name in {"Bash", "apply_patch"} and writes_live_codex_entry(command):
+    if tool_name in {"Bash", "apply_patch"} and writes_live_codex_entry(
+        command,
+        tool_name=tool_name,
+        cwd=str(event.get("cwd") or ""),
+    ):
         block_pre_tool(
-            "Blocked by global Codex policy: edit the codex-config source repo and run restore-codex-global-links.sh instead of directly modifying live ~/.codex entrypoints."
+            "已被全局 Codex 策略阻断：请修改 codex-config 真源仓库，"
+            "再运行 restore-codex-global-links.sh；不要直接修改 live ~/.codex 入口。"
         )
         return
 
@@ -165,7 +243,7 @@ def handle_pre_tool(event: dict[str, Any]) -> None:
             {
                 "hookSpecificOutput": {
                     "hookEventName": "PreToolUse",
-                    "additionalContext": "Before pushing, run the repository guard script and report its result.",
+                    "additionalContext": "推送前必须运行仓库 guard，并报告验证结果。",
                 }
             }
         )
@@ -186,15 +264,51 @@ def handle_stop(event: dict[str, Any]) -> None:
     last = str(event.get("last_assistant_message") or "")
     if COMPLETION_WORDS.search(last) and not VERIFICATION_WORDS.search(last):
         continue_turn(
-            "Before claiming completion, run or cite the closest practical verification. If verification is impossible, state exactly what was not verified and why."
+            "在宣称完成前，运行或引用最接近改动的可行验证。"
+            "如果无法验证，必须明确说明未验证项及原因。"
         )
+
+
+def handle_session_start(event: dict[str, Any]) -> None:
+    if event.get("source") != "compact":
+        return
+    emit(
+        {
+            "hookSpecificOutput": {
+                "hookEventName": "SessionStart",
+                "additionalContext": (
+                    "上下文刚完成压缩。继续前先重新读取当前范围内的 AGENTS.md、"
+                    "docs/spec.md 与 docs/plan.md，恢复 Mission、Constraints、"
+                    "Working Goal、Stage Objective 和当前验收状态；不要仅依赖压缩摘要。"
+                ),
+            }
+        }
+    )
+
+
+def handle_subagent_start(event: dict[str, Any]) -> None:
+    emit(
+        {
+            "hookSpecificOutput": {
+                "hookEventName": "SubagentStart",
+                "additionalContext": (
+                    "严格限定在派发范围内工作。返回简洁结论、关键证据和不确定点；"
+                    "不要倾倒原始日志。除非明确授权写入，否则保持只读。"
+                ),
+            }
+        }
+    )
 
 
 def main() -> int:
     event = read_event()
     name = str(event.get("hook_event_name") or "")
 
-    if name == "UserPromptSubmit":
+    if name == "SessionStart":
+        handle_session_start(event)
+    elif name == "SubagentStart":
+        handle_subagent_start(event)
+    elif name == "UserPromptSubmit":
         handle_user_prompt(event)
     elif name == "PreToolUse":
         handle_pre_tool(event)

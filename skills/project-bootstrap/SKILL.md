@@ -60,10 +60,12 @@ description: 新项目初始化 skill，用于在正式写业务代码前生成�
 
 仅在需要时读取：
 
-- `references/project-expansion-workflow.md`
+- `../../docs/project-expansion-workflow.md`
   用于查看详细初始化流程和文件职责。
-- `references/project-AGENTS-template.md`
+- `../../docs/project-AGENTS-template.md`
   用于起草项目级 `AGENTS.md`。
+- `../../docs/project-codex-config-template.md`
+  仅在项目需要 `.codex/config.toml`、权限 glob 或敏感路径 deny 规则时读取。
 
 ## 预期结果
 

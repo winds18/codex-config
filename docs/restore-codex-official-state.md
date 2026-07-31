@@ -18,11 +18,12 @@ bash /path/to/codex-config/scripts/restore-codex-official-state.sh --apply
 bash ~/.codex/restore-official-state.sh --dry-run
 ```
 
-这个恢复脚本会处理：
+这个恢复脚本只处理当前仍指向本仓库的入口。它会删除本仓库软连接，并优先恢复安装时保存的 `.codex-config-backup.<timestamp>`；旧版 `.bak` 与 `.bak.<timestamp>` 也会兼容恢复。
 
-- 如果 `~/.codex/AGENTS.md` 当前是指向全局源文件的软连接，则删除它
-- 如果存在 `~/.codex/AGENTS.md.bak`，则恢复它为 `~/.codex/AGENTS.md`
-- 删除以下指向全局源目录的软连接：
+覆盖范围：
+
+- `~/.codex/AGENTS.md`
+- 以下全局入口：
   - `~/.codex/agents`
   - `~/.codex/prompts`
   - `~/.codex/docs`
@@ -34,6 +35,7 @@ bash ~/.codex/restore-official-state.sh --dry-run
   - `project-bootstrap`
   - `autonomous-project-execution`
   - `feature-thread-launch`
+  - `refero-design-system`
 
 它不会做的事：
 
@@ -44,5 +46,5 @@ bash ~/.codex/restore-official-state.sh --dry-run
 恢复后如果你还想重新挂回这套自定义体系，可以执行：
 
 ```bash
-bash ~/.codex/restore-global-setup.sh
+bash /path/to/codex-config/scripts/restore-codex-global-links.sh
 ```

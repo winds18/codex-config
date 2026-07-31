@@ -23,12 +23,12 @@ ROOT_DIR="$(cd "$SCRIPT_DIR/.." && pwd)"
 cd "$ROOT_DIR"
 
 if ! git rev-parse --git-dir >/dev/null 2>&1; then
-  printf 'Not a git repository yet. Run git init or clone this repo first.\n' >&2
+  printf '当前目录不是 Git 仓库，请先 git init 或 clone 仓库。\n' >&2
   exit 1
 fi
 
 git config extensions.worktreeConfig true
 git config --worktree core.hooksPath "$ROOT_DIR/git-hooks"
 
-printf 'Installed codex-config git hooks via worktree-local core.hooksPath.\n'
+printf '已通过 worktree-local core.hooksPath 安装 codex-config Git hooks。\n'
 printf 'core.hooksPath=%s\n' "$ROOT_DIR/git-hooks"

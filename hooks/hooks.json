@@ -1,5 +1,30 @@
 {
   "hooks": {
+    "SessionStart": [
+      {
+        "matcher": "^compact$",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "python3 \"$HOME/.codex/hooks/codex-policy-guard.py\"",
+            "timeout": 10,
+            "statusMessage": "恢复压缩后的项目控制上下文"
+          }
+        ]
+      }
+    ],
+    "SubagentStart": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "python3 \"$HOME/.codex/hooks/codex-policy-guard.py\"",
+            "timeout": 10,
+            "statusMessage": "加载子代理交付约束"
+          }
+        ]
+      }
+    ],
     "UserPromptSubmit": [
       {
         "hooks": [
@@ -7,7 +32,7 @@
             "type": "command",
             "command": "python3 \"$HOME/.codex/hooks/codex-policy-guard.py\"",
             "timeout": 10,
-            "statusMessage": "Checking prompt policy"
+            "statusMessage": "检查提示词安全策略"
           }
         ]
       }
@@ -20,7 +45,7 @@
             "type": "command",
             "command": "python3 \"$HOME/.codex/hooks/codex-policy-guard.py\"",
             "timeout": 10,
-            "statusMessage": "Checking tool policy"
+            "statusMessage": "检查工具执行策略"
           }
         ]
       }
@@ -33,7 +58,7 @@
             "type": "command",
             "command": "python3 \"$HOME/.codex/hooks/codex-policy-guard.py\"",
             "timeout": 10,
-            "statusMessage": "Checking approval policy"
+            "statusMessage": "检查权限升级策略"
           }
         ]
       }
@@ -45,7 +70,7 @@
             "type": "command",
             "command": "python3 \"$HOME/.codex/hooks/codex-policy-guard.py\"",
             "timeout": 10,
-            "statusMessage": "Checking completion policy"
+            "statusMessage": "检查完成声明与验证证据"
           }
         ]
       }

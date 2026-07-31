@@ -9,3 +9,16 @@
 *.temp
 *.bak
 *.log
+
+.env
+.env.*
+!.env.example
+!.env.sample
+!.env.template
+
+*.p12
+*.pfx
+id_rsa
+id_dsa
+id_ecdsa
+id_ed25519

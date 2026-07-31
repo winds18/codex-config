@@ -251,6 +251,8 @@
 - `notes/`：供 Codex 使用的局部补充说明
 - `hooks.json`：项目级高风险动作守门点
 
+需要配置权限 glob 时，参考 `docs/project-codex-config-template.md`，按项目实际情况选择性写入 `.codex/config.toml`。不要覆盖机器级 `~/.codex/config.toml`，也不要把与项目无关的全局配置复制进仓库。
+
 项目级 hook 不要求一开始就完整设计。
 
 优先只覆盖：

@@ -22,4 +22,4 @@ developer_instructions = """
 """
 model = "gpt-5.3-codex-spark"
 model_reasoning_effort = "medium"
-
+sandbox_mode = "read-only"

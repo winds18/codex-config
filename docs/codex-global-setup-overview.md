@@ -57,6 +57,7 @@
 - `~/.codex/skills/project-bootstrap`
 - `~/.codex/skills/autonomous-project-execution`
 - `~/.codex/skills/feature-thread-launch`
+- `~/.codex/skills/refero-design-system`
 
 这些入口大多是软连接，指向真源目录。
 
@@ -149,6 +150,7 @@ bash ~/.codex/restore-global-setup.sh
 - `~/.codex/skills/project-bootstrap`
 - `~/.codex/skills/autonomous-project-execution`
 - `~/.codex/skills/feature-thread-launch`
+- `~/.codex/skills/refero-design-system`
 
 ---
 
@@ -175,7 +177,7 @@ bash ~/.codex/restore-official-state.sh --apply
 它会：
 
 - 删除我挂进去的相关软连接
-- 恢复原来的 `AGENTS.md.bak`
+- 恢复安装前保存的原文件、目录或非本仓库软连接
 - 删除我挂到 `~/.codex/skills/` 的个人 skill 入口
 - 删除我挂到 `~/.codex` 的 hooks 入口
 
@@ -347,8 +349,9 @@ bash ~/.codex/restore-official-state.sh --apply
 
 原则是：
 
-- spark 优先消耗在高频、轻量、并行、读多写少的任务上
-- 强模型优先保留给方向、实现、关键复核
+- 符合条件的读多写少任务默认明确选择 `-spark` 角色，稳定消耗独立 spark 额度
+- 功能线程主执行者选择足够完成任务的性价比模型
+- 强模型优先保留给方向、复杂判断和高风险复核
 
 ---
 

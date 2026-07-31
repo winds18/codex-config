@@ -185,11 +185,13 @@
 
 如果存在独立 spark 类额度，优先用于：
 
-- explorer
-- summarizer
-- reviewer-lite
-- tester-lite
-- security-lite
+- `explorer-spark`
+- `summarizer-spark`
+- `reviewer-lite-spark`
+- `tester-lite-spark`
+- `security-lite-spark`
+
+这些角色在全局 agent 文件中固定使用 `gpt-5.3-codex-spark` 且默认只读。符合角色边界时应明确选择它们，不依赖主线程模型继承。
 
 不要优先把最弱、最快的模型用于核心架构控制和主要实现判断。
 

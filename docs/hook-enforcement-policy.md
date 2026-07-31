@@ -28,6 +28,8 @@
 
 适合：
 
+- 在主任务压缩后提醒重新加载项目控制文档
+- 给新启动的子代理注入范围、摘要和证据要求
 - 阻断明显危险命令
 - 阻断明显泄露 secrets 的 prompt
 - 在完成声明前提醒验证
@@ -56,7 +58,9 @@ bash scripts/codex-config-guard.sh
 - hooks JSON 合法
 - Python hook 可编译
 - 暂存区或已跟踪文件中没有高置信 secret
-- `docs/` 模板和 skill 引用副本一致
+- 恢复脚本可在临时目录完成安装、dry-run、官方恢复回环
+- lifecycle hook 的危险命令、压缩恢复、子代理摘要和完成验证规则通过测试
+- 全局 `AGENTS.md` 未超过仓库设定的轻量上限
 - 便携入口没有写死本机绝对路径
 
 ### Git hooks
@@ -96,7 +100,7 @@ bash scripts/install-git-hooks.sh
 
 ### 提交和推送前
 
-仓库 guard 会扫描暂存区；如果当前没有暂存内容，则扫描已跟踪文件。
+仓库 guard 会扫描暂存区；如果当前没有暂存内容，则扫描已跟踪文件。`pre-push` 会另外扫描待推送提交历史，即使 secret 已在后续提交中删除，也会阻止整段历史被推送。
 
 默认阻断：
 
@@ -143,6 +147,14 @@ bash scripts/install-git-hooks.sh
 ### 完成声明前
 
 如果回复中出现完成/修复类表述，但没有任何验证证据，Stop hook 会要求继续补充验证或说明未验证原因。
+
+### 上下文压缩后
+
+`SessionStart` 在 `compact` 来源下提醒主任务重新读取适用的 `AGENTS.md`、`docs/spec.md` 与 `docs/plan.md`，恢复目标和验收状态。它不自动改文档，也不阻止正常压缩。
+
+### 子代理启动时
+
+`SubagentStart` 注入最小交付协议：限定派发范围，返回结论、证据和不确定点，不倾倒原始日志，未获写入授权时保持只读。
 
 ---
 

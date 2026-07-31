@@ -1,9 +1,11 @@
 ---
 name: refero-design-system
-description: Use Refero Styles as a frontend design taste library. Trigger when designing or redesigning product screens, landing pages, dashboards, mobile/H5 pages, high-fidelity prototypes, design systems, visual direction briefs, or when the user mentions styles.refero.design, Refero, DESIGN.md examples, design references, visual taste, UI polish, or asks to make an interface less generic.
+description: 使用 Refero Styles 作为前端设计品味参考库；适用于产品页面、落地页、仪表盘、移动端、高保真原型、设计系统和 UI 精修任务。
 ---
 
 # Refero Design System
+
+中文说明：把 Refero 当作视觉语法和品味校准来源，不复制品牌；先提炼排版、色彩纪律、密度、组件语法与动效，再转化为项目自身的设计 token 和实现检查项。下方保留英文执行细则，便于对照外部资料与设计提示词。
 
 Use Refero Styles as a reference library, not as a brand clone. Convert real website design systems into project-specific UI direction, tokens, components, and implementation checks.
 

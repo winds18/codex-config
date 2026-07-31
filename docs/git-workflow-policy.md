@@ -40,6 +40,7 @@ bash scripts/install-git-hooks.sh
 - 每个新 worktree 也需要在该 worktree 内安装一次。
 - 安装脚本只负责激活本仓库的 `git-hooks/` 目录。
 - 不依赖手动复制 `.git/hooks` 中的单个文件。
+- `pre-push` 除运行仓库 guard 外，还扫描全部待推送提交历史中的高置信 secret。
 
 这种方式便于后续增加 `commit-msg`、`prepare-commit-msg` 等 hook，而不需要改安装逻辑。
 
@@ -93,6 +94,8 @@ hotfix/<short-name>
 6. 编写清晰提交信息。
 
 提交应是稳定检查点，不是随手保存点。
+
+推送前必须检查待推送历史，而不只是当前工作树；否则“先提交 secret、后续再删除”的历史仍会进入远程。
 
 ---
 

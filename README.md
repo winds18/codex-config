@@ -125,7 +125,8 @@ bash ~/.codex/restore-official-state.sh --apply
 ls -l ~/.codex/AGENTS.md ~/.codex/agents ~/.codex/docs ~/.codex/prompts
 ls -l ~/.codex/hooks.json ~/.codex/hooks
 ls -l ~/.codex/restore-global-setup.sh ~/.codex/restore-official-state.sh
-ls -l ~/.codex/skills/project-bootstrap ~/.codex/skills/autonomous-project-execution ~/.codex/skills/feature-thread-launch
+ls -l ~/.codex/skills/project-bootstrap ~/.codex/skills/autonomous-project-execution
+ls -l ~/.codex/skills/feature-thread-launch ~/.codex/skills/refero-design-system
 ```
 
 校验目标：
@@ -145,9 +146,11 @@ bash scripts/restore-codex-global-links.sh
 bash scripts/codex-config-guard.sh
 ```
 
-该 guard 会同时执行高置信 secret scan，防止敏感内容进入提交或推送。
+该 guard 会同时执行高置信 secret scan，防止敏感内容进入提交；`pre-push` 还会扫描全部待推送提交历史，避免已在后续提交中删除的 secret 随历史进入远程。
 
 该 guard 也会执行项目目录清洁检查，防止临时文件、日志和备份文件进入暂存区或散落在仓库根目录。
+
+该 guard 还会在临时目录执行入口挂载/官方恢复回环测试和 lifecycle hook 策略测试，不会修改真实 `~/.codex`。
 
 如果当前目录已经是 git 仓库，可以安装提交和推送前守门：
 
@@ -222,9 +225,10 @@ bash /path/to/codex-config/scripts/restore-codex-global-links.sh
 
 为了避免前后不一：
 
-- `docs/` 里的项目模板是主要维护版本
-- `skills/project-bootstrap/references/` 中对应模板必须与 `docs/` 同步
+- `docs/` 里的项目模板是唯一维护版本
+- `project-bootstrap` 直接读取 `../../docs/`，不再维护模板副本
 - 自然语言记录默认中文，只有命令、标识符、协议字段、外部 API 名称和错误原文保留英文
+- skill 为保持外部资料和提示词效果可以保留必要英文，但入口描述和面向我的摘要应优先使用中文
 - 任何会影响跨设备部署的改动，都必须同时检查：
   - `scripts/`
   - `hooks/`

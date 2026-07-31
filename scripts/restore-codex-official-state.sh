@@ -26,86 +26,115 @@ log() {
   printf '%s\n' "$1"
 }
 
-run() {
-  if [ "$MODE" = "--dry-run" ]; then
-    log "[dry-run] $*"
-  else
-    eval "$@"
-  fi
-}
-
-remove_if_symlink_to_global() {
+is_managed_symlink() {
   local path="$1"
+  local target
 
-  if [ -L "$path" ]; then
-    local target
-    target="$(readlink "$path")"
-    case "$target" in
-      "$BASE_DIR"/*)
-        run "rm -f \"$path\""
-        ;;
-      *)
-        log "skip: $path is a symlink, but not to $BASE_DIR"
-        ;;
-    esac
-  fi
+  [ -L "$path" ] || return 1
+  target="$(readlink "$path")"
+  case "$target" in
+    "$BASE_DIR"/*) return 0 ;;
+    *) return 1 ;;
+  esac
 }
 
-restore_agents_md() {
-  local live="$CODEX_HOME/AGENTS.md"
-  local backup="$CODEX_HOME/AGENTS.md.bak"
-  local will_remove_live="false"
+newest_matching_backup() {
+  local path="$1"
+  local candidate
+  local newest=""
 
-  if [ -L "$live" ]; then
-    local target
-    target="$(readlink "$live")"
-    case "$target" in
-      "$BASE_DIR"/AGENTS.md)
-        will_remove_live="true"
-        run "rm -f \"$live\""
-        ;;
-    esac
-  fi
-
-  if [ -f "$backup" ] && { [ ! -e "$live" ] || [ "$will_remove_live" = "true" ]; }; then
-    run "mv \"$backup\" \"$live\""
-  fi
-}
-
-restore_skills() {
-  local skills_dir="$CODEX_HOME/skills"
-  [ -d "$skills_dir" ] || return 0
-
-  local skill
-  for skill in project-bootstrap autonomous-project-execution feature-thread-launch; do
-    remove_if_symlink_to_global "$skills_dir/$skill"
+  for candidate in "${path}.codex-config-backup."*; do
+    [ -e "$candidate" ] || [ -L "$candidate" ] || continue
+    if [ -z "$newest" ] || [[ "$candidate" > "$newest" ]]; then
+      newest="$candidate"
+    fi
   done
+
+  if [ -n "$newest" ]; then
+    printf '%s\n' "$newest"
+    return 0
+  fi
+
+  for candidate in "${path}.bak."*; do
+    [ -e "$candidate" ] || [ -L "$candidate" ] || continue
+    if [ -z "$newest" ] || [[ "$candidate" > "$newest" ]]; then
+      newest="$candidate"
+    fi
+  done
+
+  if [ -n "$newest" ]; then
+    printf '%s\n' "$newest"
+    return 0
+  fi
+
+  if [ -e "${path}.bak" ] || [ -L "${path}.bak" ]; then
+    printf '%s\n' "${path}.bak"
+  fi
 }
 
-restore_entrypoints() {
-  remove_if_symlink_to_global "$CODEX_HOME/agents"
-  remove_if_symlink_to_global "$CODEX_HOME/prompts"
-  remove_if_symlink_to_global "$CODEX_HOME/docs"
-  remove_if_symlink_to_global "$CODEX_HOME/hooks.json"
-  remove_if_symlink_to_global "$CODEX_HOME/hooks"
-  remove_if_symlink_to_global "$CODEX_HOME/restore-global-setup.sh"
-  remove_if_symlink_to_global "$CODEX_HOME/restore-official-state.sh"
+restore_managed_path() {
+  local path="$1"
+  local backup=""
+
+  if ! is_managed_symlink "$path"; then
+    if [ -L "$path" ]; then
+      log "跳过非本仓库软连接：$path"
+    fi
+    return 0
+  fi
+
+  backup="$(newest_matching_backup "$path")"
+  if [ "$MODE" = "--dry-run" ]; then
+    log "[dry-run] 删除本仓库软连接：$path"
+    if [ -n "$backup" ]; then
+      log "[dry-run] 恢复原入口：$backup -> $path"
+    fi
+    return 0
+  fi
+
+  rm -f "$path"
+  log "已删除本仓库软连接：$path"
+  if [ -n "$backup" ]; then
+    mv "$backup" "$path"
+    log "已恢复原入口：$backup -> $path"
+  fi
 }
 
 main() {
+  local mode_label
+  local path
+
   if [ "$MODE" != "--apply" ] && [ "$MODE" != "--dry-run" ]; then
-    log "Usage: $0 [--apply|--dry-run]"
+    log "用法：$0 [--apply|--dry-run]"
     exit 1
   fi
 
-  restore_agents_md
-  restore_entrypoints
-  restore_skills
+  for path in \
+    "$CODEX_HOME/AGENTS.md" \
+    "$CODEX_HOME/agents" \
+    "$CODEX_HOME/prompts" \
+    "$CODEX_HOME/docs" \
+    "$CODEX_HOME/hooks.json" \
+    "$CODEX_HOME/hooks" \
+    "$CODEX_HOME/restore-global-setup.sh" \
+    "$CODEX_HOME/restore-official-state.sh" \
+    "$CODEX_HOME/skills/project-bootstrap" \
+    "$CODEX_HOME/skills/autonomous-project-execution" \
+    "$CODEX_HOME/skills/feature-thread-launch" \
+    "$CODEX_HOME/skills/refero-design-system"
+  do
+    restore_managed_path "$path"
+  done
 
-  log "Codex official-state restore ${MODE#--} complete."
-  log "CODEX_HOME=$CODEX_HOME"
+  if [ "$MODE" = "--dry-run" ]; then
+    mode_label="预览"
+  else
+    mode_label="执行"
+  fi
+  log "Codex 官方状态恢复${mode_label}完成。"
+  log "Codex 目录：$CODEX_HOME"
   if [ "$MODE" = "--apply" ]; then
-    log "Reopen Codex or start a new session to ensure the reverted state is reflected."
+    log "请重新打开 Codex 或开启新任务，确保恢复后的状态生效。"
   fi
 }
 
