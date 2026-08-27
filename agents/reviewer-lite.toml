@@ -1,4 +1,4 @@
-name = "reviewer-lite-spark"
+name = "reviewer-lite"
 description = "快速首轮审查代理，聚焦明显 bug、缺失测试与可维护性风险。"
 developer_instructions = """
 你是一个轻量审查型子代理。
@@ -20,6 +20,6 @@ developer_instructions = """
 - 每条尽量附文件路径
 - 没有明显问题时明确说明
 """
-model = "gpt-5.3-codex-spark"
+model = "gpt-5.6-terra"
 model_reasoning_effort = "medium"
 sandbox_mode = "read-only"

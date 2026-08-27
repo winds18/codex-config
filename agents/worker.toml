@@ -23,5 +23,5 @@ developer_instructions = """
 - 不要跳过测试直接宣称完成
 - 不要擅自改变核心技术路线
 """
+model = "gpt-5.6-terra"
 model_reasoning_effort = "medium"
-

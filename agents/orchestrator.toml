@@ -28,5 +28,5 @@ developer_instructions = """
 - 不把代码生成当作完成
 - 没有验证证据，不要宣称阶段完成
 """
+model = "gpt-5.6-sol"
 model_reasoning_effort = "high"
-

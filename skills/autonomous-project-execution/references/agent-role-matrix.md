@@ -164,7 +164,7 @@
 
 - `refiner`
   负责命名清理、文档同步、局部结构整理、低风险收尾。
-- `summarizer-spark`
+- `summarizer-lite`
   负责压缩长日志、汇总多路结果、减少主线程噪音。
 - `pr-preparer`
   负责交付收尾、PR 摘要、验证证据整理与已知限制说明。
@@ -175,25 +175,19 @@
 
 推荐策略：
 
-- 主编排者：强模型
-- 功能线程主执行者：性价比高、速度快、足以完成任务的模型
-- explorer / summarizer：轻量快速模型
-- reviewer-lite / tester-lite：轻量或中等模型
-- 安全与高风险复核：更强模型
-- planner：强模型或高推理配置
-- pr-preparer：中等模型即可
+- `gpt-5.6-sol`：主编排、规划、高风险安全复核。
+- `gpt-5.6-terra`：主执行、首轮审查、测试归因、交付整理。
+- `gpt-5.6-luna`：只读探索、长上下文压缩和高频轻量任务。
 
-如果存在独立 spark 类额度，优先用于：
+轻量模型优先用于：
 
-- `explorer-spark`
-- `summarizer-spark`
-- `reviewer-lite-spark`
-- `tester-lite-spark`
-- `security-lite-spark`
+- explorer-lite
+- summarizer-lite
+- 明确、低风险的 reviewer-lite
+- 明确、低风险的 tester-lite
+- 明确、低风险的 security-lite
 
-这些角色在全局 agent 文件中固定使用 `gpt-5.3-codex-spark` 且默认只读。符合角色边界时应明确选择它们，不依赖主线程模型继承。
-
-不要优先把最弱、最快的模型用于核心架构控制和主要实现判断。
+核心架构控制、主要实现判断和高风险复核不得使用最低成本模型作为唯一判断来源。
 
 也不要把最强模型默认用于所有功能线程；这会浪费主编排和高风险验收所需的预算。
 
@@ -241,10 +235,10 @@
 功能线程内部建议优先组合：
 
 - `worker` 负责主实现
-- `explorer-spark` 负责局部摸底
-- `tester-lite-spark` 负责失败归因
-- `reviewer-lite-spark` 负责首轮 review
-- `summarizer-spark` 负责压缩中间噪音
+- `explorer-lite` 负责局部摸底
+- `tester-lite` 负责失败归因
+- `reviewer-lite` 负责首轮 review
+- `summarizer-lite` 负责压缩中间噪音
 
 不推荐结构：
 

@@ -30,10 +30,13 @@
 
 - 在主任务压缩后提醒重新加载项目控制文档
 - 给新启动的子代理注入范围、摘要和证据要求
+- 在 session 启动时注入高效开发习惯
 - 阻断明显危险命令
 - 阻断明显泄露 secrets 的 prompt
 - 在完成声明前提醒验证
 - 在 push 前提醒运行 guard
+- 在 subagent 启停时约束摘要质量
+- 在 compact 前后提醒保留 goal、约束和验证证据
 
 不适合：
 
@@ -57,6 +60,7 @@ bash scripts/codex-config-guard.sh
 - shell 脚本语法正确
 - hooks JSON 合法
 - Python hook 可编译
+- 全局 `AGENTS.md` 和本仓库 `AGENTS.override.md` 保持精炼
 - 暂存区或已跟踪文件中没有高置信 secret
 - 恢复脚本可在临时目录完成安装、dry-run、官方恢复回环
 - lifecycle hook 的危险命令、压缩恢复、子代理摘要和完成验证规则通过测试
@@ -148,13 +152,24 @@ bash scripts/install-git-hooks.sh
 
 如果回复中出现完成/修复类表述，但没有任何验证证据，Stop hook 会要求继续补充验证或说明未验证原因。
 
-### 上下文压缩后
+### 启动与子代理
 
-`SessionStart` 在 `compact` 来源下提醒主任务重新读取适用的 `AGENTS.md`、`docs/spec.md` 与 `docs/plan.md`，恢复目标和验收状态。它不自动改文档，也不阻止正常压缩。
+`SessionStart` 会在 `startup`、`resume` 和 `compact` 来源下注入 `prompts/agent-work-habits.md`，约束主线程默认开发习惯。
 
-### 子代理启动时
+`SessionStart(compact)` 会额外提醒主任务重新读取适用的 `AGENTS.md`、`docs/spec.md` 与 `docs/plan.md`，恢复目标和验收状态。它不自动改文档，也不阻止正常压缩。
 
-`SubagentStart` 注入最小交付协议：限定派发范围，返回结论、证据和不确定点，不倾倒原始日志，未获写入授权时保持只读。
+`SubagentStart` 会注入 `prompts/subagent-work-habits.md`，约束子代理边界、验证和摘要格式。
+
+`SubagentStop` 会要求子代理返回可验收摘要。摘要至少应包含结论、证据、风险、限制或未验证项之一。
+
+### 上下文压缩前后
+
+`PreCompact` 和 `PostCompact` 只做提醒：
+
+- 压缩前保留 Mission、Constraints、Working Goal、阶段目标、验证证据、用户决策、阻塞点和风险。
+- 压缩后先复核当前目标、最新用户要求、验证状态和未决风险。
+
+这两个 hook 不判断任务是否完成。
 
 ---
 

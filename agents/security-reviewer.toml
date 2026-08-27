@@ -21,5 +21,6 @@ developer_instructions = """
 - 每条尽量附路径或边界说明
 - 避免冗长背景解释
 """
+model = "gpt-5.6-sol"
 model_reasoning_effort = "high"
 sandbox_mode = "read-only"

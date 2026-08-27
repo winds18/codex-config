@@ -16,7 +16,7 @@
 
 - `单一真源目录`
 - `~/.codex` 软连接入口
-- `全局总纲 + skill + agent + prompt + docs + hooks` 分层结构
+- `全局总纲 + 项目 override + skill + agent + prompt + docs + hooks` 分层结构
 
 也就是说：
 
@@ -57,7 +57,9 @@
 - `~/.codex/skills/project-bootstrap`
 - `~/.codex/skills/autonomous-project-execution`
 - `~/.codex/skills/feature-thread-launch`
-- `~/.codex/skills/refero-design-system`
+- `~/.codex/skills/refero-design-prompts`
+
+仓库根目录的 `AGENTS.override.md` 不挂载到 `~/.codex`。它只用于本仓库项目层，避免全局 `AGENTS.md` 在 `codex-config` 中重复加载。
 
 这些入口大多是软连接，指向真源目录。
 
@@ -76,7 +78,8 @@
 | 路径 | 职责 |
 | --- | --- |
 | `README.md` | 仓库级入口，负责新设备部署、恢复和最短校验路径。 |
-| `AGENTS.md` | 全局总纲，定义 goal-first、少打扰、线程治理、验证和提交边界。 |
+| `AGENTS.md` | 全局行为契约，定义稳定边界、执行原则和完成标准。 |
+| `AGENTS.override.md` | 本仓库维护规则，避免重复加载全局总纲。 |
 | `agents/` | 全局代理角色，负责主编排、执行、审查、测试、总结等分工。 |
 | `skills/` | 全局可复用工作流，包括项目初始化、无人值守执行和功能线程启动。 |
 | `prompts/` | 轻量 prompt 入口，长期优先级低于 skill。 |
@@ -150,7 +153,7 @@ bash ~/.codex/restore-global-setup.sh
 - `~/.codex/skills/project-bootstrap`
 - `~/.codex/skills/autonomous-project-execution`
 - `~/.codex/skills/feature-thread-launch`
-- `~/.codex/skills/refero-design-system`
+- `~/.codex/skills/refero-design-prompts`
 
 ---
 
@@ -324,7 +327,7 @@ bash ~/.codex/restore-official-state.sh --apply
 4. 用 `planner` 补计划与线程总表
 5. 具体功能开发一律用 `feature-thread-launch` 下沉到新功能线程，优先放进 worktree
 6. 用 `worker` 在功能线程中主实现
-7. 功能线程内部尽量优先用 spark 子代理承担探索、总结、测试归因、轻量 review
+7. 功能线程内部尽量优先用轻量子代理承担探索、总结、测试归因和首轮 review
 8. 按“框架 / 主路径优先，细节 / 修饰后置”的顺序推进
 9. 功能线程完成后回主线程验收
 10. 验收通过后合并并归档功能线程
@@ -335,23 +338,23 @@ bash ~/.codex/restore-official-state.sh --apply
 
 当前建议：
 
-- `orchestrator`：强模型
-- `planner`：强模型
-- `worker`：中高能力模型
-- `security-reviewer`：强模型
-- `explorer-spark`：spark
-- `reviewer-lite-spark`：spark
-- `tester-lite-spark`：spark
-- `security-lite-spark`：spark
-- `summarizer-spark`：spark
-- `refiner`：中等模型
-- `pr-preparer`：中等模型
+- `orchestrator`：`gpt-5.6-sol`，高推理
+- `planner`：`gpt-5.6-sol`，高推理
+- `security-reviewer`：`gpt-5.6-sol`，高推理
+- `worker`：`gpt-5.6-terra`，中推理
+- `reviewer-lite`：`gpt-5.6-terra`，中推理
+- `tester-lite`：`gpt-5.6-terra`，中推理
+- `security-lite`：`gpt-5.6-terra`，低推理
+- `refiner`：`gpt-5.6-terra`，中推理
+- `pr-preparer`：`gpt-5.6-terra`，中推理
+- `explorer-lite`：`gpt-5.6-luna`，低推理
+- `summarizer-lite`：`gpt-5.6-luna`，低推理
 
 原则是：
 
-- 符合条件的读多写少任务默认明确选择 `-spark` 角色，稳定消耗独立 spark 额度
-- 功能线程主执行者选择足够完成任务的性价比模型
-- 强模型优先保留给方向、复杂判断和高风险复核
+- `sol` 保留给方向判断、计划和高风险复核。
+- `terra` 承担常规实现、审查、归因和交付整理。
+- `luna` 承担高频、并行、读多写少的探索与压缩。
 
 ---
 

@@ -121,7 +121,7 @@ main() {
     "$CODEX_HOME/skills/project-bootstrap" \
     "$CODEX_HOME/skills/autonomous-project-execution" \
     "$CODEX_HOME/skills/feature-thread-launch" \
-    "$CODEX_HOME/skills/refero-design-system"
+    "$CODEX_HOME/skills/refero-design-prompts"
   do
     restore_managed_path "$path"
   done

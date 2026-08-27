@@ -17,6 +17,7 @@
 当前已经包含：
 
 - 全局 `AGENTS.md`
+- 本仓库 `AGENTS.override.md`
 - 全局 agents 角色
 - 全局 skills
 - 全局 docs 模板与治理文档
@@ -41,6 +42,7 @@
 
 ```text
 AGENTS.md
+AGENTS.override.md
 README.md
 agents/
 docs/
@@ -53,7 +55,8 @@ skills/
 
 目录职责：
 
-- `AGENTS.md`：全局总纲
+- `AGENTS.md`：全局行为契约
+- `AGENTS.override.md`：本仓库维护规则，避免全局总纲在本仓库重复加载
 - `agents/`：全局角色分工
 - `skills/`：可被 Codex 发现和调用的全局能力
 - `docs/`：模板、治理规则、恢复说明
@@ -125,8 +128,7 @@ bash ~/.codex/restore-official-state.sh --apply
 ls -l ~/.codex/AGENTS.md ~/.codex/agents ~/.codex/docs ~/.codex/prompts
 ls -l ~/.codex/hooks.json ~/.codex/hooks
 ls -l ~/.codex/restore-global-setup.sh ~/.codex/restore-official-state.sh
-ls -l ~/.codex/skills/project-bootstrap ~/.codex/skills/autonomous-project-execution
-ls -l ~/.codex/skills/feature-thread-launch ~/.codex/skills/refero-design-system
+ls -l ~/.codex/skills/project-bootstrap ~/.codex/skills/autonomous-project-execution ~/.codex/skills/feature-thread-launch ~/.codex/skills/refero-design-prompts
 ```
 
 校验目标：
@@ -239,6 +241,7 @@ bash /path/to/codex-config/scripts/restore-codex-global-links.sh
   - `docs/hook-enforcement-policy.md`
   - `docs/git-workflow-policy.md`
   - `docs/codex-global-setup-overview.md`
+  - `AGENTS.override.md`
   - 本 README
 
 这份 README 是人类和 AI 在仓库层面的单入口。

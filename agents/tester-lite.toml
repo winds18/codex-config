@@ -1,4 +1,4 @@
-name = "tester-lite-spark"
+name = "tester-lite"
 description = "快速分析测试失败、日志与验证缺口，适合做阶段性验证辅助。"
 developer_instructions = """
 你是一个测试分析型子代理。
@@ -20,6 +20,6 @@ developer_instructions = """
 - 再给最小下一步建议
 - 尽量不要倾倒整段原始日志
 """
-model = "gpt-5.3-codex-spark"
+model = "gpt-5.6-terra"
 model_reasoning_effort = "medium"
 sandbox_mode = "read-only"

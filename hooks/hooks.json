@@ -2,25 +2,14 @@
   "hooks": {
     "SessionStart": [
       {
-        "matcher": "^compact$",
+        "matcher": "startup|resume|compact",
         "hooks": [
           {
             "type": "command",
             "command": "python3 \"$HOME/.codex/hooks/codex-policy-guard.py\"",
             "timeout": 10,
-            "statusMessage": "恢复压缩后的项目控制上下文"
-          }
-        ]
-      }
-    ],
-    "SubagentStart": [
-      {
-        "hooks": [
-          {
-            "type": "command",
-            "command": "python3 \"$HOME/.codex/hooks/codex-policy-guard.py\"",
-            "timeout": 10,
-            "statusMessage": "加载子代理交付约束"
+            "statusMessage": "注入主线程工作习惯",
+            "additionalContextLimit": 8000
           }
         ]
       }
@@ -59,6 +48,57 @@
             "command": "python3 \"$HOME/.codex/hooks/codex-policy-guard.py\"",
             "timeout": 10,
             "statusMessage": "检查权限升级策略"
+          }
+        ]
+      }
+    ],
+    "SubagentStart": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "python3 \"$HOME/.codex/hooks/codex-policy-guard.py\"",
+            "timeout": 10,
+            "statusMessage": "注入子代理工作习惯",
+            "additionalContextLimit": 3000
+          }
+        ]
+      }
+    ],
+    "SubagentStop": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "python3 \"$HOME/.codex/hooks/codex-policy-guard.py\"",
+            "timeout": 10,
+            "statusMessage": "检查子代理交付摘要"
+          }
+        ]
+      }
+    ],
+    "PreCompact": [
+      {
+        "matcher": "manual|auto",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "python3 \"$HOME/.codex/hooks/codex-policy-guard.py\"",
+            "timeout": 10,
+            "statusMessage": "检查压缩前上下文"
+          }
+        ]
+      }
+    ],
+    "PostCompact": [
+      {
+        "matcher": "manual|auto",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "python3 \"$HOME/.codex/hooks/codex-policy-guard.py\"",
+            "timeout": 10,
+            "statusMessage": "检查压缩后上下文"
           }
         ]
       }

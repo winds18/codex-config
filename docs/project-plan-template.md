@@ -123,10 +123,10 @@
 
 | 功能线程 | 子代理 | 任务 | 输出摘要位置 | 状态 |
 | --- | --- | --- | --- | --- |
-| `[feature-thread-1]` | `explorer-spark` | `[局部目录探索]` | `[摘要]` | `[todo/done]` |
-| `[feature-thread-1]` | `tester-lite-spark` | `[失败日志归因]` | `[摘要]` | `[todo/done]` |
-| `[feature-thread-1]` | `reviewer-lite-spark` | `[首轮 review]` | `[摘要]` | `[todo/done]` |
-| `[feature-thread-1]` | `summarizer-spark` | `[压缩长上下文]` | `[摘要]` | `[todo/done]` |
+| `[feature-thread-1]` | `explorer-lite` | `[局部目录探索]` | `[摘要]` | `[todo/done]` |
+| `[feature-thread-1]` | `tester-lite` | `[失败日志归因]` | `[摘要]` | `[todo/done]` |
+| `[feature-thread-1]` | `reviewer-lite` | `[首轮 review]` | `[摘要]` | `[todo/done]` |
+| `[feature-thread-1]` | `summarizer-lite` | `[压缩长上下文]` | `[摘要]` | `[todo/done]` |
 
 默认原则：
 

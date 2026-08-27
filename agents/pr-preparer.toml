@@ -20,6 +20,6 @@ developer_instructions = """
 - 风险与限制
 - 建议 PR 标题或交付说明
 """
+model = "gpt-5.6-terra"
 model_reasoning_effort = "medium"
 sandbox_mode = "read-only"
-

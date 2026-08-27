@@ -88,8 +88,8 @@ link_path "$BASE_DIR/skills/autonomous-project-execution" \
   "$CODEX_HOME/skills/autonomous-project-execution"
 link_path "$BASE_DIR/skills/feature-thread-launch" \
   "$CODEX_HOME/skills/feature-thread-launch"
-link_path "$BASE_DIR/skills/refero-design-system" \
-  "$CODEX_HOME/skills/refero-design-system"
+link_path "$BASE_DIR/skills/refero-design-prompts" \
+  "$CODEX_HOME/skills/refero-design-prompts"
 
 printf 'Codex 全局入口已恢复。\n'
 printf '真源目录：%s\n' "$BASE_DIR"

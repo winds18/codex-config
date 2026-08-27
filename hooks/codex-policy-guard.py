@@ -45,13 +45,21 @@ SECRET_PATTERNS = [
 ]
 
 COMPLETION_WORDS = re.compile(
-    r"(已完成|完成了|修复了|处理好了|done\b|fixed\b|complete\b|completed\b)",
+    r"(已完成|已经完成|完成了|完成|修复了|处理好了|done\b|fixed\b|complete\b|completed\b)",
     re.IGNORECASE,
 )
 VERIFICATION_WORDS = re.compile(
     r"(验证|校验|测试|test|lint|build|typecheck|dry-run|bash -n|exit code 0|通过|passed|pass\b|0 failures)",
     re.IGNORECASE,
 )
+SUBAGENT_SUMMARY_WORDS = re.compile(
+    r"(结论|摘要|发现|证据|验证|风险|限制|阻塞|文件|路径|未验证|下一步)",
+    re.IGNORECASE,
+)
+
+PROMPT_DIR = Path(__file__).resolve().parents[1] / "prompts"
+WORK_HABITS_PROMPT = PROMPT_DIR / "agent-work-habits.md"
+SUBAGENT_WORK_HABITS_PROMPT = PROMPT_DIR / "subagent-work-habits.md"
 
 
 def read_event() -> dict[str, Any]:
@@ -100,6 +108,28 @@ def block_prompt(reason: str) -> None:
 
 def continue_turn(reason: str) -> None:
     emit({"decision": "block", "reason": reason})
+
+
+def add_context(event_name: str, context: str) -> None:
+    emit(
+        {
+            "hookSpecificOutput": {
+                "hookEventName": event_name,
+                "additionalContext": context,
+            }
+        }
+    )
+
+
+def system_message(message: str) -> None:
+    emit({"systemMessage": message})
+
+
+def read_prompt_file(path: Path) -> str:
+    try:
+        return path.read_text(encoding="utf-8").strip()
+    except OSError:
+        return ""
 
 
 def command_from_tool_input(tool_input: Any) -> str:
@@ -258,6 +288,63 @@ def handle_permission_request(event: dict[str, Any]) -> None:
         block_permission(reason)
 
 
+def handle_session_start(event: dict[str, Any]) -> None:
+    contexts: list[str] = []
+
+    if event.get("source") == "compact":
+        contexts.append(
+            "上下文刚完成压缩。继续前先重新读取当前范围内的 AGENTS.md、"
+            "docs/spec.md 与 docs/plan.md，恢复 Mission、Constraints、"
+            "Working Goal、Stage Objective 和当前验收状态；不要仅依赖压缩摘要。"
+        )
+
+    prompt = read_prompt_file(WORK_HABITS_PROMPT)
+    if prompt:
+        contexts.append(prompt)
+
+    if contexts:
+        add_context("SessionStart", "\n\n".join(contexts))
+
+
+def handle_subagent_start(event: dict[str, Any]) -> None:
+    prompt = read_prompt_file(SUBAGENT_WORK_HABITS_PROMPT)
+    if prompt:
+        add_context("SubagentStart", prompt)
+        return
+
+    add_context(
+        "SubagentStart",
+        "子代理必须保持边界清晰：优先读多写少；不要倾倒原始日志；返回结论、关键证据、风险或未验证项；未经明确要求不要改写核心代码。",
+    )
+
+
+def handle_subagent_stop(event: dict[str, Any]) -> None:
+    if event.get("stop_hook_active"):
+        return
+
+    last = str(event.get("last_assistant_message") or "").strip()
+    if not last:
+        continue_turn("Subagent must return a concise summary before stopping.")
+        return
+
+    if len(last) < 30 or not SUBAGENT_SUMMARY_WORDS.search(last):
+        continue_turn(
+            "Before stopping, return a concise subagent summary with conclusion, evidence, risks or unverified items."
+        )
+
+
+def handle_pre_compact(event: dict[str, Any]) -> None:
+    system_message(
+        "Compaction guard: preserve Mission, Constraints, Working Goal, current stage, verification evidence, user decisions, blockers, and remaining risks."
+    )
+
+
+def handle_post_compact(event: dict[str, Any]) -> None:
+    system_message(
+        "After compaction, re-check the active goal, latest user instruction, verification state, and unresolved risks before continuing."
+    )
+
+
 def handle_stop(event: dict[str, Any]) -> None:
     if event.get("stop_hook_active"):
         return
@@ -269,51 +356,26 @@ def handle_stop(event: dict[str, Any]) -> None:
         )
 
 
-def handle_session_start(event: dict[str, Any]) -> None:
-    if event.get("source") != "compact":
-        return
-    emit(
-        {
-            "hookSpecificOutput": {
-                "hookEventName": "SessionStart",
-                "additionalContext": (
-                    "上下文刚完成压缩。继续前先重新读取当前范围内的 AGENTS.md、"
-                    "docs/spec.md 与 docs/plan.md，恢复 Mission、Constraints、"
-                    "Working Goal、Stage Objective 和当前验收状态；不要仅依赖压缩摘要。"
-                ),
-            }
-        }
-    )
-
-
-def handle_subagent_start(event: dict[str, Any]) -> None:
-    emit(
-        {
-            "hookSpecificOutput": {
-                "hookEventName": "SubagentStart",
-                "additionalContext": (
-                    "严格限定在派发范围内工作。返回简洁结论、关键证据和不确定点；"
-                    "不要倾倒原始日志。除非明确授权写入，否则保持只读。"
-                ),
-            }
-        }
-    )
-
-
 def main() -> int:
     event = read_event()
     name = str(event.get("hook_event_name") or "")
 
     if name == "SessionStart":
         handle_session_start(event)
-    elif name == "SubagentStart":
-        handle_subagent_start(event)
     elif name == "UserPromptSubmit":
         handle_user_prompt(event)
     elif name == "PreToolUse":
         handle_pre_tool(event)
     elif name == "PermissionRequest":
         handle_permission_request(event)
+    elif name == "SubagentStart":
+        handle_subagent_start(event)
+    elif name == "SubagentStop":
+        handle_subagent_stop(event)
+    elif name == "PreCompact":
+        handle_pre_compact(event)
+    elif name == "PostCompact":
+        handle_post_compact(event)
     elif name == "Stop":
         handle_stop(event)
     return 0

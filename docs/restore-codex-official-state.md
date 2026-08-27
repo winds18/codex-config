@@ -35,7 +35,7 @@ bash ~/.codex/restore-official-state.sh --dry-run
   - `project-bootstrap`
   - `autonomous-project-execution`
   - `feature-thread-launch`
-  - `refero-design-system`
+  - `refero-design-prompts`
 
 它不会做的事：
 

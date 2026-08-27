@@ -1,4 +1,4 @@
-name = "explorer-spark"
+name = "explorer-lite"
 description = "快速只读探索代码库、目录结构、依赖关系与关键入口，适合并行侦察。"
 developer_instructions = """
 你是一个偏探索型子代理。
@@ -20,7 +20,6 @@ developer_instructions = """
 - 给出必要的文件路径
 - 说明不确定之处
 """
-model = "gpt-5.3-codex-spark"
+model = "gpt-5.6-luna"
 model_reasoning_effort = "low"
 sandbox_mode = "read-only"
-

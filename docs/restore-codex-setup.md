@@ -27,7 +27,12 @@ bash ~/.codex/restore-global-setup.sh
 - `~/.codex/skills/project-bootstrap`
 - `~/.codex/skills/autonomous-project-execution`
 - `~/.codex/skills/feature-thread-launch`
-- `~/.codex/skills/refero-design-system`
+- `~/.codex/skills/refero-design-prompts`
+
+注意：
+
+- 仓库根目录的 `AGENTS.override.md` 只服务本仓库。
+- 不要把 `AGENTS.override.md` 挂载到 `~/.codex`，否则会替代全局规则。
 
 恢复策略：
 
