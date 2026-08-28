@@ -23,6 +23,7 @@ Use this skill when the visual bar is unclear, the user wants better frontend pr
 2. Choose one primary style family and one backup style.
    - Read `references/style-taxonomy.md` when the fit is unclear or the user asks for alternatives.
    - Read `references/substyle-recipes.md` when the user wants a more specific temperament such as quieter SaaS, denser workbench, or frontier AI launch.
+   - Read `references/visual-archetypes.md` when the user asks for a polished homepage, portfolio, creator page, personal brand, strong hero, motion-heavy visual direction, single HTML showcase, or HTML presentation feel.
 3. Lock the output mode.
    - `prompt`
    - `DESIGN.md`
@@ -59,7 +60,9 @@ Use this skill when the visual bar is unclear, the user wants better frontend pr
   - workflow diagrams
 - Keep operational tools operational. Dashboards, admin tools, workflow apps, and devtools should stay dense, restrained, and scan-friendly.
 - Prefer a known substyle before inventing a new label. Reuse `quiet-saas`, `technical-workbench`, or `frontier-ai-launch` when they fit.
+- For high-polish frontend requests, choose a visual archetype by surface, audience, proof assets, density, motion budget, and implementation risk. Do not use a template name as a substitute for layout and component decisions.
 - If the user provides a URL, screenshot, or brand reference, treat it as a signal set. Extract what to borrow and what to avoid. Do not promise an exact clone unless the user explicitly asks for one.
+- Do not copy third-party code, assets, text, prompts, or template structure into the output unless the license and user authorization allow it. Record source and license boundaries when external material shapes the design.
 
 ## Output Contract
 
@@ -110,5 +113,7 @@ Read `references/output-templates.md` when adapting the same visual direction fo
   Use this to choose the right style family and avoid mismatched aesthetics.
 - `references/substyle-recipes.md`
   Use this when the user wants a more precise mood inside a larger style family.
+- `references/visual-archetypes.md`
+  Use this for polished homepage, portfolio, creator, personal brand, hero-led, motion-rich, single HTML, or presentation-like visual directions.
 - `references/output-templates.md`
   Use this for prompt scaffolds, `DESIGN.md` structure, and verification checklists.

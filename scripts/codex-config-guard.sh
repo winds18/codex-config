@@ -78,6 +78,7 @@ for path in \
   skills/refero-design-prompts/SKILL.md \
   skills/refero-design-prompts/references/style-taxonomy.md \
   skills/refero-design-prompts/references/substyle-recipes.md \
+  skills/refero-design-prompts/references/visual-archetypes.md \
   skills/refero-design-prompts/references/output-templates.md
 do
   require_path "$path"
@@ -91,6 +92,7 @@ override_bytes="$(wc -c < AGENTS.override.md | tr -d '[:space:]')"
 
 for text in \
   "## 系统开发" \
+  "## 前端视觉交付" \
   "Architecture Baseline" \
   "模块边界、接口契约、数据结构、依赖方向、并行工作包和验收方式" \
   "主编排者是技术负责人" \
@@ -102,9 +104,40 @@ for text in \
   "执行效率" \
   "成熟、现代、可靠的工程模式" \
   "不得为了新颖性引入复杂模式" \
-  "可独立验证的工作包"
+  "可独立验证的工作包" \
+  "Reference Decomposition" \
+  "layout grammar" \
+  "渲染事实验收" \
+  "computed style" \
+  "prefers-reduced-motion" \
+  "aspect-ratio" \
+  "object-fit" \
+  "禁止编造不可访问资源"
 do
   require_text "prompts/agent-work-habits.md" "$text"
+done
+
+for text in \
+  "visual-archetypes.md" \
+  "polished homepage" \
+  "visual archetype" \
+  "third-party code, assets, text, prompts, or template structure" \
+  "source and license boundaries"
+do
+  require_text "skills/refero-design-prompts/SKILL.md" "$text"
+done
+
+for text in \
+  "来源边界" \
+  "非商业许可" \
+  "不复制第三方代码、素材、文案、prompt 或模板结构" \
+  "Cinematic Signal" \
+  "Clean Developer" \
+  "AI System Dashboard" \
+  "Museum Curation" \
+  "渲染级 QA"
+do
+  require_text "skills/refero-design-prompts/references/visual-archetypes.md" "$text"
 done
 
 for text in \
