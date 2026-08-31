@@ -54,6 +54,10 @@
 - Hero 或首屏必须有清晰视觉锚点、信息主次和行动入口；不得使用通用居中区块、随机光效、无意义图标墙或同质卡片堆。
 - 资产必须先确认存在性、尺寸、用途、授权和替代方案；使用相对路径、alt 文本、稳定 aspect-ratio 与合理 object-fit，禁止编造不可访问资源。
 - 动效只服务层级和交互；每页一个主动效系统，优先 transform / opacity，避免滚动劫持，支持 `prefers-reduced-motion` 和移动端降级。
+- 动效需求先收敛术语，再过 Motion Gate：触发频率、动效目的、状态边界、实现工具、动画属性、时长曲线、origin、可中断性和降级策略。
+- 高频键盘动作、命令面板、核心导航和无明确目的的 UI 动效默认不做；偶发动效保持克制，首次引导或展示解释才允许更强表现。
+- 动效实现必须复用既有 token，优先使用最轻工具；禁止无理由 `transition: all`、`scale(0)`、UI `ease-in`、布局属性动画、无降级移动端重动效和未 gated 的 hover motion。
+- 新增或调整关键动效时，必须形成轻量 Motion Contract：term、trigger、frequency、purpose、states、properties、duration/easing、transform-origin、interruptibility、reduced-motion 和验证证据。
 - 视觉改动必须通过渲染事实验收：桌面/移动视口、横向溢出、文本重叠、资源加载、焦点状态、键盘操作、关键交互、截图或 computed style。
 
 ## 工具

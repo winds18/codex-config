@@ -69,6 +69,13 @@ Visual system:
 - Imagery: [screenshots / diagrams / product photos / none]
 - Motion: [quiet / guided / energetic]
 
+Motion Contract, only when motion matters:
+- Term: [exact motion term when motion matters]
+- Trigger / frequency / purpose: [event, how often, why it moves]
+- States: [start, end, exit]
+- Properties / timing: [animated properties, duration, easing or spring]
+- Accessibility: [reduced-motion and hover/touch behavior]
+
 Must show:
 - [product screenshot]
 - [workflow proof]
@@ -167,6 +174,11 @@ Focus on section composition, hierarchy, responsive layout, and polished compone
 ## Motion
 - Hover / focus behavior:
 - Transition character:
+- Motion terms:
+- Trigger / purpose:
+- Duration / easing:
+- Reduced motion:
+- Review risks:
 
 ## Avoid
 -
@@ -184,5 +196,6 @@ Use 4-8 checks only. Favor observable outcomes.
 - [ ] The interface shows real product proof, not placeholder atmosphere.
 - [ ] Contrast, spacing, and hierarchy are consistent.
 - [ ] Repeated UI patterns share the same visual rules.
+- [ ] Motion has a named purpose, bounded timing, reduced-motion handling, and no high-frequency noise.
 - [ ] The page avoids the listed anti-patterns.
 ```

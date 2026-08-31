@@ -79,6 +79,7 @@ for path in \
   skills/refero-design-prompts/references/style-taxonomy.md \
   skills/refero-design-prompts/references/substyle-recipes.md \
   skills/refero-design-prompts/references/visual-archetypes.md \
+  skills/refero-design-prompts/references/motion-craft-workflow.md \
   skills/refero-design-prompts/references/output-templates.md
 do
   require_path "$path"
@@ -112,15 +113,23 @@ for text in \
   "prefers-reduced-motion" \
   "aspect-ratio" \
   "object-fit" \
-  "禁止编造不可访问资源"
+  "禁止编造不可访问资源" \
+  "动效需求先收敛术语" \
+  "Motion Gate" \
+  "Motion Contract" \
+  "transition: all" \
+  "scale(0)" \
+  "ease-in"
 do
   require_text "prompts/agent-work-habits.md" "$text"
 done
 
 for text in \
   "visual-archetypes.md" \
+  "motion-craft-workflow.md" \
   "polished homepage" \
   "visual archetype" \
+  "Motion Contract" \
   "third-party code, assets, text, prompts, or template structure" \
   "source and license boundaries"
 do
@@ -138,6 +147,31 @@ for text in \
   "渲染级 QA"
 do
   require_text "skills/refero-design-prompts/references/visual-archetypes.md" "$text"
+done
+
+for text in \
+  "Motion Brief" \
+  "Motion Gate" \
+  "Frequency Budget" \
+  "Component Motion Contract" \
+  "Review Animations" \
+  "Before | After | Why" \
+  "transition: all" \
+  "scale(0)" \
+  "transform-origin" \
+  "100-160ms" \
+  "30-80ms" \
+  "MIT License"
+do
+  require_text "skills/refero-design-prompts/references/motion-craft-workflow.md" "$text"
+done
+
+for text in \
+  "Motion Contract" \
+  "Motion terms" \
+  "reduced-motion handling"
+do
+  require_text "skills/refero-design-prompts/references/output-templates.md" "$text"
 done
 
 for text in \
