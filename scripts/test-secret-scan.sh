@@ -77,4 +77,11 @@ git -C "$TEST_REPO" add .env.example
   python3 "$ROOT_DIR/scripts/secret-scan.py" >/dev/null
 ) || fail "错误阻断 .env.example"
 
+dd if=/dev/zero of="$TEST_REPO/large-safe.bin" bs=1048576 count=17 2>/dev/null
+git -C "$TEST_REPO" add large-safe.bin
+(
+  cd "$TEST_REPO"
+  python3 "$ROOT_DIR/scripts/secret-scan.py" >/dev/null
+) || fail "错误阻断 20 MiB 限制内的大文件"
+
 printf '敏感信息扫描测试通过。\n'

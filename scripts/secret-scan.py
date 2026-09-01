@@ -10,7 +10,7 @@ import sys
 from dataclasses import dataclass
 
 
-MAX_BYTES = int(os.environ.get("CODEX_SECRET_SCAN_MAX_BYTES", str(16 * 1024 * 1024)))
+MAX_BYTES = int(os.environ.get("CODEX_SECRET_SCAN_MAX_BYTES", str(20 * 1024 * 1024)))
 ZERO_SHA = "0" * 40
 
 

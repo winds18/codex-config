@@ -21,6 +21,7 @@
 - 全局 agents 角色
 - 全局 skills
 - 前端视觉交付、动效与项目级 `DESIGN.md` 契约
+- 可离线使用的品牌设计、个人主页、Hero、单 HTML 与 HTML 演示稿模板快照
 - 全局 docs 模板与治理文档
 - 全局 Codex hooks 守门点
 - 仓库 guard 与 Git hooks 模板

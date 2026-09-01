@@ -89,6 +89,13 @@ for path in \
   docs/git-workflow-policy.md \
   skills/refero-design-prompts/SKILL.md \
   skills/refero-design-prompts/agents/openai.yaml \
+  skills/refero-design-prompts/scripts/verify-template-assets.sh \
+  skills/refero-design-prompts/assets/templates/awesome-design-md/LICENSE \
+  skills/refero-design-prompts/assets/templates/awesome-design-md/SOURCE.md \
+  skills/refero-design-prompts/assets/templates/awesome-design-md/UPSTREAM_COMMIT \
+  skills/refero-design-prompts/assets/templates/personal-homepage-skill/LICENSE \
+  skills/refero-design-prompts/assets/templates/personal-homepage-skill/SOURCE.md \
+  skills/refero-design-prompts/assets/templates/personal-homepage-skill/UPSTREAM_COMMIT \
   skills/refero-design-prompts/references/style-taxonomy.md \
   skills/refero-design-prompts/references/substyle-recipes.md \
   skills/refero-design-prompts/references/visual-archetypes.md \
@@ -150,6 +157,10 @@ for text in \
   "visual archetype" \
   "Establish product truth" \
   "Existing product capabilities" \
+  "## Bundled Template Library" \
+  "assets/templates/awesome-design-md" \
+  "assets/templates/personal-homepage-skill" \
+  "Do not load every template" \
   "Motion Contract" \
   "visual source of truth" \
   "unified template source" \
@@ -205,6 +216,11 @@ for text in \
   "## 组件状态" \
   "## 设计到实现" \
   "## 验收" \
+  "统一模板真源位于 \`assets/templates/\`" \
+  "不要另建手工索引" \
+  "不要一次加载整个模板库" \
+  "品牌参考只用于提取设计语言" \
+  "可按许可证复制或改造选定模板" \
   "source_templates" \
   "borrowed_patterns" \
   "excluded_assets" \
@@ -311,6 +327,7 @@ bash -n scripts/install-git-hooks.sh
 bash -n scripts/test-restore-roundtrip.sh
 bash -n scripts/test-secret-scan.sh
 bash -n scripts/workspace-cleanliness-check.sh
+bash -n skills/refero-design-prompts/scripts/verify-template-assets.sh
 bash -n git-hooks/pre-commit
 bash -n git-hooks/pre-push
 
@@ -320,6 +337,7 @@ python3 -m py_compile scripts/secret-scan.py
 python3 -m py_compile scripts/test-policy-guard.py
 python3 scripts/secret-scan.py
 python3 scripts/test-policy-guard.py
+bash skills/refero-design-prompts/scripts/verify-template-assets.sh
 bash scripts/test-restore-roundtrip.sh
 bash scripts/test-secret-scan.sh
 bash scripts/workspace-cleanliness-check.sh

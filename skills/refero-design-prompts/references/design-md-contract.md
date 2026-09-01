@@ -17,13 +17,16 @@
 
 ## 统一模板接管
 
-- 模板来源由用户统一模板体系接管；本规范只定义读取、抽取、落地和验收规则。
-- 从统一模板入口选择一个主参考，最多一个辅助参考；不要在本 skill 内维护平行模板索引。
-- 先读取统一模板返回的 `DESIGN.md`、preview、源码说明或 license，再抽取 token、组件状态、布局节奏和反模式。
-- 若统一模板入口不可发现，先用当前可用工具或 skill 搜索模板能力；仍不可发现时，只问一个精准问题索取模板 ID、路径或链接，不自建索引、不猜测来源。
+- 统一模板真源位于 `assets/templates/`；模板实体、预览、运行脚本、来源提交和许可证均随 skill 本地保存。
+- 品牌与产品设计优先从 `assets/templates/awesome-design-md/README.md` 发现模板，再读取选定目录的 `DESIGN.md`。
+- 个人主页、作品集、Hero、单文件 HTML 和 HTML 演示稿优先读取 `assets/templates/personal-homepage-skill/README.md`、`src/data/templates.ts` 与对应 `templates/` 子目录。
+- 目录及上游自带 README / registry 是发现真源；不要另建手工索引。一次选择一个主参考，最多一个辅助参考。
+- 先读取选定模板的 `DESIGN.md`、preview、源码说明、`SOURCE.md` 或 license，再抽取 token、组件状态、布局节奏和反模式；不要一次加载整个模板库。
+- 本地无合适模板或用户明确要求最新版时，才搜索外部来源。
 - 模板是输入参考；完成适配后，项目 `DESIGN.md` 是唯一视觉真源，上游模板变化不得自动覆盖本地决策。
-- 只能借用设计语言，不得复制品牌文案、logo、素材、商标、专有字体文件或完整页面结构。
-- 参考品牌只作为设计坐标；交付必须回到用户自己的业务、内容、组件和资产。
+- `awesome-design-md` 中的品牌参考只用于提取设计语言；不得复制品牌文案、logo、素材、商标或专有字体文件。
+- `personal-homepage-skill` 可按许可证复制或改造选定模板的完整实现子树；必须替换示例内容和第三方品牌资产，并保留来源与许可证。
+- 最终交付必须回到用户自己的业务、内容、组件和资产。
 - 每次使用统一模板或外部参考，必须记录 source、license、borrowed patterns 和 excluded assets。
 
 ## 机器可读契约
@@ -36,8 +39,9 @@ design_system: project-design
 version: 1
 source_templates:
   - name: vercel
-    source: unified-template:vercel
+    source: skill-asset:awesome-design-md/design-md/vercel
     upstream: https://getdesign.md/vercel/design-md
+    upstream_commit: 8147538b4226ae41e2487a9179e3bcc1f68e8554
     license: template license recorded; brand assets excluded
 borrowed_patterns:
   - monochrome precision
@@ -143,4 +147,5 @@ component_states:
 
 - 高层工作流参考 [VoltAgent/awesome-design-md](https://github.com/VoltAgent/awesome-design-md) 与 Google Stitch `DESIGN.md` 思路。
 - `awesome-design-md` 采用 MIT License，但品牌名称、商标、logo、素材和视觉身份仍属于对应权利方。
-- 本规范不维护独立模板索引；模板入口由统一模板体系接管。
+- `personal-homepage-skill` 快照按用户确认仅用于个人非商业工作，使用时保留来源和许可证。
+- 本规范不维护独立手工索引；`assets/templates/` 及上游自带发现文件构成统一模板体系。
