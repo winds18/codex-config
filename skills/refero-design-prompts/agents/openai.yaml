@@ -1,4 +1,4 @@
 interface:
   display_name: "Refero Design Prompts"
-  short_description: "Generate design prompts and DESIGN.md briefs"
-  default_prompt: "Turn my product brief into a Refero-style visual direction, a build-ready prompt, a compact DESIGN.md, and a short verification checklist."
+  short_description: "Create visual prompts and DESIGN.md contracts"
+  default_prompt: "Use $refero-design-prompts to turn my product brief into a visual direction, build prompt, project-level DESIGN.md, and verification checklist."

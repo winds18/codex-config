@@ -21,7 +21,7 @@ SCRIPT_DIR="$(resolve_script_dir)"
 ROOT_DIR="$(cd "$SCRIPT_DIR/.." && pwd)"
 TEST_ROOT="$(mktemp -d "${TMPDIR:-/tmp}/codex-restore-test.XXXXXX")"
 TEST_CODEX_HOME="$TEST_ROOT/.codex"
-FOREIGN_SKILL="$TEST_ROOT/original-refero"
+FOREIGN_SKILL="$TEST_ROOT/external-skill"
 
 cleanup() {
   rm -rf "$TEST_ROOT"
@@ -37,15 +37,15 @@ mkdir -p "$TEST_CODEX_HOME/agents" "$TEST_CODEX_HOME/skills" "$FOREIGN_SKILL"
 printf '原始 AGENTS\n' >"$TEST_CODEX_HOME/AGENTS.md"
 printf '原始代理目录\n' >"$TEST_CODEX_HOME/agents/original.txt"
 printf '{"source":"original"}\n' >"$TEST_CODEX_HOME/hooks.json"
-printf '原始 Refero\n' >"$FOREIGN_SKILL/original.txt"
-ln -s "$FOREIGN_SKILL" "$TEST_CODEX_HOME/skills/refero-design-system"
+printf '原始外部 skill\n' >"$FOREIGN_SKILL/original.txt"
+ln -s "$FOREIGN_SKILL" "$TEST_CODEX_HOME/skills/example-external-skill"
 
 BASE_DIR="$ROOT_DIR" CODEX_HOME="$TEST_CODEX_HOME" \
   bash "$ROOT_DIR/scripts/restore-codex-global-links.sh" >/dev/null
 
 [ -L "$TEST_CODEX_HOME/AGENTS.md" ] || fail "安装后 AGENTS.md 不是软连接"
-[ -L "$TEST_CODEX_HOME/skills/refero-design-system" ] ||
-  fail "安装后 refero-design-system 不是软连接"
+[ -L "$TEST_CODEX_HOME/skills/example-external-skill" ] ||
+  fail "安装后外部 skill 软连接丢失"
 
 BASE_DIR="$ROOT_DIR" CODEX_HOME="$TEST_CODEX_HOME" \
   bash "$ROOT_DIR/scripts/restore-codex-official-state.sh" --dry-run >/dev/null
@@ -61,10 +61,10 @@ BASE_DIR="$ROOT_DIR" CODEX_HOME="$TEST_CODEX_HOME" \
   fail "agents 原目录未恢复"
 [ "$(sed -n '1p' "$TEST_CODEX_HOME/hooks.json")" = '{"source":"original"}' ] ||
   fail "hooks.json 原文件未恢复"
-[ -L "$TEST_CODEX_HOME/skills/refero-design-system" ] ||
-  fail "refero-design-system 原软连接未恢复"
-[ "$(readlink "$TEST_CODEX_HOME/skills/refero-design-system")" = "$FOREIGN_SKILL" ] ||
-  fail "refero-design-system 原软连接目标不一致"
+[ -L "$TEST_CODEX_HOME/skills/example-external-skill" ] ||
+  fail "外部 skill 原软连接未恢复"
+[ "$(readlink "$TEST_CODEX_HOME/skills/example-external-skill")" = "$FOREIGN_SKILL" ] ||
+  fail "外部 skill 原软连接目标不一致"
 [ ! -e "$TEST_CODEX_HOME/docs" ] && [ ! -L "$TEST_CODEX_HOME/docs" ] ||
   fail "原本不存在的 docs 入口未恢复为缺省状态"
 

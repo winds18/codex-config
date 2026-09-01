@@ -37,6 +37,18 @@ require_text() {
   rg -n -F "$text" "$ROOT_DIR/$path" >/dev/null || fail "$path missing required text: $text"
 }
 
+require_text_count() {
+  local path="$1"
+  local text="$2"
+  local expected="$3"
+  local actual
+
+  actual="$(rg -F -c "$text" "$ROOT_DIR/$path" || true)"
+  actual="${actual:-0}"
+  [ "$actual" -eq "$expected" ] ||
+    fail "$path expected $expected occurrence(s) of '$text', found $actual"
+}
+
 cd "$ROOT_DIR"
 
 for path in \
@@ -76,10 +88,12 @@ for path in \
   docs/hook-enforcement-policy.md \
   docs/git-workflow-policy.md \
   skills/refero-design-prompts/SKILL.md \
+  skills/refero-design-prompts/agents/openai.yaml \
   skills/refero-design-prompts/references/style-taxonomy.md \
   skills/refero-design-prompts/references/substyle-recipes.md \
   skills/refero-design-prompts/references/visual-archetypes.md \
   skills/refero-design-prompts/references/motion-craft-workflow.md \
+  skills/refero-design-prompts/references/design-md-contract.md \
   skills/refero-design-prompts/references/output-templates.md
 do
   require_path "$path"
@@ -108,6 +122,10 @@ for text in \
   "可独立验证的工作包" \
   "Reference Decomposition" \
   "layout grammar" \
+  "项目级 \`DESIGN.md\`" \
+  "YAML frontmatter" \
+  "可解析的语义 token" \
+  "唯一视觉真源" \
   "渲染事实验收" \
   "computed style" \
   "prefers-reduced-motion" \
@@ -127,13 +145,27 @@ done
 for text in \
   "visual-archetypes.md" \
   "motion-craft-workflow.md" \
+  "design-md-contract.md" \
   "polished homepage" \
   "visual archetype" \
+  "Establish product truth" \
+  "Existing product capabilities" \
   "Motion Contract" \
+  "visual source of truth" \
+  "unified template source" \
+  "parallel template index" \
   "third-party code, assets, text, prompts, or template structure" \
   "source and license boundaries"
 do
   require_text "skills/refero-design-prompts/SKILL.md" "$text"
+done
+
+for text in \
+  'short_description: "Create visual prompts and DESIGN.md contracts"' \
+  'default_prompt: "Use $refero-design-prompts' \
+  "project-level DESIGN.md"
+do
+  require_text "skills/refero-design-prompts/agents/openai.yaml" "$text"
 done
 
 for text in \
@@ -167,12 +199,56 @@ do
 done
 
 for text in \
+  "## 统一模板接管" \
+  "## 机器可读契约" \
+  "## Token 要求" \
+  "## 组件状态" \
+  "## 设计到实现" \
+  "## 验收" \
+  "source_templates" \
+  "borrowed_patterns" \
+  "excluded_assets" \
+  "tokens:" \
+  "component_states:" \
+  "唯一视觉真源" \
+  "不得保留 \`<value>\`、\`TODO\` 或未解析字段" \
+  "触控目标、safe area" \
+  "focus-visible" \
+  "高频 layout / paint" \
+  "npx @google/design.md lint DESIGN.md" \
+  "VoltAgent/awesome-design-md"
+do
+  require_text "skills/refero-design-prompts/references/design-md-contract.md" "$text"
+done
+
+for text in \
   "Motion Contract" \
+  "source_templates" \
+  "source_templates: []" \
+  "tokens:" \
+  "component_states:" \
+  "version: 1" \
+  "Source References" \
+  "Color Tokens" \
+  "Spacing And Layout" \
+  "Imagery And Assets" \
+  "Responsive Rules" \
+  "Do / Avoid" \
+  "Verification" \
   "Motion terms" \
-  "reduced-motion handling"
+  "reduced-motion handling" \
+  "Product capability truth" \
+  "Touch targets / safe area" \
+  "Layout shift / rendering cost" \
+  "Replace every \`<value>\` before delivery"
 do
   require_text "skills/refero-design-prompts/references/output-templates.md" "$text"
 done
+
+require_text_count \
+  "skills/refero-design-prompts/references/output-templates.md" \
+  "design_system: project-design" \
+  1
 
 for text in \
   "## 边界" \
@@ -183,6 +259,50 @@ for text in \
 do
   require_text "prompts/subagent-work-habits.md" "$text"
 done
+
+for stale_copy in \
+  skills/project-bootstrap/references/project-expansion-workflow.md \
+  skills/project-bootstrap/references/project-AGENTS-template.md
+do
+  [ ! -e "$stale_copy" ] || fail "发现重复模板副本：$stale_copy"
+done
+
+rg -q -F '../../docs/project-expansion-workflow.md' \
+  skills/project-bootstrap/SKILL.md ||
+  fail "project-bootstrap 未引用项目展开真源文档"
+rg -q -F '../../docs/project-AGENTS-template.md' \
+  skills/project-bootstrap/SKILL.md ||
+  fail "project-bootstrap 未引用项目 AGENTS 真源模板"
+rg -q -F '../../docs/project-codex-config-template.md' \
+  skills/project-bootstrap/SKILL.md ||
+  fail "project-bootstrap 未引用项目 Codex 配置真源模板"
+
+if rg -n -F "$ROOT_DIR" scripts README.md docs >/dev/null; then
+  fail "便携文件中包含本机 global-config 绝对路径"
+fi
+
+if rg -n "AGENTS\.override\.md" scripts/restore-codex-global-links.sh >/dev/null; then
+  fail "restore script 不得把 AGENTS.override.md 链接到 CODEX_HOME"
+fi
+
+if rg -n "gpt-5\.3-codex-spark" agents >/dev/null; then
+  fail "agent 配置仍引用 gpt-5.3-codex-spark；应使用当前 5.6 模型族"
+fi
+
+if find agents -maxdepth 1 -type f -name '*-spark.toml' | rg . >/dev/null; then
+  fail "agent 配置仍使用旧 *-spark 文件名；应使用 *-lite 命名"
+fi
+
+legacy_design_skill="refero-design-system"
+[ ! -e "skills/$legacy_design_skill" ] ||
+  fail "发现已合并的旧 skill：skills/$legacy_design_skill"
+
+if rg -n -F "$legacy_design_skill" \
+  README.md docs prompts skills scripts/test-restore-roundtrip.sh \
+  scripts/restore-codex-global-links.sh \
+  scripts/restore-codex-official-state.sh >/dev/null; then
+  fail "仍有入口引用已合并的旧 skill：$legacy_design_skill"
+fi
 
 bash -n scripts/restore-codex-global-links.sh
 bash -n scripts/restore-codex-official-state.sh
@@ -203,42 +323,5 @@ python3 scripts/test-policy-guard.py
 bash scripts/test-restore-roundtrip.sh
 bash scripts/test-secret-scan.sh
 bash scripts/workspace-cleanliness-check.sh
-
-for stale_copy in \
-  skills/project-bootstrap/references/project-expansion-workflow.md \
-  skills/project-bootstrap/references/project-AGENTS-template.md
-do
-  [ ! -e "$stale_copy" ] || fail "发现重复模板副本：$stale_copy"
-done
-
-rg -q -F '../../docs/project-expansion-workflow.md' \
-  skills/project-bootstrap/SKILL.md ||
-  fail "project-bootstrap 未引用项目展开真源文档"
-rg -q -F '../../docs/project-AGENTS-template.md' \
-  skills/project-bootstrap/SKILL.md ||
-  fail "project-bootstrap 未引用项目 AGENTS 真源模板"
-rg -q -F '../../docs/project-codex-config-template.md' \
-  skills/project-bootstrap/SKILL.md ||
-  fail "project-bootstrap 未引用项目 Codex 配置真源模板"
-
-agents_bytes="$(wc -c <AGENTS.md | tr -d '[:space:]')"
-[ "$agents_bytes" -le 24576 ] ||
-  fail "AGENTS.md 超过 24 KiB 轻量上限：${agents_bytes} bytes"
-
-if rg -n -F "$ROOT_DIR" scripts README.md docs >/dev/null; then
-  fail "便携文件中包含本机 global-config 绝对路径"
-fi
-
-if rg -n "AGENTS\.override\.md" scripts/restore-codex-global-links.sh >/dev/null; then
-  fail "restore script 不得把 AGENTS.override.md 链接到 CODEX_HOME"
-fi
-
-if rg -n "gpt-5\.3-codex-spark" agents >/dev/null; then
-  fail "agent 配置仍引用 gpt-5.3-codex-spark；应使用当前 5.6 模型族"
-fi
-
-if find agents -maxdepth 1 -type f -name '*-spark.toml' | rg . >/dev/null; then
-  fail "agent 配置仍使用旧 *-spark 文件名；应使用 *-lite 命名"
-fi
 
 printf 'codex-config guard 通过。\n'

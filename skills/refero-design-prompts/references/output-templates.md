@@ -4,7 +4,7 @@ Use these templates to keep responses consistent across design requests.
 
 ## Preferred Response Shape
 
-```md
+````md
 结论
 - 主风格：
 - 备选风格：
@@ -23,22 +23,12 @@ Build Prompt
 ```
 
 DESIGN.md
-```md
-# DESIGN.md
-## Visual Direction
-## Color System
-## Typography
-## Layout
-## Components
-## Imagery
-## Motion
-## Avoid
-```
+[Use the Compact DESIGN.md Template below.]
 
 验证清单
 - [ ] ...
 - [ ] ...
-```
+````
 
 ## Prompt Skeleton
 
@@ -132,6 +122,44 @@ Focus on section composition, hierarchy, responsive layout, and polished compone
 ## Compact DESIGN.md Template
 
 ```md
+---
+design_system: project-design
+version: 1
+source_templates: []
+borrowed_patterns: []
+excluded_assets: []
+tokens:
+  color:
+    canvas: "<value>"
+    surface: "<value>"
+    text-primary: "<value>"
+    text-muted: "<value>"
+    accent: "<value>"
+    border: "<value>"
+    focus: "<value>"
+  typography:
+    display: "<value>"
+    body: "<value>"
+    label: "<value>"
+    code-data: "<value>"
+  spacing:
+    unit: "<value>"
+    component-gap: "<value>"
+    section-gap: "<value>"
+  radius:
+    control: "<value>"
+    panel: "<value>"
+  motion:
+    fast: "<value>"
+    standard: "<value>"
+    easing-standard: "<value>"
+component_states:
+  button: [default, hover, pressed, disabled, focus-visible]
+  input: [default, hover, focus, error, disabled]
+  panel: [default, hover, selected, featured]
+  navigation: [default, active, hover, mobile-collapsed]
+---
+
 # DESIGN.md
 
 ## Visual Direction
@@ -140,13 +168,16 @@ Focus on section composition, hierarchy, responsive layout, and polished compone
 - Density:
 - Trust signal:
 
-## Color System
-- Background:
-- Primary text:
-- Secondary text:
-- Accent:
-- Border / divider:
-- States:
+## Source References
+- Primary:
+- Borrow:
+- Exclude:
+- License:
+
+## Color Tokens
+- Usage rules:
+- Contrast requirements:
+- State color rules:
 
 ## Typography
 - Headline tone:
@@ -154,7 +185,7 @@ Focus on section composition, hierarchy, responsive layout, and polished compone
 - Scale behavior:
 - Code / data text:
 
-## Layout
+## Spacing And Layout
 - Preferred page rhythm:
 - Content width:
 - Section spacing:
@@ -166,10 +197,7 @@ Focus on section composition, hierarchy, responsive layout, and polished compone
 - Navigation:
 - Tables / charts / code blocks:
 - Forms / filters:
-
-## Imagery
-- Use:
-- Do not use:
+- Empty / loading / error:
 
 ## Motion
 - Hover / focus behavior:
@@ -180,11 +208,35 @@ Focus on section composition, hierarchy, responsive layout, and polished compone
 - Reduced motion:
 - Review risks:
 
-## Avoid
--
--
--
+## Imagery And Assets
+- Use:
+- Do not use:
+
+## Responsive Rules
+- Desktop:
+- Tablet:
+- Mobile:
+- Touch / hover:
+
+## Do / Avoid
+- Do:
+- Avoid:
+
+## Verification
+- Product capability truth:
+- Frontmatter parse / placeholders:
+- Token and component-state mapping:
+- Desktop:
+- Mobile:
+- Overflow / overlap:
+- Resource loading:
+- Keyboard / focus / interaction states:
+- Touch targets / safe area:
+- Layout shift / rendering cost:
+- Reduced motion:
 ```
+
+Replace every `<value>` before delivery. Keep only components in scope and list every supported state; remove unused optional entries.
 
 ## Verification Checklist
 
@@ -196,6 +248,8 @@ Use 4-8 checks only. Favor observable outcomes.
 - [ ] The interface shows real product proof, not placeholder atmosphere.
 - [ ] Contrast, spacing, and hierarchy are consistent.
 - [ ] Repeated UI patterns share the same visual rules.
+- [ ] Every visible control, metric, state, and claim is supported by the product requirements and implementation.
+- [ ] Mobile touch targets, safe areas, keyboard paths, labels, focus, and contrast are usable.
 - [ ] Motion has a named purpose, bounded timing, reduced-motion handling, and no high-frequency noise.
 - [ ] The page avoids the listed anti-patterns.
 ```

@@ -1,17 +1,17 @@
 ---
 name: refero-design-prompts
-description: Use when a user wants a website, product UI, dashboard, landing page, or frontend visual direction translated into a structured design prompt, a compact DESIGN.md brief, or both, especially when choosing among clean SaaS, dark mode, devtool, editorial, AI-startup, or other Refero-style aesthetics.
+description: Use when a website, product UI, dashboard, landing page, or frontend brief needs a structured visual direction, build prompt, project-level DESIGN.md contract, or verification criteria, especially for Refero-style aesthetics.
 ---
 
 # Refero Design Prompts
 
 ## Overview
 
-Turn a loose product or page brief into three linked artifacts:
+Turn a loose product or page brief into the requested combination of:
 
 1. a recommended visual direction
 2. a build-ready prompt
-3. a compact `DESIGN.md` block
+3. a project-level `DESIGN.md`
 
 Use this skill when the visual bar is unclear, the user wants better frontend prompting, or an agent needs fewer aesthetic guesses.
 
@@ -20,25 +20,24 @@ Use this skill when the visual bar is unclear, the user wants better frontend pr
 1. Identify the surface and outcome.
    - Surface examples: landing page, marketing site, docs site, dashboard, product UI, onboarding, settings, pricing.
    - Outcome examples: earn trust, explain workflow, show product proof, improve scanability, feel premium, feel technical.
-2. Choose one primary style family and one backup style.
+2. Establish product truth before visual decisions.
+   - Inspect supported data, actions, states, APIs, assets, existing tokens, and shared components.
+   - Do not invent visible controls, metrics, states, or product claims that the requirements and implementation cannot support.
+3. Choose or preserve the visual direction.
    - Read `references/style-taxonomy.md` when the fit is unclear or the user asks for alternatives.
    - Read `references/substyle-recipes.md` when the user wants a more specific temperament such as quieter SaaS, denser workbench, or frontier AI launch.
    - Read `references/visual-archetypes.md` when the user asks for a polished homepage, portfolio, creator page, personal brand, strong hero, motion-heavy visual direction, single HTML showcase, or HTML presentation feel.
    - Read `references/motion-craft-workflow.md` when the request mentions animation, transition, motion, microinteraction, component polish, gesture, smoothness, review of existing motion, or exact animation terminology.
-3. Lock the output mode.
+   - Read `references/design-md-contract.md` when creating or updating a durable project-level `DESIGN.md`, or when a known template or brand reference should come from the user's unified template source.
+4. Lock the output mode.
    - `prompt`
    - `DESIGN.md`
    - `prompt + DESIGN.md + verification`
-4. Produce the response in this order:
-   - `结论`
-   - `风格判断`
-   - `Build Prompt`
-   - `DESIGN.md`
-   - `验证清单`
+5. Emit only the artifacts selected by the output mode. When several are requested, use this order: `结论`, `风格判断`, `Build Prompt`, `DESIGN.md`, `验证清单`.
 
 ## Rules
 
-- Recommend one style first, then one backup with a clear tradeoff.
+- When direction is unclear, recommend one primary style and at most one backup with a clear tradeoff. Preserve an approved direction instead of reopening style selection.
 - Explain fit through audience, trust signal, density, proof assets, and emotional tone.
 - Use concrete constraints instead of vague taste words:
   - color system
@@ -60,23 +59,30 @@ Use this skill when the visual bar is unclear, the user wants better frontend pr
   - testimonials
   - workflow diagrams
 - Keep operational tools operational. Dashboards, admin tools, workflow apps, and devtools should stay dense, restrained, and scan-friendly.
+- Existing product capabilities and the local design system take precedence over references. Extend existing tokens and components instead of creating a parallel system.
 - Prefer a known substyle before inventing a new label. Reuse `quiet-saas`, `technical-workbench`, or `frontier-ai-launch` when they fit.
 - For high-polish frontend requests, choose a visual archetype by surface, audience, proof assets, density, motion budget, and implementation risk. Do not use a template name as a substitute for layout and component decisions.
 - When motion matters, include a Motion Contract: term, trigger, frequency, purpose, states, properties, duration/easing, origin, interruptibility, reduced-motion, and verification evidence.
+- For durable frontend systems, use `DESIGN.md` as the visual source of truth: source references, semantic tokens, typography, spacing, component states, motion, assets, responsive rules, do/avoid, and verification.
+- When a known template or brand reference is requested, use the user's unified template source first when available. This skill defines extraction and adaptation rules; it does not maintain a parallel template index.
 - If the user provides a URL, screenshot, or brand reference, treat it as a signal set. Extract what to borrow and what to avoid. Do not promise an exact clone unless the user explicitly asks for one.
 - Do not copy third-party code, assets, text, prompts, or template structure into the output unless the license and user authorization allow it. Record source and license boundaries when external material shapes the design.
 
 ## Output Contract
 
-Always keep the output compact but structured.
+Keep the output compact and include only the sections required by the selected mode.
 
 ### 1. 结论
+
+Include only when choosing or comparing visual directions.
 
 - `主风格`:
 - `备选风格`:
 - `适配原因`:
 
 ### 2. 风格判断
+
+Include only when the fit needs explanation.
 
 Summarize:
 
@@ -88,15 +94,15 @@ Summarize:
 
 ### 3. Build Prompt
 
-Write one ready-to-use prompt for the target tool. Default to Codex-style wording unless the user names another tool.
+Include in `prompt` modes. Write one ready-to-use prompt for the target tool. Default to Codex-style wording unless the user names another tool.
 
 ### 4. DESIGN.md
 
-Emit a compact `DESIGN.md` block with only the sections needed for the request.
+Include in `DESIGN.md` modes. Use the project-level contract for durable systems; keep one-off briefs proportional to scope.
 
 ### 5. 验证清单
 
-End with a short review checklist the builder can run after implementation.
+Include when verification is requested or the output is intended for implementation.
 
 ## Tool Targeting
 
@@ -108,16 +114,3 @@ Read `references/output-templates.md` when adapting the same visual direction fo
   - keep wording concise and file-task oriented
 - v0 / Lovable:
   - emphasize sections, layout, component polish, and visual hierarchy
-
-## References
-
-- `references/style-taxonomy.md`
-  Use this to choose the right style family and avoid mismatched aesthetics.
-- `references/substyle-recipes.md`
-  Use this when the user wants a more precise mood inside a larger style family.
-- `references/visual-archetypes.md`
-  Use this for polished homepage, portfolio, creator, personal brand, hero-led, motion-rich, single HTML, or presentation-like visual directions.
-- `references/motion-craft-workflow.md`
-  Use this to normalize animation terminology, decide whether motion should exist, specify component-level Motion Contract, and review motion quality.
-- `references/output-templates.md`
-  Use this for prompt scaffolds, `DESIGN.md` structure, and verification checklists.
