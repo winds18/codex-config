@@ -1,151 +1,46 @@
-# DESIGN.md Contract
+# 项目设计契约
 
-`DESIGN.md` 是项目级视觉契约；`AGENTS.md` 定义开发方式，`DESIGN.md` 定义界面应该如何呈现。
+用于新视觉系统、较大视觉重构或需要协调多个实现者的任务。已有设计系统清楚、小修不改变视觉规则时，更新既有文档或任务记录即可，不强制增加 `DESIGN.md`。
 
-## 适用边界
+## 保持一个事实源
 
-需要建立或更新 `DESIGN.md`：
+先标明每类决定的权威来源，例如 Figma 页面、设计系统文档、CSS variables、Tailwind theme、组件 variants。`DESIGN.md` 保存这些入口、用法和本次决策，不把已有 token 数值抄入另一份 YAML。
 
-- 新建有持续维护价值的前端项目、网站、产品界面、dashboard 或品牌页面。
-- 大幅视觉重构、设计系统收敛、模板参考迁移或多人/多代理并行实现。
-- 用户要求“像某个品牌/模板/参考站”，或需要长期保持 UI 一致性。
+| 项目状态 | 合适的契约 |
+| --- | --- |
+| 已有 tokens / 组件库 | 链接代码路径，记录语义和使用边界 |
+| Figma 主导 | 链接明确节点/版本，说明 token 和组件如何映射到实现 |
+| 新项目尚无设计系统 | 确定基础视觉规则，在实际实现文件建立 tokens，文档引用它 |
+| 自动工具消费元数据 | 沿用项目 schema；有真实消费者才引入 YAML frontmatter |
 
-不强制建立完整 `DESIGN.md`：
+来源冲突时根据项目既有约定和用户目标明确本次依据。不能静默覆盖已接受设计，也不必仅因发现差异就停工：先完成不受影响的部分，必要时请用户裁决实质歧义。
 
-- 一次性小修、小组件补丁、无视觉系统变化的功能实现。
-- 已有项目设计系统清晰且本次不改变视觉规则。
+## 最小内容
 
-## 统一模板接管
+按范围裁剪；以下是内容提示，不是必须填完的空表。
 
-- 统一模板真源位于 `assets/templates/`；模板实体、预览、运行脚本、来源提交和许可证均随 skill 本地保存。
-- 品牌与产品设计优先从 `assets/templates/awesome-design-md/README.md` 发现模板，再读取选定目录的 `DESIGN.md`。
-- 个人主页、作品集、Hero、单文件 HTML 和 HTML 演示稿优先读取 `assets/templates/personal-homepage-skill/README.md`、`src/data/templates.ts` 与对应 `templates/` 子目录。
-- 目录及上游自带 README / registry 是发现真源；不要另建手工索引。一次选择一个主参考，最多一个辅助参考。
-- 先读取选定模板的 `DESIGN.md`、preview、源码说明、`SOURCE.md` 或 license，再抽取 token、组件状态、布局节奏和反模式；不要一次加载整个模板库。
-- 本地无合适模板或用户明确要求最新版时，才搜索外部来源。
-- 模板是输入参考；完成适配后，项目 `DESIGN.md` 是唯一视觉真源，上游模板变化不得自动覆盖本地决策。
-- `awesome-design-md` 中的品牌参考只用于提取设计语言；不得复制品牌文案、logo、素材、商标或专有字体文件。
-- `personal-homepage-skill` 可按许可证复制或改造选定模板的完整实现子树；必须替换示例内容和第三方品牌资产，并保留来源与许可证。
-- 最终交付必须回到用户自己的业务、内容、组件和资产。
-- 每次使用统一模板或外部参考，必须记录 source、license、borrowed patterns 和 excluded assets。
+- **目标与来源**：页面用途、用户任务、主方向、权威设计/实现入口。
+- **共享规则**：token 语义、排版/CJK 字体、布局断点、密度、组件 variants 与关键状态的实现路径。
+- **本次变化**：新增/调整什么，影响哪些调用者，如何迁移；需要时用版本或决策日期标记。
+- **协作边界**：共享接口、文件 owner、页面/组件任务范围、集成顺序。
+- **验收**：代表视口、关键状态、真实内容/资源、键盘与焦点、动效降级及相关测试命令。
+- **参考许可**：模板来源、快照 commit、license、借鉴模式、排除的品牌/人物/其他资产。
 
-## 机器可读契约
+组件状态以真实交互为准：例如按钮 disabled/focus、表单 error、数据列表 loading/empty/error、弹层 focus/dismiss。不要给没有交互的 panel 强加 hover/selected 等状态。
 
-完整 `DESIGN.md` 必须使用 YAML frontmatter 保存来源、版本、语义 token 和组件状态。示例：
+## 并行实现
 
-```yaml
----
-design_system: project-design
-version: 1
-source_templates:
-  - name: vercel
-    source: skill-asset:awesome-design-md/design-md/vercel
-    upstream: https://getdesign.md/vercel/design-md
-    upstream_commit: 8147538b4226ae41e2487a9179e3bcc1f68e8554
-    license: template license recorded; brand assets excluded
-borrowed_patterns:
-  - monochrome precision
-  - tight technical typography
-excluded_assets:
-  - logos
-  - proprietary copy
-  - product screenshots
-tokens:
-  color:
-    canvas: "#0a0a0a"
-    surface: "#141414"
-    text-primary: "#fafafa"
-    text-muted: "#a1a1aa"
-    accent: "#5eead4"
-    border: "#2a2a2a"
-    focus: "#67e8f9"
-  typography:
-    display: "Inter, system-ui, sans-serif"
-    body: "Inter, system-ui, sans-serif"
-    label: "Inter, system-ui, sans-serif"
-    code-data: "ui-monospace, monospace"
-  spacing:
-    unit: "4px"
-    component-gap: "12px"
-    section-gap: "80px"
-  radius:
-    control: "6px"
-    panel: "8px"
-  motion:
-    fast: "120ms"
-    standard: "180ms"
-    easing-standard: "cubic-bezier(0.2, 0, 0, 1)"
-component_states:
-  button: [default, hover, pressed, disabled, focus-visible]
-  input: [default, hover, focus, error, disabled]
-  panel: [default, hover, selected, featured]
-  navigation: [default, active, hover, mobile-collapsed]
----
-```
+1. 对齐可复用的最小共享基础：token 入口、组件 props/variants、布局边界与数据接口。可在现有实现上确认，不必先完成整份设计系统。
+2. 明确共享基础 owner；其他实现者基于约定分别实现不重叠页面或组件，可并行做渲染验证、状态检查和无障碍审查。
+3. 新共享需求由发现者提交具体接口差异，owner 集中更新并通知受影响任务；互不依赖的工作继续。
+4. 集成时核对共享组件、真实数据与交互，再做代表页面的整体渲染检查。独立页面通过局部检查不等于集成通过。
 
-- `version` 是项目视觉契约版本；已接受的 token 或组件状态发生变化时递增。
-- 最终文件不得保留 `<value>`、`TODO` 或未解析字段；不适用的可选列表可以为空。
-- 业务说明可以写在正文；实现依赖的 token 与状态必须留在 frontmatter 中，保持可解析。
+避免所有前端工作单人串行，也避免多个代理同时改同一全局 CSS、路由表或基础组件。长期隔离任务是否使用 worktree 服从项目协作策略。
 
-## 必备章节
+## 验收与模板边界
 
-```md
-# DESIGN.md
+检查引用能定位到实现，实际 token 和组件状态符合约定。涉及机器消费的 metadata 才检查 schema；不得为文档格式引入无消费者的新依赖。
 
-## Visual Direction
-## Source References
-## Color Tokens
-## Typography
-## Spacing And Layout
-## Components
-## Motion
-## Imagery And Assets
-## Responsive Rules
-## Do / Avoid
-## Verification
-```
+对改动页面执行桌面/移动渲染检查，覆盖换行、溢出、资源、交互状态；涉及触控、软键盘、弹层或复杂动效时扩展对应验证。性能验证按媒体、字体、布局偏移和动画成本的真实变化选取。
 
-## Token 要求
-
-- Token 必须语义化：`canvas`、`surface`、`text-primary`、`text-muted`、`accent`、`border`、`focus`。
-- 同一组件必须引用 token，不在实现里散落未命名 hex、字号、圆角和阴影。
-- Typography 至少定义 display、body、label、code / data；中文项目必须定义 CJK 字体栈。
-- Spacing 至少定义基础步进、section 间距、组件 padding、grid gap 和移动端折叠规则。
-- Radius、border、shadow、elevation 必须有使用边界；不要把一种圆角或阴影套满全站。
-
-## 组件状态
-
-组件规则必须写到状态，而不是只写静态样式：
-
-- button：default、hover、pressed、disabled、focus。
-- input / select：default、hover、focus、error、disabled。
-- card / panel：default、hover、selected、featured。
-- navigation：default、active、hover、mobile collapsed。
-- table / chart / code：density、border、highlight、empty、loading。
-- modal / popover / toast：surface、backdrop、motion、focus trap、dismiss。
-
-## 设计到实现
-
-- 实现前先产出 token plan：哪些 token 会映射到 CSS variables、Tailwind theme、component variants 或 design-system constants。
-- 多代理并行时，先冻结 `DESIGN.md` 的 token 和组件状态，再拆分页面或组件实现。
-- 新组件优先接入既有 token 和组件语法；不得为局部方便创建相近但不兼容的视觉规则。
-- 修改视觉系统时，先更新并递增 `DESIGN.md` 版本，再同步实现 token、组件状态和必要的视觉测试；不得只改其中一侧。
-
-## 验收
-
-- 与参考模板比对：保留了哪些设计语言，舍弃了哪些品牌资产。
-- 契约检查：frontmatter 可解析、无占位符，token 和组件状态均能映射到实现。
-- 渲染检查：桌面、移动、横向溢出、文本重叠、资源加载、交互状态。
-- 移动端检查：触控目标、safe area、软键盘遮挡以及 hover 的触控替代路径。
-- 可访问性检查：语义结构、文本对比度、focus-visible、键盘路径、label / alt 和 reduced-motion。
-- 性能检查：媒体尺寸与格式、字体加载、布局偏移，以及动效是否引发高频 layout / paint。
-- Token 检查：实现是否使用命名 token，组件状态是否覆盖。
-- 动效检查：关键动效是否有 Motion Contract、reduced-motion 和 hover/touch 分支。
-- 必要时运行 `npx @google/design.md lint DESIGN.md`；该工具是可选验证，不作为全局依赖。
-
-## 来源边界
-
-- 高层工作流参考 [VoltAgent/awesome-design-md](https://github.com/VoltAgent/awesome-design-md) 与 Google Stitch `DESIGN.md` 思路。
-- `awesome-design-md` 采用 MIT License，但品牌名称、商标、logo、素材和视觉身份仍属于对应权利方。
-- `personal-homepage-skill` 快照按用户确认仅用于个人非商业工作，使用时保留来源和许可证。
-- 本规范不维护独立手工索引；`assets/templates/` 及上游自带发现文件构成统一模板体系。
+模板发现和许可边界见 [SKILL.md](../SKILL.md#本地模板)。模板只是输入，不随上游变化自动覆盖项目决定。第三方品牌、文案、截图或素材不能从代码许可证推断可复用权利。

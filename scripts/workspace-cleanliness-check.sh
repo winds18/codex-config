@@ -1,38 +1,36 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
-fail() {
-  printf '工作区清洁检查失败：%s\n' "$1" >&2
-  exit 1
-}
+# Judge what would be committed. Unstaged/ignored local noise is advisory.
+python3 - <<'PY'
+from pathlib import Path
+import subprocess
+import sys
 
-if ! git rev-parse --git-dir >/dev/null 2>&1; then
-  fail "当前目录不是 git 仓库"
-fi
+result = subprocess.run(['git', 'rev-parse', '--show-toplevel'], capture_output=True)
+if result.returncode:
+    print('工作区清洁检查失败：当前目录不是 Git 仓库', file=sys.stderr)
+    raise SystemExit(1)
+root = Path(result.stdout.decode().strip())
+result = subprocess.run(['git', 'diff', '--cached', '--name-only', '--diff-filter=ACMR', '-z'],
+                        cwd=root, check=True, capture_output=True)
+paths = [Path(raw.decode('utf-8', 'surrogateescape')) for raw in result.stdout.split(b'\0') if raw]
 
-staged_tmp="$(
-  git diff --cached --name-only --diff-filter=ACMR |
-    grep -E '(^|/)(\.tmp|\.artifacts|\.cache)/|(^|/).*\.(tmp|temp|bak|log)$' || true
-)"
 
-if [ -n "$staged_tmp" ]; then
-  printf '%s\n' "$staged_tmp" >&2
-  fail "提交前必须清理或移出已暂存的临时文件"
-fi
+def noise(path):
+    return path.name == '.DS_Store' or path.suffix.lower() in {'.tmp', '.temp', '.bak', '.log'}
 
-root_noise="$(
-  find . -maxdepth 1 \( \
-    -name '.DS_Store' -o \
-    -name '*.tmp' -o \
-    -name '*.temp' -o \
-    -name '*.bak' -o \
-    -name '*.log' \
-  \) -print | sed 's#^\./##' || true
-)"
 
-if [ -n "$root_noise" ]; then
-  printf '%s\n' "$root_noise" >&2
-  fail "提交前必须清理仓库根目录的临时噪音文件"
-fi
-
-printf '工作区清洁检查通过。\n'
+staged = [path for path in paths if noise(path) or {'.tmp', '.artifacts', '.cache'} & set(path.parts[:-1])]
+if staged:
+    print('工作区清洁检查失败：已暂存临时文件，请检查并移出提交：', file=sys.stderr)
+    for path in staged:
+        print(f'- {str(path)!r}', file=sys.stderr)
+    raise SystemExit(1)
+local_noise = [path.name for path in root.iterdir() if path.is_file() and noise(path)]
+if local_noise:
+    print('工作区清洁提示：根目录有未纳入本次提交的临时文件（不阻断）：', file=sys.stderr)
+    for name in sorted(local_noise):
+        print(f'- {name!r}', file=sys.stderr)
+print('工作区清洁检查通过。')
+PY

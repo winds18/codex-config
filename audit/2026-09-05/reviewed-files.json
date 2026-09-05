@@ -1,0 +1,2156 @@
+[
+  {
+    "path": ".gitattributes",
+    "group": "maintained",
+    "bytes": 280,
+    "sha256": "dd79c824422b94e9b580943a23d46d39c1c9e0d5e292f1b850b20e4e42a8121f"
+  },
+  {
+    "path": ".gitignore",
+    "group": "maintained",
+    "bytes": 202,
+    "sha256": "d7431e246a175fc9220ddbe8ae0dc8e2b0a8641924d169f0c12e6f8e8a2f4e45"
+  },
+  {
+    "path": "AGENTS.md",
+    "group": "maintained",
+    "bytes": 5672,
+    "sha256": "d1832059ca4fe17eb79e7ed5ea98df9b1f49a369e1913fe6906bdf2d33196492"
+  },
+  {
+    "path": "AGENTS.override.md",
+    "group": "maintained",
+    "bytes": 1483,
+    "sha256": "b9c3a8833205ace6cfeecc6752397a8bbe7767b8541fc1fe768ee0072d175985"
+  },
+  {
+    "path": "README.md",
+    "group": "maintained",
+    "bytes": 4546,
+    "sha256": "9bdcb460848f592b27f3e5f6524ad54d65c5600336f1d8105ed6158939b6ed4f"
+  },
+  {
+    "path": "agents/explorer-lite.toml",
+    "group": "maintained",
+    "bytes": 486,
+    "sha256": "746510ae3ed8f6638a968d96ac19b422503b42052ddc47ff9f90c6c0df9d27ef"
+  },
+  {
+    "path": "agents/orchestrator.toml",
+    "group": "maintained",
+    "bytes": 535,
+    "sha256": "a1367a9af03a119e05a66e10000fda24c4cac53fed01109b874f664902fce2d9"
+  },
+  {
+    "path": "agents/planner.toml",
+    "group": "maintained",
+    "bytes": 476,
+    "sha256": "feaf707268184d20be59eb9f735d562b7835ade6be5d1f8c7b22ed0bb641c4f3"
+  },
+  {
+    "path": "agents/pr-preparer.toml",
+    "group": "maintained",
+    "bytes": 464,
+    "sha256": "338a0698fdc7e2e4f2fb3dd09a78cb21c5cd316c71cdfcc28c7ac61965d0183d"
+  },
+  {
+    "path": "agents/refiner.toml",
+    "group": "maintained",
+    "bytes": 447,
+    "sha256": "d1f76201c2c96fd070bf2e6f417300362320a083c175b179e31b9e93b1ace7fd"
+  },
+  {
+    "path": "agents/reviewer-lite.toml",
+    "group": "maintained",
+    "bytes": 486,
+    "sha256": "be04d5ddcb22f17e275ac02f88f0b2a1846e3e9d8bfc2f2e1533c8d335ced13f"
+  },
+  {
+    "path": "agents/security-lite.toml",
+    "group": "maintained",
+    "bytes": 446,
+    "sha256": "abaea06a0789cead0cbc1b80815d6a73f1442900cbcd860b3bdacb48f80229ff"
+  },
+  {
+    "path": "agents/security-reviewer.toml",
+    "group": "maintained",
+    "bytes": 450,
+    "sha256": "a6979777840d6cc0153ec35c237a587592f08fe398b229b41fe7e7588e89fe52"
+  },
+  {
+    "path": "agents/summarizer-lite.toml",
+    "group": "maintained",
+    "bytes": 469,
+    "sha256": "c3d2a1132571440832c56a88b05bc6138f7010c5f77e07239be42851919bf987"
+  },
+  {
+    "path": "agents/tester-lite.toml",
+    "group": "maintained",
+    "bytes": 563,
+    "sha256": "120317d7c3aa34d788470666820e44b391be2057cb2b1957e055a9b09d69138f"
+  },
+  {
+    "path": "agents/worker.toml",
+    "group": "maintained",
+    "bytes": 535,
+    "sha256": "db60f2bb3a6b1c5da4e0a967975d2ad1c9390dd0a12f435fa4bd2cb386a68fce"
+  },
+  {
+    "path": "docs/client-compatibility.md",
+    "group": "maintained",
+    "bytes": 3764,
+    "sha256": "1474882813fca65470345906055217486356dc7fa07142d94f3b904cbb373fd5"
+  },
+  {
+    "path": "docs/codex-global-setup-overview.md",
+    "group": "maintained",
+    "bytes": 1967,
+    "sha256": "26c5f83d3fc61966d3c21a7ee8a5951d5b70ee1bf01aba33ebca0cd4c52b3eb0"
+  },
+  {
+    "path": "docs/git-workflow-policy.md",
+    "group": "maintained",
+    "bytes": 1907,
+    "sha256": "4fbc251982b1b6bc5de37c5eb00cc9844b2640ca28d6b3af9d23b2c68802ca6c"
+  },
+  {
+    "path": "docs/hook-enforcement-policy.md",
+    "group": "maintained",
+    "bytes": 2192,
+    "sha256": "8376bc6f7d7c0e676ac52e96ee4638771f85de7b33ed746b69aee11c284b0aaf"
+  },
+  {
+    "path": "docs/project-AGENTS-template.md",
+    "group": "maintained",
+    "bytes": 1394,
+    "sha256": "c6d96a0d7f3de7ef1cf3d391f37c97619aa2ae34d9376b8a2e2aba18eef56717"
+  },
+  {
+    "path": "docs/project-codex-config-template.md",
+    "group": "maintained",
+    "bytes": 2068,
+    "sha256": "78ba3cfb4c519019eb064a934f03384a5428ae042b2c82b180c16ac2643f9011"
+  },
+  {
+    "path": "docs/project-expansion-workflow.md",
+    "group": "maintained",
+    "bytes": 1658,
+    "sha256": "af4574d39dd4c27e1ef8c9b9c2133aa92306e622f6fdfd77224f93c4ea7f8a42"
+  },
+  {
+    "path": "docs/project-plan-template.md",
+    "group": "maintained",
+    "bytes": 891,
+    "sha256": "78e9bdd52926a852a37bd5cc374967bc75f5ee52972625518afd42c69924a34b"
+  },
+  {
+    "path": "docs/restore-codex-official-state.md",
+    "group": "maintained",
+    "bytes": 1868,
+    "sha256": "17a2c5c8529de2a3dec52ec81185c8e586733868370119dce4886daed1e6c224"
+  },
+  {
+    "path": "docs/restore-codex-setup.md",
+    "group": "maintained",
+    "bytes": 2178,
+    "sha256": "55103a7b47cad8227210f3814243d01aed212170fecd1296246d5edb3e254437"
+  },
+  {
+    "path": "docs/thread-governance-policy.md",
+    "group": "maintained",
+    "bytes": 3701,
+    "sha256": "2fddaf8ad4aefb8d5e6898e8a2ce2b999348c88c4fdbc60152d47d517602ccef"
+  },
+  {
+    "path": "git-hooks/pre-commit",
+    "group": "maintained",
+    "bytes": 130,
+    "sha256": "6190c5abd71ce321cc93bd53e193f881d7181f3a32d30ea54e5f3bb8f66f50b0"
+  },
+  {
+    "path": "git-hooks/pre-push",
+    "group": "maintained",
+    "bytes": 344,
+    "sha256": "c74df789e07ce62f2b79c0a362cc222a60793fc7075a1c07370e839d68b6dc27"
+  },
+  {
+    "path": "hooks/codex-policy-guard.py",
+    "group": "maintained",
+    "bytes": 13493,
+    "sha256": "1337f49442b0043416ea2a92df54a537977bb9a7954cb1db1ba1cf2e2210fa6a"
+  },
+  {
+    "path": "hooks/hooks.json",
+    "group": "maintained",
+    "bytes": 402,
+    "sha256": "64d033a6941f367fe0fd1d8fff714e6284e9cfabc94784567424c360216ce679"
+  },
+  {
+    "path": "prompts/agent-work-habits.md",
+    "group": "maintained",
+    "bytes": 621,
+    "sha256": "ca7439d7ac1b66ed346aa80cd8a8512f9101e33d5e745837422eb6c63d31bbee"
+  },
+  {
+    "path": "prompts/init-project.md",
+    "group": "maintained",
+    "bytes": 585,
+    "sha256": "aa1a0ad1762145d78d85ffbc4687e06e3ff8a48264ed599c13bb903762a5ad14"
+  },
+  {
+    "path": "prompts/subagent-work-habits.md",
+    "group": "maintained",
+    "bytes": 513,
+    "sha256": "fd3a4187fcb003c97001c902e640b45ff41e9956064223f9ad8d8892432b2e61"
+  },
+  {
+    "path": "scripts/codex-config-doctor.sh",
+    "group": "maintained",
+    "bytes": 410,
+    "sha256": "941d81e5edc5c15b8e05f3a73fbe03c1ec157c5d2c7b686fa12a074ecce84cb3"
+  },
+  {
+    "path": "scripts/codex-config-guard.sh",
+    "group": "maintained",
+    "bytes": 1014,
+    "sha256": "bf09c901103df52dd7ea394ab9b36381596e126c087063abd5f231e9ba4e3f7a"
+  },
+  {
+    "path": "scripts/install-git-hooks.sh",
+    "group": "maintained",
+    "bytes": 400,
+    "sha256": "addb524a247657f6d94fe45ed8f8b3897bbe1fca6c61fff68998fa779524ed41"
+  },
+  {
+    "path": "scripts/manage-codex-config.py",
+    "group": "maintained",
+    "bytes": 21834,
+    "sha256": "05f897facd8393b72bc836f8f3c8a882266c6af560957d42fecd7bdee19a0893"
+  },
+  {
+    "path": "scripts/manage-git-hooks.py",
+    "group": "maintained",
+    "bytes": 9701,
+    "sha256": "bdba63306aa796bb53a87ad6afca4af0e9418829bc57d5c1ef51816e418ebf2f"
+  },
+  {
+    "path": "scripts/restore-codex-global-links.sh",
+    "group": "maintained",
+    "bytes": 747,
+    "sha256": "1d6bfc3c7ed4b7b674618979a978b0dff5a0e3b8282eb649eb6deed110c89d12"
+  },
+  {
+    "path": "scripts/restore-codex-official-state.sh",
+    "group": "maintained",
+    "bytes": 751,
+    "sha256": "2a9e0490ea4456922bd88d0f1a30c607729ab15efb24374d48279cdfe87447a2"
+  },
+  {
+    "path": "scripts/secret-scan.py",
+    "group": "maintained",
+    "bytes": 9442,
+    "sha256": "fb1200330688e66eb7494e2f18634ff2bcef6f79b980eeaa94782b0c17fc3f1a"
+  },
+  {
+    "path": "scripts/test-policy-guard.py",
+    "group": "maintained",
+    "bytes": 7627,
+    "sha256": "b00407d60a858ea93cc1087fa65284c89a184fa0c3ecd0bfc2694d9686d4afda"
+  },
+  {
+    "path": "scripts/test-restore-roundtrip.py",
+    "group": "maintained",
+    "bytes": 20297,
+    "sha256": "1749ead2a653c9e5d4904041dd9442bc4094700799af0fee7f7e6a42787bafa3"
+  },
+  {
+    "path": "scripts/test-restore-roundtrip.sh",
+    "group": "maintained",
+    "bytes": 179,
+    "sha256": "c3423ea4f8f4f1e955a694a21745420031ae359ca21b3f5839ea4e027a12ba31"
+  },
+  {
+    "path": "scripts/test-secret-scan.sh",
+    "group": "maintained",
+    "bytes": 6051,
+    "sha256": "cf9e39726db8187eaacde03c316a8fd7bccb96d93ec2990cb73bddd1efe98230"
+  },
+  {
+    "path": "scripts/validate-config.py",
+    "group": "maintained",
+    "bytes": 5619,
+    "sha256": "43913fed23c1d3e174680841c2af8e6e65c6e080c28f895024f3e49cfb3c436f"
+  },
+  {
+    "path": "scripts/workspace-cleanliness-check.sh",
+    "group": "maintained",
+    "bytes": 1512,
+    "sha256": "8117b6fc215d17b47da92c782e343009fcba43c86f47181d7f70a7a39a0b8dd6"
+  },
+  {
+    "path": "skills/autonomous-project-execution/SKILL.md",
+    "group": "maintained",
+    "bytes": 1834,
+    "sha256": "1f861e450a3cbadf72f0477a7e039eeae9065b113ba72e92d504734514b410e9"
+  },
+  {
+    "path": "skills/autonomous-project-execution/references/agent-role-matrix.md",
+    "group": "maintained",
+    "bytes": 1711,
+    "sha256": "c131ad8fd916608c251ba270f972f1d166468af2bb59789a7bc07649b4d31fb5"
+  },
+  {
+    "path": "skills/autonomous-project-execution/references/autonomous-execution-workflow.md",
+    "group": "maintained",
+    "bytes": 1912,
+    "sha256": "85474d38c6f6ecbdaaac7b8c3896489f9663e5e994cc343e1ad63d14118af2d8"
+  },
+  {
+    "path": "skills/feature-thread-launch/SKILL.md",
+    "group": "maintained",
+    "bytes": 1392,
+    "sha256": "92730caf93b61b3ede7146fc829c881b1c7f7b600d9eec4346fee47d304e7027"
+  },
+  {
+    "path": "skills/feature-thread-launch/references/feature-thread-launch-checklist.md",
+    "group": "maintained",
+    "bytes": 768,
+    "sha256": "0f16f32fa845c59bd2ecaf604b5a42b4e65ba0cdb69a44339bc9e0de4f398c16"
+  },
+  {
+    "path": "skills/project-bootstrap/SKILL.md",
+    "group": "maintained",
+    "bytes": 1401,
+    "sha256": "384047f8d97dbf9683b0d4187377d37e0c95934b57c17345752652656066dbc1"
+  },
+  {
+    "path": "skills/refero-design-prompts/SKILL.md",
+    "group": "maintained",
+    "bytes": 3931,
+    "sha256": "34e0f5588d53ed9e6870aba80ee704c16f20ed08552e1f15627adb381c90c3b2"
+  },
+  {
+    "path": "skills/refero-design-prompts/agents/openai.yaml",
+    "group": "maintained",
+    "bytes": 285,
+    "sha256": "e6274788b9814e59905d614f99b8834cc605c61ee667cf58633251c94e9f1ec1"
+  },
+  {
+    "path": "skills/refero-design-prompts/assets/templates/awesome-design-md/.gitignore",
+    "group": "vendor",
+    "bytes": 10,
+    "sha256": "cf237c7aff44efbe6e502e645c3e06da03a69d7bdeb43392108ef3348143417e"
+  },
+  {
+    "path": "skills/refero-design-prompts/assets/templates/awesome-design-md/CONTRIBUTING.md",
+    "group": "vendor",
+    "bytes": 912,
+    "sha256": "240100c7f1b7924066a35e6328d1e19c30d82d859346eeb09186cfef21806e79"
+  },
+  {
+    "path": "skills/refero-design-prompts/assets/templates/awesome-design-md/LICENSE",
+    "group": "vendor",
+    "bytes": 1066,
+    "sha256": "6d4bdc9a9cf30e7beb593475fdcdbf29f981ea6bd7923f202866145409f87b44"
+  },
+  {
+    "path": "skills/refero-design-prompts/assets/templates/awesome-design-md/README.md",
+    "group": "vendor",
+    "bytes": 16023,
+    "sha256": "3f60b909bf66f844a0d122b45c3e39eaaffc43bfcf3c8717e9bc6b47c781457b"
+  },
+  {
+    "path": "skills/refero-design-prompts/assets/templates/awesome-design-md/SOURCE.md",
+    "group": "vendor",
+    "bytes": 445,
+    "sha256": "1d3d7d1329785ece21ad2f2e1a7714ee6200919d8c626007b8e0046bb669018f"
+  },
+  {
+    "path": "skills/refero-design-prompts/assets/templates/awesome-design-md/UPSTREAM_COMMIT",
+    "group": "vendor",
+    "bytes": 41,
+    "sha256": "111c2aef0051aa6d90f67d3a2439fcdeadd4a34c8e1482d33462b3b7462d0c25"
+  },
+  {
+    "path": "skills/refero-design-prompts/assets/templates/awesome-design-md/design-md/airbnb/DESIGN.md",
+    "group": "vendor",
+    "bytes": 30517,
+    "sha256": "add34130d67209ad105346d60fe2b290728b9711683969db4b7760e29477a5fe"
+  },
+  {
+    "path": "skills/refero-design-prompts/assets/templates/awesome-design-md/design-md/airbnb/README.md",
+    "group": "vendor",
+    "bytes": 209,
+    "sha256": "9ecfc8b2441c9d0e483e82c60cc9948d4c0abefe66beaeb08e674eb5ad11248d"
+  },
+  {
+    "path": "skills/refero-design-prompts/assets/templates/awesome-design-md/design-md/airtable/DESIGN.md",
+    "group": "vendor",
+    "bytes": 35266,
+    "sha256": "1d225e511213044d3c705bde50265ad010932bfd8a15740a144dd4f480128889"
+  },
+  {
+    "path": "skills/refero-design-prompts/assets/templates/awesome-design-md/design-md/airtable/README.md",
+    "group": "vendor",
+    "bytes": 213,
+    "sha256": "46e316cd046138600b93d04aa7f28472af8b2fcece266e90d33dae457c7bd0de"
+  },
+  {
+    "path": "skills/refero-design-prompts/assets/templates/awesome-design-md/design-md/apple/DESIGN.md",
+    "group": "vendor",
+    "bytes": 37096,
+    "sha256": "83fbc614443a9b3d7569e9956a43e7b8740f9d0f939f58b8154f7a7cec3002b2"
+  },
+  {
+    "path": "skills/refero-design-prompts/assets/templates/awesome-design-md/design-md/apple/README.md",
+    "group": "vendor",
+    "bytes": 207,
+    "sha256": "6fa6a25abaaac3ae676312342524e11ed9c612a80a1c9dcea5387173147da174"
+  },
+  {
+    "path": "skills/refero-design-prompts/assets/templates/awesome-design-md/design-md/binance/DESIGN.md",
+    "group": "vendor",
+    "bytes": 39918,
+    "sha256": "378ff97d568ccbc316519b9d45a29d6649ed8961c9c486c3ed4cea7501d72371"
+  },
+  {
+    "path": "skills/refero-design-prompts/assets/templates/awesome-design-md/design-md/binance/README.md",
+    "group": "vendor",
+    "bytes": 211,
+    "sha256": "b0ae7e965dd13aa5d03a0b14667e38389f8be6da04166173171b79eb43276668"
+  },
+  {
+    "path": "skills/refero-design-prompts/assets/templates/awesome-design-md/design-md/bmw-m/DESIGN.md",
+    "group": "vendor",
+    "bytes": 30697,
+    "sha256": "824a1707c0a8d1609d72477d0fa211b9ebe4bdeb3e1fd701790af7b7bb669a4a"
+  },
+  {
+    "path": "skills/refero-design-prompts/assets/templates/awesome-design-md/design-md/bmw-m/README.md",
+    "group": "vendor",
+    "bytes": 207,
+    "sha256": "47f448fc683a36f9b6ac69a52e57b32cc5a4eee4c26699d1473363a8221f3137"
+  },
+  {
+    "path": "skills/refero-design-prompts/assets/templates/awesome-design-md/design-md/bmw/DESIGN.md",
+    "group": "vendor",
+    "bytes": 27907,
+    "sha256": "b7268279e7c98e85fb80890e06765f4ee8340ba1ea1ccb5a8a5b134de43dac3e"
+  },
+  {
+    "path": "skills/refero-design-prompts/assets/templates/awesome-design-md/design-md/bmw/README.md",
+    "group": "vendor",
+    "bytes": 203,
+    "sha256": "efeebbadb42e9d508b5c3290fde0334a40c5efb5c2b8ded245bf0c2f6a744caa"
+  },
+  {
+    "path": "skills/refero-design-prompts/assets/templates/awesome-design-md/design-md/bugatti/DESIGN.md",
+    "group": "vendor",
+    "bytes": 28535,
+    "sha256": "375f0a20ada88cdee5e995ca7edcfbd584ddf5f887024deebd1bc75bfd55b1bc"
+  },
+  {
+    "path": "skills/refero-design-prompts/assets/templates/awesome-design-md/design-md/bugatti/README.md",
+    "group": "vendor",
+    "bytes": 211,
+    "sha256": "77787b2c529521ebc2d1097eb1190e67b83824177598f9db5b3ff1194057629f"
+  },
+  {
+    "path": "skills/refero-design-prompts/assets/templates/awesome-design-md/design-md/cal/DESIGN.md",
+    "group": "vendor",
+    "bytes": 31176,
+    "sha256": "8cd21b7d67e94c899843d517f4b426e4fee33d47354a433d6a63ebcf79d5a654"
+  },
+  {
+    "path": "skills/refero-design-prompts/assets/templates/awesome-design-md/design-md/cal/README.md",
+    "group": "vendor",
+    "bytes": 203,
+    "sha256": "93eee4273208ac6e7fd03ec9a571f6316c11991ae9cb5ecb53d835f1ada4c059"
+  },
+  {
+    "path": "skills/refero-design-prompts/assets/templates/awesome-design-md/design-md/claude/DESIGN.md",
+    "group": "vendor",
+    "bytes": 33586,
+    "sha256": "3d972f34f8d4f33b442fa28220cf3b7ca2f13c0a97c468e3988148f82521f9df"
+  },
+  {
+    "path": "skills/refero-design-prompts/assets/templates/awesome-design-md/design-md/claude/README.md",
+    "group": "vendor",
+    "bytes": 209,
+    "sha256": "74852544fa965def13746f5dc958c4842decbad028ec46baa52e6a9986f2ac8f"
+  },
+  {
+    "path": "skills/refero-design-prompts/assets/templates/awesome-design-md/design-md/clay/DESIGN.md",
+    "group": "vendor",
+    "bytes": 25705,
+    "sha256": "1abd803a207fbe950a06e155adcd6013c2e149b13e7b88844f5069f9d3d99eb3"
+  },
+  {
+    "path": "skills/refero-design-prompts/assets/templates/awesome-design-md/design-md/clay/README.md",
+    "group": "vendor",
+    "bytes": 205,
+    "sha256": "f6e6af4bfb91bc92c4d99afeb193dd099fef2a6d83e9722db22eb5220be0b4dc"
+  },
+  {
+    "path": "skills/refero-design-prompts/assets/templates/awesome-design-md/design-md/clickhouse/DESIGN.md",
+    "group": "vendor",
+    "bytes": 25986,
+    "sha256": "50987e29b603cc7503ebe724af810fcf43845e96fdd4083e0fbe5fe00d2cdd2e"
+  },
+  {
+    "path": "skills/refero-design-prompts/assets/templates/awesome-design-md/design-md/clickhouse/README.md",
+    "group": "vendor",
+    "bytes": 217,
+    "sha256": "7867e20def387ee9454463967175598803e735687aeb5c4bfd0ddb2ee10d4204"
+  },
+  {
+    "path": "skills/refero-design-prompts/assets/templates/awesome-design-md/design-md/cohere/DESIGN.md",
+    "group": "vendor",
+    "bytes": 20020,
+    "sha256": "1c49a5a5f88d43841d4f4afa33831328d47a5715048700a3b75086a822575883"
+  },
+  {
+    "path": "skills/refero-design-prompts/assets/templates/awesome-design-md/design-md/cohere/README.md",
+    "group": "vendor",
+    "bytes": 209,
+    "sha256": "94c3761864f3a52a8fa0ae8746b0a6429847a5b6a6b29d662d7fae91bde5c314"
+  },
+  {
+    "path": "skills/refero-design-prompts/assets/templates/awesome-design-md/design-md/coinbase/DESIGN.md",
+    "group": "vendor",
+    "bytes": 25853,
+    "sha256": "c8c67800dd7f58fcc87ed7d267a3bba862e3419e499e8a66d67731a69d2de1d6"
+  },
+  {
+    "path": "skills/refero-design-prompts/assets/templates/awesome-design-md/design-md/coinbase/README.md",
+    "group": "vendor",
+    "bytes": 213,
+    "sha256": "1128abcfa578c532a3063f072f39b11f527219679036165a110dc04ab0a2c851"
+  },
+  {
+    "path": "skills/refero-design-prompts/assets/templates/awesome-design-md/design-md/composio/DESIGN.md",
+    "group": "vendor",
+    "bytes": 20606,
+    "sha256": "e7db886dabecca61f29b83e8f46d7a1e8a43889d30b81bc6e48162ccaafcbb2f"
+  },
+  {
+    "path": "skills/refero-design-prompts/assets/templates/awesome-design-md/design-md/composio/README.md",
+    "group": "vendor",
+    "bytes": 213,
+    "sha256": "9094d534cca5b9dc91dbf0c193ce9392d24511e6bf88a1303aacb601271a2572"
+  },
+  {
+    "path": "skills/refero-design-prompts/assets/templates/awesome-design-md/design-md/cursor/DESIGN.md",
+    "group": "vendor",
+    "bytes": 21771,
+    "sha256": "a3db9b3019dc2f514fdee7cd0ca0a5232c0bd0119e23178e8eebaf6916258d9d"
+  },
+  {
+    "path": "skills/refero-design-prompts/assets/templates/awesome-design-md/design-md/cursor/README.md",
+    "group": "vendor",
+    "bytes": 209,
+    "sha256": "0072af696dbfa90e287def6d3cc0bf0cf8331a7d7b06698d7105fecbb88afbbf"
+  },
+  {
+    "path": "skills/refero-design-prompts/assets/templates/awesome-design-md/design-md/dell-1996/DESIGN.md",
+    "group": "vendor",
+    "bytes": 34592,
+    "sha256": "e186c614b1223fe7015670472ac6bc84b5b3fdd5de5325b3ce5bfb7fbe9c8d6e"
+  },
+  {
+    "path": "skills/refero-design-prompts/assets/templates/awesome-design-md/design-md/dell-1996/README.md",
+    "group": "vendor",
+    "bytes": 217,
+    "sha256": "ac1d0377c827b71b00f02f9f5ad4b3085e70dcda5e68ece1921876b3ac1f5966"
+  },
+  {
+    "path": "skills/refero-design-prompts/assets/templates/awesome-design-md/design-md/elevenlabs/DESIGN.md",
+    "group": "vendor",
+    "bytes": 20943,
+    "sha256": "3b359acfaafadbb499c7ed3eebe813a76e0be497a7157b77de207fe275068a66"
+  },
+  {
+    "path": "skills/refero-design-prompts/assets/templates/awesome-design-md/design-md/elevenlabs/README.md",
+    "group": "vendor",
+    "bytes": 217,
+    "sha256": "644b6072116877f7a792f0253cc2d1127dae8a5a275e1bb015d2fb85070f05f6"
+  },
+  {
+    "path": "skills/refero-design-prompts/assets/templates/awesome-design-md/design-md/expo/DESIGN.md",
+    "group": "vendor",
+    "bytes": 21660,
+    "sha256": "1be7e129b6f75afaa12318a7c51ab22f6f74a214dec22c4827cecc519f112363"
+  },
+  {
+    "path": "skills/refero-design-prompts/assets/templates/awesome-design-md/design-md/expo/README.md",
+    "group": "vendor",
+    "bytes": 205,
+    "sha256": "0858578221d4e8c680bc89888f750bdd8e9ab2e1e98a3540adda4285d036eb8c"
+  },
+  {
+    "path": "skills/refero-design-prompts/assets/templates/awesome-design-md/design-md/ferrari/DESIGN.md",
+    "group": "vendor",
+    "bytes": 24365,
+    "sha256": "1199e2832641cac7e384aaf3b1f3db87f992240cea5d3d1eee04d9dc00acb17c"
+  },
+  {
+    "path": "skills/refero-design-prompts/assets/templates/awesome-design-md/design-md/ferrari/README.md",
+    "group": "vendor",
+    "bytes": 211,
+    "sha256": "c810f3335aa5c550a1a34575e83ea806c9978173abfb486f8f6d56a36b40503f"
+  },
+  {
+    "path": "skills/refero-design-prompts/assets/templates/awesome-design-md/design-md/figma/DESIGN.md",
+    "group": "vendor",
+    "bytes": 32316,
+    "sha256": "716ce8431f47eb8b8135552710e3c4d538bccccf1202e4ceac5428c9aada9972"
+  },
+  {
+    "path": "skills/refero-design-prompts/assets/templates/awesome-design-md/design-md/figma/README.md",
+    "group": "vendor",
+    "bytes": 207,
+    "sha256": "77274b0af64b64674ce0995433aaf7aa68dee6dcb65b616acebf039f1e90b4a8"
+  },
+  {
+    "path": "skills/refero-design-prompts/assets/templates/awesome-design-md/design-md/framer/DESIGN.md",
+    "group": "vendor",
+    "bytes": 29119,
+    "sha256": "a5d47dddacf5a04577cec0be6fe0fc53b7402254c7686874af3e59bcc7588cb4"
+  },
+  {
+    "path": "skills/refero-design-prompts/assets/templates/awesome-design-md/design-md/framer/README.md",
+    "group": "vendor",
+    "bytes": 209,
+    "sha256": "830726692635b292ac04d93c94c0fb0777498dd8532d1be356a55af12b06a8ae"
+  },
+  {
+    "path": "skills/refero-design-prompts/assets/templates/awesome-design-md/design-md/hashicorp/DESIGN.md",
+    "group": "vendor",
+    "bytes": 28023,
+    "sha256": "d2df9be72d867e48d318fd18db04e60a78357c27e392ab921fc2ba7f46951442"
+  },
+  {
+    "path": "skills/refero-design-prompts/assets/templates/awesome-design-md/design-md/hashicorp/README.md",
+    "group": "vendor",
+    "bytes": 215,
+    "sha256": "877d3ceb30ab3384c4db8785dd82dc10bbf88f46a07052f3e2123c660171404d"
+  },
+  {
+    "path": "skills/refero-design-prompts/assets/templates/awesome-design-md/design-md/hp/DESIGN.md",
+    "group": "vendor",
+    "bytes": 36335,
+    "sha256": "4c9a248046684bdde5311a0c9881814f50e2381c2b0f3c75b02a35fc64bc8bb8"
+  },
+  {
+    "path": "skills/refero-design-prompts/assets/templates/awesome-design-md/design-md/hp/README.md",
+    "group": "vendor",
+    "bytes": 201,
+    "sha256": "c91120418c348e6c674a22c95ca87b8ed99a8258d3e0acf411915b6b5177e02d"
+  },
+  {
+    "path": "skills/refero-design-prompts/assets/templates/awesome-design-md/design-md/ibm/DESIGN.md",
+    "group": "vendor",
+    "bytes": 26481,
+    "sha256": "46f6fd65b5e7524fed1133b9b3c0dd619f9a0f145fbb2b87f3675c701a88f3bd"
+  },
+  {
+    "path": "skills/refero-design-prompts/assets/templates/awesome-design-md/design-md/ibm/README.md",
+    "group": "vendor",
+    "bytes": 203,
+    "sha256": "bca71d91d58dd37c1f9a041bf688921b8c7b8a0ce333bbce6d83db6b5c3a7ae6"
+  },
+  {
+    "path": "skills/refero-design-prompts/assets/templates/awesome-design-md/design-md/intercom/DESIGN.md",
+    "group": "vendor",
+    "bytes": 23278,
+    "sha256": "962be23cd947e87a86b2ffbc0440e9d0808243a6ef3af2aa04e8e7cc04d48ba3"
+  },
+  {
+    "path": "skills/refero-design-prompts/assets/templates/awesome-design-md/design-md/intercom/README.md",
+    "group": "vendor",
+    "bytes": 213,
+    "sha256": "b056a73ebe5fd27f291a5560ab7d24d4ceab461e87c7473831c6410711a319b9"
+  },
+  {
+    "path": "skills/refero-design-prompts/assets/templates/awesome-design-md/design-md/kraken/DESIGN.md",
+    "group": "vendor",
+    "bytes": 4350,
+    "sha256": "41bcbd5642c926a549f0d50f1151484c5776b4536233240c8415cfb79bcf1f38"
+  },
+  {
+    "path": "skills/refero-design-prompts/assets/templates/awesome-design-md/design-md/kraken/README.md",
+    "group": "vendor",
+    "bytes": 209,
+    "sha256": "f36008177d1997d318fc7193ffd45f88642c9882b9f8caed0befcab50cc98e5e"
+  },
+  {
+    "path": "skills/refero-design-prompts/assets/templates/awesome-design-md/design-md/lamborghini/DESIGN.md",
+    "group": "vendor",
+    "bytes": 21119,
+    "sha256": "9aa68c53b481a0befdf72859db5625f85454122294509989aa58414aaee04b34"
+  },
+  {
+    "path": "skills/refero-design-prompts/assets/templates/awesome-design-md/design-md/lamborghini/README.md",
+    "group": "vendor",
+    "bytes": 219,
+    "sha256": "ef3303c6992ca649edbefdb645e56227e24996b0c1ef1da4d34d38ba1fedd442"
+  },
+  {
+    "path": "skills/refero-design-prompts/assets/templates/awesome-design-md/design-md/linear.app/DESIGN.md",
+    "group": "vendor",
+    "bytes": 24354,
+    "sha256": "30bd30e72c48a16e4bdbd010f2d1c85fab657c6fae3cc85389399aab10f9cb5f"
+  },
+  {
+    "path": "skills/refero-design-prompts/assets/templates/awesome-design-md/design-md/linear.app/README.md",
+    "group": "vendor",
+    "bytes": 213,
+    "sha256": "43fe138442be43a95951d28b5dcbda887057849963931feff6049c6f303e0680"
+  },
+  {
+    "path": "skills/refero-design-prompts/assets/templates/awesome-design-md/design-md/lovable/DESIGN.md",
+    "group": "vendor",
+    "bytes": 17384,
+    "sha256": "92790895c833104072643929ba56ebbf42c8f88ffb7bff1926462545d0ace6c7"
+  },
+  {
+    "path": "skills/refero-design-prompts/assets/templates/awesome-design-md/design-md/lovable/README.md",
+    "group": "vendor",
+    "bytes": 211,
+    "sha256": "621ddb5b3fe42f538aeffcf1d9463bf365511097542e1a68cbb501761fc077fc"
+  },
+  {
+    "path": "skills/refero-design-prompts/assets/templates/awesome-design-md/design-md/mastercard/DESIGN.md",
+    "group": "vendor",
+    "bytes": 26995,
+    "sha256": "e76ceaa187f43bd24b8338d2b2314e71e9225b36492e40f32a55782281a10437"
+  },
+  {
+    "path": "skills/refero-design-prompts/assets/templates/awesome-design-md/design-md/mastercard/README.md",
+    "group": "vendor",
+    "bytes": 217,
+    "sha256": "2492927f56410b83629183fca8c3e837a8c3732125d56fa7f1ad65d3b8561ab3"
+  },
+  {
+    "path": "skills/refero-design-prompts/assets/templates/awesome-design-md/design-md/meta/DESIGN.md",
+    "group": "vendor",
+    "bytes": 37986,
+    "sha256": "306dfad97c006d47b134fb0dbd55ff68d3baa526844d6eb37346373c9ef35339"
+  },
+  {
+    "path": "skills/refero-design-prompts/assets/templates/awesome-design-md/design-md/meta/README.md",
+    "group": "vendor",
+    "bytes": 205,
+    "sha256": "2767f68fcae1e4d8025ed99a397931e770b5084bfb7c8448b8cb7e88d3deef21"
+  },
+  {
+    "path": "skills/refero-design-prompts/assets/templates/awesome-design-md/design-md/minimax/DESIGN.md",
+    "group": "vendor",
+    "bytes": 37920,
+    "sha256": "2658b96488bb629749259b152c5ba2912a0e8feb6a03477e265879abd9264c50"
+  },
+  {
+    "path": "skills/refero-design-prompts/assets/templates/awesome-design-md/design-md/minimax/README.md",
+    "group": "vendor",
+    "bytes": 211,
+    "sha256": "9a79fe6c74659152a0dbe4a390c160eebd4feb423b386edb3055342a1d133df2"
+  },
+  {
+    "path": "skills/refero-design-prompts/assets/templates/awesome-design-md/design-md/mintlify/DESIGN.md",
+    "group": "vendor",
+    "bytes": 44083,
+    "sha256": "754ffcf35dcd39ef8aef450085ce936aaca5b872ff92caa66be99e91a5c3d5ec"
+  },
+  {
+    "path": "skills/refero-design-prompts/assets/templates/awesome-design-md/design-md/mintlify/README.md",
+    "group": "vendor",
+    "bytes": 213,
+    "sha256": "c63066c714bc7debc1668571ff756a52766efbe69e32e44d6cf889c44190501d"
+  },
+  {
+    "path": "skills/refero-design-prompts/assets/templates/awesome-design-md/design-md/miro/DESIGN.md",
+    "group": "vendor",
+    "bytes": 36542,
+    "sha256": "87c71f76297277d64f9679e015a50da88e72d86d7b41badf8733eae1e4cde335"
+  },
+  {
+    "path": "skills/refero-design-prompts/assets/templates/awesome-design-md/design-md/miro/README.md",
+    "group": "vendor",
+    "bytes": 205,
+    "sha256": "dac0fbe8d79c11332df5d51ab04012f7cc3986cfa72aab09173939f8605844f0"
+  },
+  {
+    "path": "skills/refero-design-prompts/assets/templates/awesome-design-md/design-md/mistral.ai/DESIGN.md",
+    "group": "vendor",
+    "bytes": 35508,
+    "sha256": "40e2c692d72c54bae1e43446e2d059b71d773668d39d71ccb7ededa9fa07d145"
+  },
+  {
+    "path": "skills/refero-design-prompts/assets/templates/awesome-design-md/design-md/mistral.ai/README.md",
+    "group": "vendor",
+    "bytes": 217,
+    "sha256": "fc64804451217a6b9225a09747f38f6c12203e939d334337d3ddb2496b3d57b4"
+  },
+  {
+    "path": "skills/refero-design-prompts/assets/templates/awesome-design-md/design-md/mongodb/DESIGN.md",
+    "group": "vendor",
+    "bytes": 32077,
+    "sha256": "4523f10efd5ccd46f9aeac3b98626e24bcf907bc0c1e46500cb0e3920f932e71"
+  },
+  {
+    "path": "skills/refero-design-prompts/assets/templates/awesome-design-md/design-md/mongodb/README.md",
+    "group": "vendor",
+    "bytes": 211,
+    "sha256": "a8e5c19e78d4501b382b9c107a5a522abc02827e652306e4ae78ea1f8097a311"
+  },
+  {
+    "path": "skills/refero-design-prompts/assets/templates/awesome-design-md/design-md/nike/DESIGN.md",
+    "group": "vendor",
+    "bytes": 36697,
+    "sha256": "d2a3d363665839e2ddc15c91b8a9f3e92b1962ff55a7ca5d964ab3bb88b8186c"
+  },
+  {
+    "path": "skills/refero-design-prompts/assets/templates/awesome-design-md/design-md/nike/README.md",
+    "group": "vendor",
+    "bytes": 205,
+    "sha256": "2c82c4c9c8826f3e5f100f355e392c0b46506b3cb448838f13ddfc74bcdaa874"
+  },
+  {
+    "path": "skills/refero-design-prompts/assets/templates/awesome-design-md/design-md/nintendo-2001/DESIGN.md",
+    "group": "vendor",
+    "bytes": 38977,
+    "sha256": "9630af17090d5c39ba9d8b5915a597a96c7552efe1422b3b8c3f31fb3e636716"
+  },
+  {
+    "path": "skills/refero-design-prompts/assets/templates/awesome-design-md/design-md/nintendo-2001/README.md",
+    "group": "vendor",
+    "bytes": 229,
+    "sha256": "3b084834b5996b94a2678c04856698c02095b54110b28f9c28b0a60fa7c42de0"
+  },
+  {
+    "path": "skills/refero-design-prompts/assets/templates/awesome-design-md/design-md/notion/DESIGN.md",
+    "group": "vendor",
+    "bytes": 35176,
+    "sha256": "fa9d6e78216d8f3e5d3990709ca2de6bc2e268e945bb94f255fd1bfb15455266"
+  },
+  {
+    "path": "skills/refero-design-prompts/assets/templates/awesome-design-md/design-md/notion/README.md",
+    "group": "vendor",
+    "bytes": 209,
+    "sha256": "e01d55b42e5273272ab79e8fee4a446fed0e89d021a05081e04413523d505568"
+  },
+  {
+    "path": "skills/refero-design-prompts/assets/templates/awesome-design-md/design-md/nvidia/DESIGN.md",
+    "group": "vendor",
+    "bytes": 35591,
+    "sha256": "d649be85daf075c98a17071e707e3901c6e19150044a81716acd01ef1169cc83"
+  },
+  {
+    "path": "skills/refero-design-prompts/assets/templates/awesome-design-md/design-md/nvidia/README.md",
+    "group": "vendor",
+    "bytes": 209,
+    "sha256": "df7b390a846fee31f858c3d42566160244da74d97435795f7f38124216bd0709"
+  },
+  {
+    "path": "skills/refero-design-prompts/assets/templates/awesome-design-md/design-md/ollama/DESIGN.md",
+    "group": "vendor",
+    "bytes": 32747,
+    "sha256": "3f36f897e5aad870344dd97e282c8f125ad208dc99449bb08dd38b9259d2f451"
+  },
+  {
+    "path": "skills/refero-design-prompts/assets/templates/awesome-design-md/design-md/ollama/README.md",
+    "group": "vendor",
+    "bytes": 209,
+    "sha256": "5bb21fbede750dc128403993c9f27d1d8977b5ab4368cac8e2573fd668290e90"
+  },
+  {
+    "path": "skills/refero-design-prompts/assets/templates/awesome-design-md/design-md/opencode.ai/DESIGN.md",
+    "group": "vendor",
+    "bytes": 32647,
+    "sha256": "d1a8893c4b8ac90b1e86230eee2effa8bd15add3582853477920e32432336dda"
+  },
+  {
+    "path": "skills/refero-design-prompts/assets/templates/awesome-design-md/design-md/opencode.ai/README.md",
+    "group": "vendor",
+    "bytes": 219,
+    "sha256": "5f594221749829b61845834bf2b14d25d194b227b766cccccd480dedf0d40f16"
+  },
+  {
+    "path": "skills/refero-design-prompts/assets/templates/awesome-design-md/design-md/pinterest/DESIGN.md",
+    "group": "vendor",
+    "bytes": 36392,
+    "sha256": "26a202fd244e9213d5e2475d81581828da1dd97e089e44639d9783d04f96e4a8"
+  },
+  {
+    "path": "skills/refero-design-prompts/assets/templates/awesome-design-md/design-md/pinterest/README.md",
+    "group": "vendor",
+    "bytes": 215,
+    "sha256": "c992bf9db3153edb8c80285cf0284462d0dcce0145c62f719ed05f2173a1151a"
+  },
+  {
+    "path": "skills/refero-design-prompts/assets/templates/awesome-design-md/design-md/playstation/DESIGN.md",
+    "group": "vendor",
+    "bytes": 39766,
+    "sha256": "2a56c109af6cb847fa091b768f719b498ac56b582d010860e73ea5fb72a1590d"
+  },
+  {
+    "path": "skills/refero-design-prompts/assets/templates/awesome-design-md/design-md/playstation/README.md",
+    "group": "vendor",
+    "bytes": 219,
+    "sha256": "c70c2adbfdeaf04459851132bc5c4968ef6c1216900e0b575b4e175c9976aaba"
+  },
+  {
+    "path": "skills/refero-design-prompts/assets/templates/awesome-design-md/design-md/posthog/DESIGN.md",
+    "group": "vendor",
+    "bytes": 40498,
+    "sha256": "01f497f751d56296bfcd5eb8806325a4bb4786d364941ec6e65c65fa9ee6d362"
+  },
+  {
+    "path": "skills/refero-design-prompts/assets/templates/awesome-design-md/design-md/posthog/README.md",
+    "group": "vendor",
+    "bytes": 211,
+    "sha256": "4f9e83198dd71e15ba471110a472f979026bb44a05aeb7d244338548a815f97d"
+  },
+  {
+    "path": "skills/refero-design-prompts/assets/templates/awesome-design-md/design-md/raycast/DESIGN.md",
+    "group": "vendor",
+    "bytes": 41275,
+    "sha256": "6e2c5137e4d914b70996d589688374a801b6f29a35c9c019c22abb5e0170bda3"
+  },
+  {
+    "path": "skills/refero-design-prompts/assets/templates/awesome-design-md/design-md/raycast/README.md",
+    "group": "vendor",
+    "bytes": 211,
+    "sha256": "b1bb03b73837617837d9aff7bae6993c519805db90245358acd876e23d1fb84e"
+  },
+  {
+    "path": "skills/refero-design-prompts/assets/templates/awesome-design-md/design-md/renault/DESIGN.md",
+    "group": "vendor",
+    "bytes": 30076,
+    "sha256": "b343df9a67e57f248e9eee704f52b17dff9cf6a46d1dc9f8d7ab36741940db59"
+  },
+  {
+    "path": "skills/refero-design-prompts/assets/templates/awesome-design-md/design-md/renault/README.md",
+    "group": "vendor",
+    "bytes": 211,
+    "sha256": "1ccc523d63f6813495b6d4890c65fb48501a02fc14e99656ac9aa77dd3aa01b3"
+  },
+  {
+    "path": "skills/refero-design-prompts/assets/templates/awesome-design-md/design-md/replicate/DESIGN.md",
+    "group": "vendor",
+    "bytes": 31495,
+    "sha256": "c22062d7b4174bf9ced7bc61c48389086cf6eed96a958e098ee70389893b0a15"
+  },
+  {
+    "path": "skills/refero-design-prompts/assets/templates/awesome-design-md/design-md/replicate/README.md",
+    "group": "vendor",
+    "bytes": 215,
+    "sha256": "aa1ac1f145ae0ab46bfd979fd203cee03bb7b168300730979603ec71dd014dad"
+  },
+  {
+    "path": "skills/refero-design-prompts/assets/templates/awesome-design-md/design-md/resend/DESIGN.md",
+    "group": "vendor",
+    "bytes": 31461,
+    "sha256": "99536f1b2380511a539f7f3466d46d351e4bf35a5af0c0df395bdc20af05c9be"
+  },
+  {
+    "path": "skills/refero-design-prompts/assets/templates/awesome-design-md/design-md/resend/README.md",
+    "group": "vendor",
+    "bytes": 209,
+    "sha256": "d0879d5652fe2fb801f9dc07e3526adb2caf7dad9fb2d87e1b23755afd076cb1"
+  },
+  {
+    "path": "skills/refero-design-prompts/assets/templates/awesome-design-md/design-md/revolut/DESIGN.md",
+    "group": "vendor",
+    "bytes": 32034,
+    "sha256": "b7fa8473315541f5d7e7d76f68a77105d255e6dae00d31d5eb34621d1d52de59"
+  },
+  {
+    "path": "skills/refero-design-prompts/assets/templates/awesome-design-md/design-md/revolut/README.md",
+    "group": "vendor",
+    "bytes": 211,
+    "sha256": "637421087e2cde5d692bdb0974aa4fc1f6f19e5cc66a0d43ceac3649b58589e7"
+  },
+  {
+    "path": "skills/refero-design-prompts/assets/templates/awesome-design-md/design-md/runwayml/DESIGN.md",
+    "group": "vendor",
+    "bytes": 14353,
+    "sha256": "b0e69bf643f89bb57ac0b82a3bf025e59ff1478c244cb0528ad1e38b3f80dac9"
+  },
+  {
+    "path": "skills/refero-design-prompts/assets/templates/awesome-design-md/design-md/runwayml/README.md",
+    "group": "vendor",
+    "bytes": 213,
+    "sha256": "75d308f08c00cb48117a6e7ecabb715c446689ff59270988614ff1e7b1caab06"
+  },
+  {
+    "path": "skills/refero-design-prompts/assets/templates/awesome-design-md/design-md/sanity/DESIGN.md",
+    "group": "vendor",
+    "bytes": 21231,
+    "sha256": "ea1c442de2b23443f79af46524a81f33951606c8ff043ea9c25ba886264fbdd8"
+  },
+  {
+    "path": "skills/refero-design-prompts/assets/templates/awesome-design-md/design-md/sanity/README.md",
+    "group": "vendor",
+    "bytes": 209,
+    "sha256": "f4ebce407039d77c84fe71baa917146bfd1a35ba0882cc7469bfd371805e1367"
+  },
+  {
+    "path": "skills/refero-design-prompts/assets/templates/awesome-design-md/design-md/sentry/DESIGN.md",
+    "group": "vendor",
+    "bytes": 35444,
+    "sha256": "655c91d7d23b5e869a966b7f1b63ae650567ad5d69003cfc64b0ee62c8e02c1f"
+  },
+  {
+    "path": "skills/refero-design-prompts/assets/templates/awesome-design-md/design-md/sentry/README.md",
+    "group": "vendor",
+    "bytes": 209,
+    "sha256": "67139b87279a26be5fd3323c86c6568f26469050363f966c561e55aa38300dd2"
+  },
+  {
+    "path": "skills/refero-design-prompts/assets/templates/awesome-design-md/design-md/shopify/DESIGN.md",
+    "group": "vendor",
+    "bytes": 27067,
+    "sha256": "495e89b8d0a1848ded013c040f7a2ae62077e9d87fc4385350e25dee02ccdb38"
+  },
+  {
+    "path": "skills/refero-design-prompts/assets/templates/awesome-design-md/design-md/shopify/README.md",
+    "group": "vendor",
+    "bytes": 211,
+    "sha256": "3fbb0382b19c051fc5b0f2f925c29062b512201d7957c81efd02d129a31a3cc0"
+  },
+  {
+    "path": "skills/refero-design-prompts/assets/templates/awesome-design-md/design-md/slack/DESIGN.md",
+    "group": "vendor",
+    "bytes": 24529,
+    "sha256": "03cb243015a2e11d0faf05caba7f3d0c7fda6839b1f5ce707a23e8d46d1a11bd"
+  },
+  {
+    "path": "skills/refero-design-prompts/assets/templates/awesome-design-md/design-md/spacex/DESIGN.md",
+    "group": "vendor",
+    "bytes": 19679,
+    "sha256": "495450c79faab54d12d677649ca0a2c30a60f64f536a802e945ad54185c5baad"
+  },
+  {
+    "path": "skills/refero-design-prompts/assets/templates/awesome-design-md/design-md/spacex/README.md",
+    "group": "vendor",
+    "bytes": 209,
+    "sha256": "f0331465e7fd7fb6cece87eae133b01f272267cdbe023c5e05a634b7c2a4e855"
+  },
+  {
+    "path": "skills/refero-design-prompts/assets/templates/awesome-design-md/design-md/spotify/DESIGN.md",
+    "group": "vendor",
+    "bytes": 12955,
+    "sha256": "72e964a6cf551d0603f9854f2f42ee08e97ad4d9e17e037f50f6233508288295"
+  },
+  {
+    "path": "skills/refero-design-prompts/assets/templates/awesome-design-md/design-md/spotify/README.md",
+    "group": "vendor",
+    "bytes": 211,
+    "sha256": "f979ce594d38626ffdd88f9b632acb24f648599b755b720bc3fd33c8df50a1a9"
+  },
+  {
+    "path": "skills/refero-design-prompts/assets/templates/awesome-design-md/design-md/starbucks/DESIGN.md",
+    "group": "vendor",
+    "bytes": 37329,
+    "sha256": "e20338ee10226c63cf2588207288c08e12d60754a53f681657adaf364dfe8fa7"
+  },
+  {
+    "path": "skills/refero-design-prompts/assets/templates/awesome-design-md/design-md/starbucks/README.md",
+    "group": "vendor",
+    "bytes": 215,
+    "sha256": "286bd1fcccdf82a55b8a76830abff3799412ab3a02062531a2eb3932ef044925"
+  },
+  {
+    "path": "skills/refero-design-prompts/assets/templates/awesome-design-md/design-md/stripe/DESIGN.md",
+    "group": "vendor",
+    "bytes": 24606,
+    "sha256": "5c8806b7dd3e0c2554ccba9d1e2a7c78e7c6e50e44fcf6ff5daea6026f8a9ed9"
+  },
+  {
+    "path": "skills/refero-design-prompts/assets/templates/awesome-design-md/design-md/stripe/README.md",
+    "group": "vendor",
+    "bytes": 209,
+    "sha256": "7fa90a535f826982af92fa36314ee0d651d65b0686beeb496979ba17d20b58fa"
+  },
+  {
+    "path": "skills/refero-design-prompts/assets/templates/awesome-design-md/design-md/supabase/DESIGN.md",
+    "group": "vendor",
+    "bytes": 21315,
+    "sha256": "f57287d7f44d59e8169dc4b4304ff03c1a2efb37f5433b9c04460caae7710880"
+  },
+  {
+    "path": "skills/refero-design-prompts/assets/templates/awesome-design-md/design-md/supabase/README.md",
+    "group": "vendor",
+    "bytes": 213,
+    "sha256": "9eb9324b23ab739d3ed4da19f2c06c479f24dd3864e5da2914d3e348b7a2ca6a"
+  },
+  {
+    "path": "skills/refero-design-prompts/assets/templates/awesome-design-md/design-md/superhuman/DESIGN.md",
+    "group": "vendor",
+    "bytes": 21877,
+    "sha256": "3640298bd2957aee80ce88eb465a7541ba835ec105cba364a6a621d885c7f34f"
+  },
+  {
+    "path": "skills/refero-design-prompts/assets/templates/awesome-design-md/design-md/superhuman/README.md",
+    "group": "vendor",
+    "bytes": 217,
+    "sha256": "61c1deedea1d8429e5a41b59330e013e77ba365e8d4c4cb844511c7a22f9ee4d"
+  },
+  {
+    "path": "skills/refero-design-prompts/assets/templates/awesome-design-md/design-md/tesla/DESIGN.md",
+    "group": "vendor",
+    "bytes": 22212,
+    "sha256": "19f2f7e6073d708f46d2512e6bab3c7c417cf2b4d9f57ff6ec6f2e056ea942b0"
+  },
+  {
+    "path": "skills/refero-design-prompts/assets/templates/awesome-design-md/design-md/tesla/README.md",
+    "group": "vendor",
+    "bytes": 207,
+    "sha256": "837c51fd893ddab020ec06c19e6cc8cd4fd0e10aea593a4d9df3df26db10d71d"
+  },
+  {
+    "path": "skills/refero-design-prompts/assets/templates/awesome-design-md/design-md/theverge/DESIGN.md",
+    "group": "vendor",
+    "bytes": 28368,
+    "sha256": "5da2c3116e6845826b043ac115a80896a399efda2cebc0188981fba2ef9bb526"
+  },
+  {
+    "path": "skills/refero-design-prompts/assets/templates/awesome-design-md/design-md/theverge/README.md",
+    "group": "vendor",
+    "bytes": 213,
+    "sha256": "907a5e98fc02ff64ff1f63135701b7062d2a13092a61a6bfffc6f41bf5244dcd"
+  },
+  {
+    "path": "skills/refero-design-prompts/assets/templates/awesome-design-md/design-md/together.ai/DESIGN.md",
+    "group": "vendor",
+    "bytes": 38343,
+    "sha256": "aee472c583f55a2f2c7ee1c403a96dddadb3ff6dc518335451f431e313bf43cf"
+  },
+  {
+    "path": "skills/refero-design-prompts/assets/templates/awesome-design-md/design-md/together.ai/README.md",
+    "group": "vendor",
+    "bytes": 219,
+    "sha256": "e00791bdd281eeb391a37e9b76bf01f0409ee89cc48393550fbd8f1ac4396ae5"
+  },
+  {
+    "path": "skills/refero-design-prompts/assets/templates/awesome-design-md/design-md/uber/DESIGN.md",
+    "group": "vendor",
+    "bytes": 34760,
+    "sha256": "f30d2257d2d090790332d00ccb16cd2516c3c6008be61ad2ce83c4e991bcc803"
+  },
+  {
+    "path": "skills/refero-design-prompts/assets/templates/awesome-design-md/design-md/uber/README.md",
+    "group": "vendor",
+    "bytes": 205,
+    "sha256": "bfd1905623561797fa86660bff27af259f5e81e3243dd230c7ec123e39c4f99b"
+  },
+  {
+    "path": "skills/refero-design-prompts/assets/templates/awesome-design-md/design-md/vercel/DESIGN.md",
+    "group": "vendor",
+    "bytes": 41405,
+    "sha256": "d0951b93c2b4ce9840c715c9f9b3e58a386c6c58ae5cc0f804dec3b116b95bd8"
+  },
+  {
+    "path": "skills/refero-design-prompts/assets/templates/awesome-design-md/design-md/vercel/README.md",
+    "group": "vendor",
+    "bytes": 209,
+    "sha256": "c192b23d127809b7bca14ed90840fa4c7f306aa6440a67d0751c87d5df6b5cae"
+  },
+  {
+    "path": "skills/refero-design-prompts/assets/templates/awesome-design-md/design-md/vodafone/DESIGN.md",
+    "group": "vendor",
+    "bytes": 28106,
+    "sha256": "293a40951e654283978fa744b24177a159d8f2a60f402bc735bf081618af0ef6"
+  },
+  {
+    "path": "skills/refero-design-prompts/assets/templates/awesome-design-md/design-md/vodafone/README.md",
+    "group": "vendor",
+    "bytes": 213,
+    "sha256": "e2e2750295b7a1698fe070275c004311334dfe99c5f44a63041675113819ca9c"
+  },
+  {
+    "path": "skills/refero-design-prompts/assets/templates/awesome-design-md/design-md/voltagent/DESIGN.md",
+    "group": "vendor",
+    "bytes": 25915,
+    "sha256": "4457887741ae5e965e205282b03c4bff83e47dd7a03cd7f38c64623a17569fcd"
+  },
+  {
+    "path": "skills/refero-design-prompts/assets/templates/awesome-design-md/design-md/voltagent/README.md",
+    "group": "vendor",
+    "bytes": 215,
+    "sha256": "dcf5c68855854ca189007f41713ab6312fca0665015220a6c6cee76efed9c3d0"
+  },
+  {
+    "path": "skills/refero-design-prompts/assets/templates/awesome-design-md/design-md/warp/DESIGN.md",
+    "group": "vendor",
+    "bytes": 24438,
+    "sha256": "5b1201f7b1b4e72570d148d1f980fd1cb35e6e4122d48dd271787aa3538a25ad"
+  },
+  {
+    "path": "skills/refero-design-prompts/assets/templates/awesome-design-md/design-md/warp/README.md",
+    "group": "vendor",
+    "bytes": 205,
+    "sha256": "0ef2929a70c45bd04e8998158bfe62b37becf0072d2a8d6c656d8580f086e8b7"
+  },
+  {
+    "path": "skills/refero-design-prompts/assets/templates/awesome-design-md/design-md/webflow/DESIGN.md",
+    "group": "vendor",
+    "bytes": 28179,
+    "sha256": "9230c7b3951371fc2edc04958962e32bb7ec9a9b703aa6b72eaf5c7991b7c984"
+  },
+  {
+    "path": "skills/refero-design-prompts/assets/templates/awesome-design-md/design-md/webflow/README.md",
+    "group": "vendor",
+    "bytes": 211,
+    "sha256": "d308ae50f5e4bb824090f0f2fbe77f5a70c1bcbff57f9e32a308cfd346df913f"
+  },
+  {
+    "path": "skills/refero-design-prompts/assets/templates/awesome-design-md/design-md/wired/DESIGN.md",
+    "group": "vendor",
+    "bytes": 23661,
+    "sha256": "eb439dcc573401dc30583f40e7eef8a60b769232da59e524de6dce56d5c3593e"
+  },
+  {
+    "path": "skills/refero-design-prompts/assets/templates/awesome-design-md/design-md/wired/README.md",
+    "group": "vendor",
+    "bytes": 207,
+    "sha256": "8652da786876950547c6dd9508903381228c7cacc6588a492dc7b544d680d09d"
+  },
+  {
+    "path": "skills/refero-design-prompts/assets/templates/awesome-design-md/design-md/wise/DESIGN.md",
+    "group": "vendor",
+    "bytes": 24586,
+    "sha256": "442df0ad7380efd8712f5574bdca34a73cfb41a2a43454ff459863a6258af547"
+  },
+  {
+    "path": "skills/refero-design-prompts/assets/templates/awesome-design-md/design-md/wise/README.md",
+    "group": "vendor",
+    "bytes": 205,
+    "sha256": "59157b28e31e7c13ffaee071170cf2008ac2aabb0b751459a08680a578264df5"
+  },
+  {
+    "path": "skills/refero-design-prompts/assets/templates/awesome-design-md/design-md/x.ai/DESIGN.md",
+    "group": "vendor",
+    "bytes": 21781,
+    "sha256": "9c9ef45d8c0c3b9a7622833cdff8bd125ed6bf296a82cc7274215276706e52eb"
+  },
+  {
+    "path": "skills/refero-design-prompts/assets/templates/awesome-design-md/design-md/x.ai/README.md",
+    "group": "vendor",
+    "bytes": 204,
+    "sha256": "8560245632010049402a9aaab516e47b1876c660e9fabe2220c7a2be52470e40"
+  },
+  {
+    "path": "skills/refero-design-prompts/assets/templates/awesome-design-md/design-md/zapier/DESIGN.md",
+    "group": "vendor",
+    "bytes": 22995,
+    "sha256": "9aee43ba8ece1b4fd0753b4cad0a29f3497331882fa376f0dd4fea8a018c32fc"
+  },
+  {
+    "path": "skills/refero-design-prompts/assets/templates/awesome-design-md/design-md/zapier/README.md",
+    "group": "vendor",
+    "bytes": 209,
+    "sha256": "7f1498c4d8a282d798b3046949040487f432f2f65b988c8028e3100898006465"
+  },
+  {
+    "path": "skills/refero-design-prompts/assets/templates/personal-homepage-skill/.gitignore",
+    "group": "vendor",
+    "bytes": 76,
+    "sha256": "e5a9ecf8baa6c133a6a05cca42f2e86abfeebe015c7040fabc3df147594fa039"
+  },
+  {
+    "path": "skills/refero-design-prompts/assets/templates/personal-homepage-skill/CINEMATIC_SCROLL_TEMPLATE.md",
+    "group": "vendor",
+    "bytes": 5265,
+    "sha256": "5053180941a846a01a8d0a7fd1d35a8b13246aed0b701433af0c843589c204ef"
+  },
+  {
+    "path": "skills/refero-design-prompts/assets/templates/personal-homepage-skill/COMPONENT_PATTERNS.md",
+    "group": "vendor",
+    "bytes": 8027,
+    "sha256": "88ffebd29d6c9cb49e40a801dd13441c06027504652f7e58a4c5f04aab27a7d6"
+  },
+  {
+    "path": "skills/refero-design-prompts/assets/templates/personal-homepage-skill/CONTRIBUTING.md",
+    "group": "vendor",
+    "bytes": 3704,
+    "sha256": "d949c5185b242d565dffd992e6586065d99e7f78645390d17c8cbe94aa883f78"
+  },
+  {
+    "path": "skills/refero-design-prompts/assets/templates/personal-homepage-skill/DATA_SCHEMA.md",
+    "group": "vendor",
+    "bytes": 4297,
+    "sha256": "6bdc6d6e05acaf265e7d8a560c5e3ec40777f90114bdaf310b9e6ec9ce13a99c"
+  },
+  {
+    "path": "skills/refero-design-prompts/assets/templates/personal-homepage-skill/DEMO_SCRIPT.md",
+    "group": "vendor",
+    "bytes": 3405,
+    "sha256": "f73f42e428b21d8d4862aa9e41f213e617ab962650a4ef434dffc88a49df65e3"
+  },
+  {
+    "path": "skills/refero-design-prompts/assets/templates/personal-homepage-skill/DESIGN_REVIEW.md",
+    "group": "vendor",
+    "bytes": 13097,
+    "sha256": "bb962bd4dac1f55481ff07a8ba23da24fea38bcc341db33e8b0ba2f561408b6a"
+  },
+  {
+    "path": "skills/refero-design-prompts/assets/templates/personal-homepage-skill/HOMEPAGE_GENERATION_WORKFLOW.md",
+    "group": "vendor",
+    "bytes": 4687,
+    "sha256": "6d527610fa24ac4eba54a86ba239bc4a3b76c02dd6a52f665aa6b9116254fd95"
+  },
+  {
+    "path": "skills/refero-design-prompts/assets/templates/personal-homepage-skill/HOMEPAGE_SECTIONS.md",
+    "group": "vendor",
+    "bytes": 4755,
+    "sha256": "30678f52306ea8871d431fdfc8c8a67d940fcc00f44918fbce6c6a9092799a1c"
+  },
+  {
+    "path": "skills/refero-design-prompts/assets/templates/personal-homepage-skill/IMAGE_WORKFLOW.md",
+    "group": "vendor",
+    "bytes": 1801,
+    "sha256": "0c9bccb96f0c6eb656c84ab2cc7dc22a3c58247c96c6c96655218b0b40628f3e"
+  },
+  {
+    "path": "skills/refero-design-prompts/assets/templates/personal-homepage-skill/LICENSE",
+    "group": "vendor",
+    "bytes": 3011,
+    "sha256": "2b1c3aff89b56954e91756db3032507ad181d3628ff32f189062c3d7a1f8edf5"
+  },
+  {
+    "path": "skills/refero-design-prompts/assets/templates/personal-homepage-skill/MOTION_PATTERNS.md",
+    "group": "vendor",
+    "bytes": 6528,
+    "sha256": "cab4883fdec49c7230895f2059173d5cde211e4a55fbbe9acce5f4431fd20726"
+  },
+  {
+    "path": "skills/refero-design-prompts/assets/templates/personal-homepage-skill/OPEN_SOURCE_CHECKLIST.md",
+    "group": "vendor",
+    "bytes": 4342,
+    "sha256": "4fa7aa3f71b8119411a3e93de2a666d8b1d3526f3682d37db02820d3f0635851"
+  },
+  {
+    "path": "skills/refero-design-prompts/assets/templates/personal-homepage-skill/OPEN_SOURCE_PRD.md",
+    "group": "vendor",
+    "bytes": 8385,
+    "sha256": "192654aaf2581f2ab5211e6adb4be0e1a9974430b6835a3aafbc9cbd1be87405"
+  },
+  {
+    "path": "skills/refero-design-prompts/assets/templates/personal-homepage-skill/PPT_VISUAL_QA.md",
+    "group": "vendor",
+    "bytes": 4662,
+    "sha256": "2fa7f8dbb16100fee3781185840757ee2c654f8aab58a66da2bc8c73fe1ffcb6"
+  },
+  {
+    "path": "skills/refero-design-prompts/assets/templates/personal-homepage-skill/PRD.md",
+    "group": "vendor",
+    "bytes": 8350,
+    "sha256": "2493a20dd84ff9020a3f0b6c10ff86d52531fe15a49cf88027c34943c8c36b1b"
+  },
+  {
+    "path": "skills/refero-design-prompts/assets/templates/personal-homepage-skill/PRESENTATION_WORKFLOW.md",
+    "group": "vendor",
+    "bytes": 15248,
+    "sha256": "0c5ccf884497fb363f5c3decd00eeab4e0f4d9deb2e4e2bf13bfe8fe092663ca"
+  },
+  {
+    "path": "skills/refero-design-prompts/assets/templates/personal-homepage-skill/README.md",
+    "group": "vendor",
+    "bytes": 12023,
+    "sha256": "4268f3827cd595463ae76c7d440d2f071f57263f43f6a864917ec6b70148275f"
+  },
+  {
+    "path": "skills/refero-design-prompts/assets/templates/personal-homepage-skill/REFERENCE_PRODUCTS.md",
+    "group": "vendor",
+    "bytes": 12041,
+    "sha256": "c7e37f5ef6371b160b64f069b9d538051353d030abcb04c48018f18618c25ed5"
+  },
+  {
+    "path": "skills/refero-design-prompts/assets/templates/personal-homepage-skill/SKILL.md",
+    "group": "vendor",
+    "bytes": 20260,
+    "sha256": "44c1e08cc7fd72230e5c4d416cffae46cd47f473493ac2c1a2ec2fe98f9d19e2"
+  },
+  {
+    "path": "skills/refero-design-prompts/assets/templates/personal-homepage-skill/SOURCE.md",
+    "group": "vendor",
+    "bytes": 602,
+    "sha256": "562b86b22ec29f3727526e2ce285c124d0731d66d4ce2e09bd870de44367ac99"
+  },
+  {
+    "path": "skills/refero-design-prompts/assets/templates/personal-homepage-skill/STYLE_PRESETS.md",
+    "group": "vendor",
+    "bytes": 18134,
+    "sha256": "b8e743172848873f17d2b5a2e7b02ce9a19362c769e9b5c2ffc7117c2cf49cae"
+  },
+  {
+    "path": "skills/refero-design-prompts/assets/templates/personal-homepage-skill/TASK_BREAKDOWN.md",
+    "group": "vendor",
+    "bytes": 4920,
+    "sha256": "8f99002c50151375e57e772df62de7ee5e06e836e1444c4f6c3f6ea5dfd59856"
+  },
+  {
+    "path": "skills/refero-design-prompts/assets/templates/personal-homepage-skill/TECHNICAL_ROUTE.md",
+    "group": "vendor",
+    "bytes": 7343,
+    "sha256": "be2800d250b577e5b2104df6ca1750732d3411ff96ecde941f6cbac931ba2abb"
+  },
+  {
+    "path": "skills/refero-design-prompts/assets/templates/personal-homepage-skill/TEST_SCENARIOS.md",
+    "group": "vendor",
+    "bytes": 7856,
+    "sha256": "2192b14d01fded1bff9c623e2525cee9745bb9e341fed3a17dfe2124de994361"
+  },
+  {
+    "path": "skills/refero-design-prompts/assets/templates/personal-homepage-skill/UPSTREAM_COMMIT",
+    "group": "vendor",
+    "bytes": 41,
+    "sha256": "3d38f63b09265fc04a1ed81dd554a35dc04c6e8f64c84cc54e5c6d639c469c9c"
+  },
+  {
+    "path": "skills/refero-design-prompts/assets/templates/personal-homepage-skill/USER_STORIES.md",
+    "group": "vendor",
+    "bytes": 6714,
+    "sha256": "d24ad04f08b878e0125cb7cfca7e510bd9f5548e348db17b6ae81547ea7445d0"
+  },
+  {
+    "path": "skills/refero-design-prompts/assets/templates/personal-homepage-skill/assets/demo-cinematic-scroll-personal-brand.gif",
+    "group": "vendor",
+    "bytes": 1598427,
+    "sha256": "23fb19df805081272aa5ddb095114b6a3a6686416840f9c5090caa1f7e75e2eb"
+  },
+  {
+    "path": "skills/refero-design-prompts/assets/templates/personal-homepage-skill/assets/demo-hero-neural-homepage.png",
+    "group": "vendor",
+    "bytes": 185832,
+    "sha256": "ea3e61d5ddd7e577f1d6d52479e99e388737daf77d9c89c1e5d12c38fcd2b449"
+  },
+  {
+    "path": "skills/refero-design-prompts/assets/templates/personal-homepage-skill/assets/demo-orbis-nft-space-landing.gif",
+    "group": "vendor",
+    "bytes": 4121874,
+    "sha256": "dd02279efab99f547e1c11ff2a40735d358e2c0345699569ec236b4e4d51dc89"
+  },
+  {
+    "path": "skills/refero-design-prompts/assets/templates/personal-homepage-skill/assets/demo-toonhub-figurine-carousel.gif",
+    "group": "vendor",
+    "bytes": 4177140,
+    "sha256": "49aea1e838de21ad17beba54ae0325740d3d0778ccf45313d48537116f88f144"
+  },
+  {
+    "path": "skills/refero-design-prompts/assets/templates/personal-homepage-skill/assets/template-previews/3d-tech-portfolio.svg",
+    "group": "vendor",
+    "bytes": 1644,
+    "sha256": "3b57e1465312997053e0ab1d2d940d57e1418260ed053bef01c8fa9fb90b3c76"
+  },
+  {
+    "path": "skills/refero-design-prompts/assets/templates/personal-homepage-skill/assets/template-previews/ai-system-dashboard.svg",
+    "group": "vendor",
+    "bytes": 1675,
+    "sha256": "343437edb4887da88cb44fbbb1133a22b1e984f17edf4b33291d1a4df46da11d"
+  },
+  {
+    "path": "skills/refero-design-prompts/assets/templates/personal-homepage-skill/assets/template-previews/art-museum-portfolio.svg",
+    "group": "vendor",
+    "bytes": 1624,
+    "sha256": "e22c039fa5f3ea69021f10cd4ed0d3376ac8d188f8bbcee15054b4137a75c170"
+  },
+  {
+    "path": "skills/refero-design-prompts/assets/templates/personal-homepage-skill/assets/template-previews/business-personal-brand.svg",
+    "group": "vendor",
+    "bytes": 1533,
+    "sha256": "cfae256b83cb1ee75d12c377ed20bc637d79ab0c84683be1f9c9e86057f5d516"
+  },
+  {
+    "path": "skills/refero-design-prompts/assets/templates/personal-homepage-skill/assets/template-previews/case-study-portfolio.svg",
+    "group": "vendor",
+    "bytes": 1563,
+    "sha256": "b36343ac641fb59b24908989d4673141b7a31486947351bea676ece01beab823"
+  },
+  {
+    "path": "skills/refero-design-prompts/assets/templates/personal-homepage-skill/assets/template-previews/cinematic-scroll-personal-brand.svg",
+    "group": "vendor",
+    "bytes": 1609,
+    "sha256": "840c2f7b8aa779098db206170967d94c43f27dffd1e5b07fed57288a87e67b77"
+  },
+  {
+    "path": "skills/refero-design-prompts/assets/templates/personal-homepage-skill/assets/template-previews/clean-developer-homepage.svg",
+    "group": "vendor",
+    "bytes": 1654,
+    "sha256": "880fa8b2670495a6d34df4fde395bae1e3b81222d1e9c0e2ad21fe9ed9b00429"
+  },
+  {
+    "path": "skills/refero-design-prompts/assets/templates/personal-homepage-skill/assets/template-previews/creator-bento-homepage.svg",
+    "group": "vendor",
+    "bytes": 1519,
+    "sha256": "0f391bbd96728ba4ffad6db4849c77aa42f0901c0db295315b52239d6245128f"
+  },
+  {
+    "path": "skills/refero-design-prompts/assets/templates/personal-homepage-skill/assets/template-previews/cute-pixel-creator.svg",
+    "group": "vendor",
+    "bytes": 1650,
+    "sha256": "711fc6ca595de5fbe0aec6cc3185b8d5dd98fa72aebfe3af8d42c5b9ef5ac263"
+  },
+  {
+    "path": "skills/refero-design-prompts/assets/templates/personal-homepage-skill/assets/template-previews/dark-editorial-portfolio.svg",
+    "group": "vendor",
+    "bytes": 1628,
+    "sha256": "ea96cb84e38f012bff179da046764b4c62fac37ff0b4e25e604bc8cd6f3cf9c1"
+  },
+  {
+    "path": "skills/refero-design-prompts/assets/templates/personal-homepage-skill/assets/template-previews/magazine-portfolio.svg",
+    "group": "vendor",
+    "bytes": 1539,
+    "sha256": "2aa0ce370b943ba1bb13bbb068b26a484b6698e3c61180725842f0064c4f728a"
+  },
+  {
+    "path": "skills/refero-design-prompts/assets/templates/personal-homepage-skill/assets/template-previews/minimal-premium-resume.svg",
+    "group": "vendor",
+    "bytes": 1605,
+    "sha256": "eea8c522bb7a17eccaf3e20df643eed329ecd3fd3813689a406f71a0a53394d4"
+  },
+  {
+    "path": "skills/refero-design-prompts/assets/templates/personal-homepage-skill/assets/template-previews/motion-gradient-brand.svg",
+    "group": "vendor",
+    "bytes": 1555,
+    "sha256": "73c7fef270fb7676e0e3e2af1c09c67938035020a922da8cda23d9e161ec16b0"
+  },
+  {
+    "path": "skills/refero-design-prompts/assets/templates/personal-homepage-skill/assets/template-previews/orbis-nft-space-landing.svg",
+    "group": "vendor",
+    "bytes": 5308,
+    "sha256": "7334a3b32f24cdee697ece68813d190cd7c13eeb9f856b387129ce07ec5c1430"
+  },
+  {
+    "path": "skills/refero-design-prompts/assets/templates/personal-homepage-skill/assets/template-previews/soft-product-video-hero.svg",
+    "group": "vendor",
+    "bytes": 1658,
+    "sha256": "fd0c03943ef3ac0132652d3bb41567d61c4843a4dcf17003bac16563b3d6a562"
+  },
+  {
+    "path": "skills/refero-design-prompts/assets/templates/personal-homepage-skill/assets/template-previews/spatial-project-gallery.svg",
+    "group": "vendor",
+    "bytes": 1566,
+    "sha256": "62bc9f4819a632985ab0e5a43ad1667c2eeccbc6471ef2069c2644e26b948961"
+  },
+  {
+    "path": "skills/refero-design-prompts/assets/templates/personal-homepage-skill/assets/template-previews/terminal-hacker-homepage.svg",
+    "group": "vendor",
+    "bytes": 1645,
+    "sha256": "09bf0bee73a0208cb4c7b035d2fe4bca329df8e3a14b9109f857a008bc977c5d"
+  },
+  {
+    "path": "skills/refero-design-prompts/assets/templates/personal-homepage-skill/assets/template-previews/toonhub-figurine-carousel.svg",
+    "group": "vendor",
+    "bytes": 1584,
+    "sha256": "4cdf3f5593d6fc12afd6cff548fba972b092e908a2a8fa91ffde633148eaa76d"
+  },
+  {
+    "path": "skills/refero-design-prompts/assets/templates/personal-homepage-skill/demo/personal-homepage-skill-overview.html",
+    "group": "vendor",
+    "bytes": 36457,
+    "sha256": "7898027d426062bbba455a7c8eb7c1711cbfb26d80d0ce8beacf575273e8b48f"
+  },
+  {
+    "path": "skills/refero-design-prompts/assets/templates/personal-homepage-skill/demo/template-gallery.html",
+    "group": "vendor",
+    "bytes": 51115,
+    "sha256": "26e7effd2b93cfd55f6f8b82c62d713d9b006dd098e1fc0c889c3dce35ae3451"
+  },
+  {
+    "path": "skills/refero-design-prompts/assets/templates/personal-homepage-skill/examples/PROMPTS.md",
+    "group": "vendor",
+    "bytes": 7281,
+    "sha256": "26b4806bf34b4dd1bbd0ffddbbcf1ff4d0550a02e6f944f326d69d3fa014a8f7"
+  },
+  {
+    "path": "skills/refero-design-prompts/assets/templates/personal-homepage-skill/index.html",
+    "group": "vendor",
+    "bytes": 321,
+    "sha256": "59000fef4f7878eae527d3f4497a93504e822ecad0a8f5bcf4fe880728ca2b27"
+  },
+  {
+    "path": "skills/refero-design-prompts/assets/templates/personal-homepage-skill/package-lock.json",
+    "group": "vendor",
+    "bytes": 94590,
+    "sha256": "5da4a5ceba7ccb920867c33c02ee3f3b62d0336a998ee0f6b1a50127373b9f86"
+  },
+  {
+    "path": "skills/refero-design-prompts/assets/templates/personal-homepage-skill/package.json",
+    "group": "vendor",
+    "bytes": 1780,
+    "sha256": "e1b0a19d91f363fc824d93289b7029c13f6c3fbcc249e8675113ddafe79b2022"
+  },
+  {
+    "path": "skills/refero-design-prompts/assets/templates/personal-homepage-skill/postcss.config.js",
+    "group": "vendor",
+    "bytes": 81,
+    "sha256": "e32657baf631d7c5f4dc67b4b2ee0ec8e7d5b3c41860e09cddce7c0377cd80bc"
+  },
+  {
+    "path": "skills/refero-design-prompts/assets/templates/personal-homepage-skill/scripts/build-hero-portable.mjs",
+    "group": "vendor",
+    "bytes": 4768,
+    "sha256": "0a4fdf98a7116ac9ca36ab44ce804c8616e8c897f68ffb2420ece4b819d2cc34"
+  },
+  {
+    "path": "skills/refero-design-prompts/assets/templates/personal-homepage-skill/scripts/capture-slides.mjs",
+    "group": "vendor",
+    "bytes": 10221,
+    "sha256": "80014106e050430b5b4f46e7a1ae4c19e7529856ff57ca00243f3965aeb8c7dc"
+  },
+  {
+    "path": "skills/refero-design-prompts/assets/templates/personal-homepage-skill/scripts/check-spec.mjs",
+    "group": "vendor",
+    "bytes": 6094,
+    "sha256": "b9526f8406ef6bc6012c2e97d4534aab23d2b4a0017618d37565c02534be97ef"
+  },
+  {
+    "path": "skills/refero-design-prompts/assets/templates/personal-homepage-skill/scripts/check-templates.mjs",
+    "group": "vendor",
+    "bytes": 2466,
+    "sha256": "228438839589cafaad582b2251e945c30d3fdd383038c4f6418398766d84e328"
+  },
+  {
+    "path": "skills/refero-design-prompts/assets/templates/personal-homepage-skill/scripts/check-visual.mjs",
+    "group": "vendor",
+    "bytes": 2127,
+    "sha256": "f9a006d35bd1ba3df2a1ee6473b750b1384f17c1028aa94e81b86141ca5335cc"
+  },
+  {
+    "path": "skills/refero-design-prompts/assets/templates/personal-homepage-skill/scripts/test-export-html.mjs",
+    "group": "vendor",
+    "bytes": 2879,
+    "sha256": "0fd3e03e4bac32fa55d8b5e8c56376ebeb3135a56f7b189f2486537a0c973fff"
+  },
+  {
+    "path": "skills/refero-design-prompts/assets/templates/personal-homepage-skill/scripts/verify-html-ppt-stage.mjs",
+    "group": "vendor",
+    "bytes": 24279,
+    "sha256": "321eeabbe58ffee9333462b3d78d2ea0c17a3cb2bc7881c96d00ca77161e13c8"
+  },
+  {
+    "path": "skills/refero-design-prompts/assets/templates/personal-homepage-skill/src/App.tsx",
+    "group": "vendor",
+    "bytes": 1069,
+    "sha256": "d436dc79e72d05d4b4b36a1a73f2a2fc557168d5e431ca30851b8ab1b2f46d21"
+  },
+  {
+    "path": "skills/refero-design-prompts/assets/templates/personal-homepage-skill/src/components/GalleryHeader.tsx",
+    "group": "vendor",
+    "bytes": 2086,
+    "sha256": "ad8c202ba0c3de620ff834660dc14bf7b2252330c9301a575af9d97e023bd9b9"
+  },
+  {
+    "path": "skills/refero-design-prompts/assets/templates/personal-homepage-skill/src/components/PreviewCanvas.tsx",
+    "group": "vendor",
+    "bytes": 549,
+    "sha256": "995882904215820afb710717538054a4487514a33acb0dc64c972b52a3ec71d6"
+  },
+  {
+    "path": "skills/refero-design-prompts/assets/templates/personal-homepage-skill/src/components/TemplateCard.tsx",
+    "group": "vendor",
+    "bytes": 2319,
+    "sha256": "6a47db59333130ef72af51b32471bebb97dfded5f1e3b7a2fca19abf62e36ba2"
+  },
+  {
+    "path": "skills/refero-design-prompts/assets/templates/personal-homepage-skill/src/components/TemplateFilters.tsx",
+    "group": "vendor",
+    "bytes": 1108,
+    "sha256": "926cafd2775a2b059dfd0ed53498d5e4b122605c29adfd076dd470fc1660decb"
+  },
+  {
+    "path": "skills/refero-design-prompts/assets/templates/personal-homepage-skill/src/components/TemplateGrid.tsx",
+    "group": "vendor",
+    "bytes": 705,
+    "sha256": "0925b761c75555dc0ced692a37b37bf3f18c24e7e4322330797b1684fbdfcf23"
+  },
+  {
+    "path": "skills/refero-design-prompts/assets/templates/personal-homepage-skill/src/data/profile-schema.ts",
+    "group": "vendor",
+    "bytes": 1607,
+    "sha256": "49494cda7678d148e48df958f6d83d5d98542054d78b258aa29e3f796082a489"
+  },
+  {
+    "path": "skills/refero-design-prompts/assets/templates/personal-homepage-skill/src/data/templates.ts",
+    "group": "vendor",
+    "bytes": 26610,
+    "sha256": "3d8f231b49713b6bdca3d7f8395875dae69565181190c0c8883b749a447a0ab6"
+  },
+  {
+    "path": "skills/refero-design-prompts/assets/templates/personal-homepage-skill/src/index.css",
+    "group": "vendor",
+    "bytes": 4694,
+    "sha256": "5d0a708ba32988c073ee7972e818fb8df1f2d6a9f592b0cb49f162c50f54c6f0"
+  },
+  {
+    "path": "skills/refero-design-prompts/assets/templates/personal-homepage-skill/src/main.tsx",
+    "group": "vendor",
+    "bytes": 237,
+    "sha256": "2ed12a1457cd60b31c0f44f3ea59b8bbc2ddd4a49add3165228d093878fb7c24"
+  },
+  {
+    "path": "skills/refero-design-prompts/assets/templates/personal-homepage-skill/src/previews/art.tsx",
+    "group": "vendor",
+    "bytes": 3275,
+    "sha256": "8610c8f9b6a31b2870efd6a8bba88ea7be39a6c0d3fb6cafd3b49d582b0974f6"
+  },
+  {
+    "path": "skills/refero-design-prompts/assets/templates/personal-homepage-skill/src/previews/business.tsx",
+    "group": "vendor",
+    "bytes": 2815,
+    "sha256": "ef4e17f39c15ca01fcf2c746c4eeadf1168afe1bb0f79e69ea6a7f51abbf81b6"
+  },
+  {
+    "path": "skills/refero-design-prompts/assets/templates/personal-homepage-skill/src/previews/creator.tsx",
+    "group": "vendor",
+    "bytes": 7481,
+    "sha256": "b95cfaa3e52b82cd11eacb7e49bc3b912b5e0fdf0c4a90353d9a4b3228001450"
+  },
+  {
+    "path": "skills/refero-design-prompts/assets/templates/personal-homepage-skill/src/previews/previewData.ts",
+    "group": "vendor",
+    "bytes": 279,
+    "sha256": "c56049a08e608e8276542db5c5afa2122d34f5b17b469663f49574a24644a935"
+  },
+  {
+    "path": "skills/refero-design-prompts/assets/templates/personal-homepage-skill/src/previews/tech.tsx",
+    "group": "vendor",
+    "bytes": 7249,
+    "sha256": "74c5fa51c80ef1940cca4ef25d63e593f63228ac74d2d2abc3ae58ff10bbc46d"
+  },
+  {
+    "path": "skills/refero-design-prompts/assets/templates/personal-homepage-skill/tailwind.config.js",
+    "group": "vendor",
+    "bytes": 515,
+    "sha256": "7206c247d757116e6a78931ee66886939ef3bbadb64b816666900c698652de53"
+  },
+  {
+    "path": "skills/refero-design-prompts/assets/templates/personal-homepage-skill/templates/hero/App.tsx",
+    "group": "vendor",
+    "bytes": 1641,
+    "sha256": "fe1559b94b7a204598afccf7b04cdc52576306010bbffec864f744dce5ff528b"
+  },
+  {
+    "path": "skills/refero-design-prompts/assets/templates/personal-homepage-skill/templates/hero/Architecture.tsx",
+    "group": "vendor",
+    "bytes": 2074,
+    "sha256": "fe72ac53df8e0e43bc8416bbe255aaf15a5ff192ae27d146b082c9c6c00a6d00"
+  },
+  {
+    "path": "skills/refero-design-prompts/assets/templates/personal-homepage-skill/templates/hero/BackgroundMedia.tsx",
+    "group": "vendor",
+    "bytes": 2698,
+    "sha256": "8ab7af8b92db943bdbc06fc6dfaf6d80bf834ef82c533718e055844108e195ce"
+  },
+  {
+    "path": "skills/refero-design-prompts/assets/templates/personal-homepage-skill/templates/hero/CinematicText.tsx",
+    "group": "vendor",
+    "bytes": 1896,
+    "sha256": "c97dd1cc4a10b86648cf659b3ba423d30da446d9a01ec136c81f97f091592de8"
+  },
+  {
+    "path": "skills/refero-design-prompts/assets/templates/personal-homepage-skill/templates/hero/Footer.tsx",
+    "group": "vendor",
+    "bytes": 2527,
+    "sha256": "506389bcbf4b0b8b0da71f0acbb19b74b0103355e717a0239a7fe12982621b5f"
+  },
+  {
+    "path": "skills/refero-design-prompts/assets/templates/personal-homepage-skill/templates/hero/Hero.tsx",
+    "group": "vendor",
+    "bytes": 5931,
+    "sha256": "dfae0b56ed98dfc7c20cac5aebe1b3db97e5bffd83e86a1d8f7f62fb53bc942c"
+  },
+  {
+    "path": "skills/refero-design-prompts/assets/templates/personal-homepage-skill/templates/hero/InlineEditor.tsx",
+    "group": "vendor",
+    "bytes": 3798,
+    "sha256": "b12eaaa5ffbc96bbf71c16ea42636e4ad3e185502bd00128e734272a73d02258"
+  },
+  {
+    "path": "skills/refero-design-prompts/assets/templates/personal-homepage-skill/templates/hero/Metrics.tsx",
+    "group": "vendor",
+    "bytes": 1843,
+    "sha256": "847e9f941fead4975f5bd6d212ade1d6cbe446aa58fb2cac8812b7166b4aab51"
+  },
+  {
+    "path": "skills/refero-design-prompts/assets/templates/personal-homepage-skill/templates/hero/Navbar.tsx",
+    "group": "vendor",
+    "bytes": 6391,
+    "sha256": "8e1f06a6f573aa53f4a2ddfa27a021d59b03d5dfa420d8ddbe8e05bf43ccc248"
+  },
+  {
+    "path": "skills/refero-design-prompts/assets/templates/personal-homepage-skill/templates/hero/README.md",
+    "group": "vendor",
+    "bytes": 11333,
+    "sha256": "c2472c51f2b93943a5971162bb2c8c5474774751bac568d3e78c002fbd5f0525"
+  },
+  {
+    "path": "skills/refero-design-prompts/assets/templates/personal-homepage-skill/templates/hero/ScrambleIn.tsx",
+    "group": "vendor",
+    "bytes": 1815,
+    "sha256": "5f31543de907df0e018261de314306e6b32940db9642c6e0233cd912728fdb96"
+  },
+  {
+    "path": "skills/refero-design-prompts/assets/templates/personal-homepage-skill/templates/hero/ScrambleText.tsx",
+    "group": "vendor",
+    "bytes": 1538,
+    "sha256": "ef33803cc1909f50e68aac44ce3394cd67c987a980425c74f0b132ba61b4b028"
+  },
+  {
+    "path": "skills/refero-design-prompts/assets/templates/personal-homepage-skill/templates/hero/SocialLinks.tsx",
+    "group": "vendor",
+    "bytes": 5516,
+    "sha256": "290fc566444687bfe88367cc75d09a0e20d881f085a419fcae1dffd74817eb6d"
+  },
+  {
+    "path": "skills/refero-design-prompts/assets/templates/personal-homepage-skill/templates/hero/SquashHamburger.tsx",
+    "group": "vendor",
+    "bytes": 1146,
+    "sha256": "8d220db8fe904511575078fec8a1a1b2635a9fa23f905852595283eb4ae41fc5"
+  },
+  {
+    "path": "skills/refero-design-prompts/assets/templates/personal-homepage-skill/templates/hero/SynapseXLogo.tsx",
+    "group": "vendor",
+    "bytes": 824,
+    "sha256": "1d81e06e3d98cc3f99c4547947287ac0b0c24d8740ee8d41e3fa3b63e5705f09"
+  },
+  {
+    "path": "skills/refero-design-prompts/assets/templates/personal-homepage-skill/templates/hero/Technology.tsx",
+    "group": "vendor",
+    "bytes": 2820,
+    "sha256": "ad9345557e4a3e12ec967f24cc51c7065b5e3ddc70a0e061c2195724dd07b2bd"
+  },
+  {
+    "path": "skills/refero-design-prompts/assets/templates/personal-homepage-skill/templates/hero/assets/README.md",
+    "group": "vendor",
+    "bytes": 1218,
+    "sha256": "0cf86bd1fe2744fb057e8c9fd347f0e87eb2ae2e80f5d18853f67d3210f86bac"
+  },
+  {
+    "path": "skills/refero-design-prompts/assets/templates/personal-homepage-skill/templates/hero/assets/images/portrait.jpg",
+    "group": "vendor",
+    "bytes": 338578,
+    "sha256": "ec45bf325c9c96d75fe2c97a9a132fb87892d3e49e9e1162b7ae6e449cca9065"
+  },
+  {
+    "path": "skills/refero-design-prompts/assets/templates/personal-homepage-skill/templates/hero/assets/videos/cinematic-text.mp4",
+    "group": "vendor",
+    "bytes": 5121950,
+    "sha256": "79490e00fa1036e9f29f08bb235a167e4284df27caa78b2fcb806aabb5eb875e"
+  },
+  {
+    "path": "skills/refero-design-prompts/assets/templates/personal-homepage-skill/templates/hero/assets/videos/footer.mp4",
+    "group": "vendor",
+    "bytes": 1077148,
+    "sha256": "bbd6593c5de8583f2028f33ac283861ee67b2e7edd84a5af0de0a0ddb3274daa"
+  },
+  {
+    "path": "skills/refero-design-prompts/assets/templates/personal-homepage-skill/templates/hero/assets/videos/hero.mp4",
+    "group": "vendor",
+    "bytes": 3363487,
+    "sha256": "5ae288dd7b9aa3b17f83e1986adf91e1df518c6ac4525924109b8d62a74f5419"
+  },
+  {
+    "path": "skills/refero-design-prompts/assets/templates/personal-homepage-skill/templates/hero/assets/videos/metrics.mp4",
+    "group": "vendor",
+    "bytes": 2853260,
+    "sha256": "434ac644f4120acc72f6c6d22ace4e80086a6bee85afeead7b709f0d4429764e"
+  },
+  {
+    "path": "skills/refero-design-prompts/assets/templates/personal-homepage-skill/templates/hero/assets/videos/technology.mp4",
+    "group": "vendor",
+    "bytes": 16856749,
+    "sha256": "b2c71d8354d77b81f73025a180b2974bcafc1622b31369b1616687668cc902ee"
+  },
+  {
+    "path": "skills/refero-design-prompts/assets/templates/personal-homepage-skill/templates/hero/content.ts",
+    "group": "vendor",
+    "bytes": 345,
+    "sha256": "491e32e97d499b7c1b111c8deb7f3f100d959a19a50fbf14031cc706c286aac7"
+  },
+  {
+    "path": "skills/refero-design-prompts/assets/templates/personal-homepage-skill/templates/hero/index.css",
+    "group": "vendor",
+    "bytes": 4083,
+    "sha256": "3b03d0ac7fcfb8c75413ee03f35f10238315ad5283dcf277b881d51e1a128f68"
+  },
+  {
+    "path": "skills/refero-design-prompts/assets/templates/personal-homepage-skill/templates/hero/portable/assets/hero.css",
+    "group": "vendor",
+    "bytes": 39844,
+    "sha256": "46957112e8b7cdf66561a28933a62c635962c97756db5a86404a928010096e82"
+  },
+  {
+    "path": "skills/refero-design-prompts/assets/templates/personal-homepage-skill/templates/hero/portable/assets/hero.js",
+    "group": "vendor",
+    "bytes": 332686,
+    "sha256": "4576a37b1dd15f287825eff3b98a5c126d07fc863806eb686ad2862445cf3db8"
+  },
+  {
+    "path": "skills/refero-design-prompts/assets/templates/personal-homepage-skill/templates/hero/portable/assets/images/portrait.jpg",
+    "group": "vendor",
+    "bytes": 338578,
+    "sha256": "ec45bf325c9c96d75fe2c97a9a132fb87892d3e49e9e1162b7ae6e449cca9065"
+  },
+  {
+    "path": "skills/refero-design-prompts/assets/templates/personal-homepage-skill/templates/hero/portable/assets/videos/cinematic-text.mp4",
+    "group": "vendor",
+    "bytes": 5121950,
+    "sha256": "79490e00fa1036e9f29f08bb235a167e4284df27caa78b2fcb806aabb5eb875e"
+  },
+  {
+    "path": "skills/refero-design-prompts/assets/templates/personal-homepage-skill/templates/hero/portable/assets/videos/footer.mp4",
+    "group": "vendor",
+    "bytes": 1077148,
+    "sha256": "bbd6593c5de8583f2028f33ac283861ee67b2e7edd84a5af0de0a0ddb3274daa"
+  },
+  {
+    "path": "skills/refero-design-prompts/assets/templates/personal-homepage-skill/templates/hero/portable/assets/videos/hero.mp4",
+    "group": "vendor",
+    "bytes": 3363487,
+    "sha256": "5ae288dd7b9aa3b17f83e1986adf91e1df518c6ac4525924109b8d62a74f5419"
+  },
+  {
+    "path": "skills/refero-design-prompts/assets/templates/personal-homepage-skill/templates/hero/portable/assets/videos/metrics.mp4",
+    "group": "vendor",
+    "bytes": 2853260,
+    "sha256": "434ac644f4120acc72f6c6d22ace4e80086a6bee85afeead7b709f0d4429764e"
+  },
+  {
+    "path": "skills/refero-design-prompts/assets/templates/personal-homepage-skill/templates/hero/portable/assets/videos/technology.mp4",
+    "group": "vendor",
+    "bytes": 16856749,
+    "sha256": "b2c71d8354d77b81f73025a180b2974bcafc1622b31369b1616687668cc902ee"
+  },
+  {
+    "path": "skills/refero-design-prompts/assets/templates/personal-homepage-skill/templates/hero/portable/index.html",
+    "group": "vendor",
+    "bytes": 769,
+    "sha256": "97e2320326bcc9f841763cac87df3913b95dc81693fe53f96c0082e065c8a747"
+  },
+  {
+    "path": "skills/refero-design-prompts/assets/templates/personal-homepage-skill/templates/hero/portable/使用说明.txt",
+    "group": "vendor",
+    "bytes": 536,
+    "sha256": "01c7c382edc192132b980c0b4b14f6dd11114452a8e94314e5e0aaf487a6a62f"
+  },
+  {
+    "path": "skills/refero-design-prompts/assets/templates/personal-homepage-skill/templates/hero/preview.html",
+    "group": "vendor",
+    "bytes": 727,
+    "sha256": "6930745abb06d82dde41e1a423e5ca2bb3d485db4ff0639eb1087d71f44303e9"
+  },
+  {
+    "path": "skills/refero-design-prompts/assets/templates/personal-homepage-skill/templates/hero/preview.tsx",
+    "group": "vendor",
+    "bytes": 232,
+    "sha256": "5f49dce6e6cc4b5d678cf529ef892af0ab7dfa6afb300b11ad559224019b8b05"
+  },
+  {
+    "path": "skills/refero-design-prompts/assets/templates/personal-homepage-skill/templates/hero/videos.ts",
+    "group": "vendor",
+    "bytes": 1292,
+    "sha256": "79bec7ae06247c5a1540651f53d1b9c5996eaf839bc8753fede9ca9141ac318e"
+  },
+  {
+    "path": "skills/refero-design-prompts/assets/templates/personal-homepage-skill/templates/orbis-nft/README.md",
+    "group": "vendor",
+    "bytes": 7705,
+    "sha256": "f3177a1c59a39b0c058e94a02cab53997e828127bfa62a7a34cd3ad0121887a5"
+  },
+  {
+    "path": "skills/refero-design-prompts/assets/templates/personal-homepage-skill/templates/presentation-html/README.md",
+    "group": "vendor",
+    "bytes": 1256,
+    "sha256": "a69d6a36da48c5ab7db5e2a3f4e957506809c7ca32d0c026b652b4d376cf74bb"
+  },
+  {
+    "path": "skills/refero-design-prompts/assets/templates/personal-homepage-skill/templates/presentation-html/presentation.html",
+    "group": "vendor",
+    "bytes": 10473,
+    "sha256": "3f19a905d51f70025c95ccbe6677c80be0e996ee494d9d33b1522c28a8e4aca6"
+  },
+  {
+    "path": "skills/refero-design-prompts/assets/templates/personal-homepage-skill/templates/react-tailwind/App.tsx",
+    "group": "vendor",
+    "bytes": 2739,
+    "sha256": "9091c65bfe5805b51d4ac015f246f7cd04b37efcea53eb649349df17d5ee385e"
+  },
+  {
+    "path": "skills/refero-design-prompts/assets/templates/personal-homepage-skill/templates/react-tailwind/README.md",
+    "group": "vendor",
+    "bytes": 389,
+    "sha256": "067b1836268431c2b914a762f0819a33470a28f5a27f558cb0fa6e508183f4b5"
+  },
+  {
+    "path": "skills/refero-design-prompts/assets/templates/personal-homepage-skill/templates/react-tailwind/index.css",
+    "group": "vendor",
+    "bytes": 866,
+    "sha256": "9024615c4da2c1746c05cb632fc77df2953c7537af7cf931a93f759e7e102055"
+  },
+  {
+    "path": "skills/refero-design-prompts/assets/templates/personal-homepage-skill/templates/react-tailwind/profile.ts",
+    "group": "vendor",
+    "bytes": 630,
+    "sha256": "c64ee74985c0bd4e5b7c3e99750f8a3a543cb78d285682a37e5dd5a16154e884"
+  },
+  {
+    "path": "skills/refero-design-prompts/assets/templates/personal-homepage-skill/templates/single-html/README.md",
+    "group": "vendor",
+    "bytes": 375,
+    "sha256": "5bef519ae9ee4cf791b62af68351d00ef3b865e6bc314d99c24a7fd3cb6d699c"
+  },
+  {
+    "path": "skills/refero-design-prompts/assets/templates/personal-homepage-skill/templates/single-html/personal-homepage.html",
+    "group": "vendor",
+    "bytes": 9163,
+    "sha256": "1074622ee75370447df10acebad6ac7c9c5d179edd53d6b5f45816fe05f35882"
+  },
+  {
+    "path": "skills/refero-design-prompts/assets/templates/personal-homepage-skill/tests/capture-slides.test.mjs",
+    "group": "vendor",
+    "bytes": 4992,
+    "sha256": "818a013e7b42fc2e38be8acd15042155d1d5a26f6536d368ee9063aecc054c2e"
+  },
+  {
+    "path": "skills/refero-design-prompts/assets/templates/personal-homepage-skill/tests/fixtures/broken-image.html",
+    "group": "vendor",
+    "bytes": 1082,
+    "sha256": "3a8cd9c973968ccc52291fab78b473484d64a4bd67a8a7e8c2e0fc233febb26d"
+  },
+  {
+    "path": "skills/refero-design-prompts/assets/templates/personal-homepage-skill/tests/fixtures/capture-edge-cases.html",
+    "group": "vendor",
+    "bytes": 3063,
+    "sha256": "bde054bcfd00eddf7e7da0d3fa4ee008ccc57d67d7437ee541b5256f670de1cf"
+  },
+  {
+    "path": "skills/refero-design-prompts/assets/templates/personal-homepage-skill/tests/fixtures/duplicate-slide-id.html",
+    "group": "vendor",
+    "bytes": 1546,
+    "sha256": "4fa9e33e40743608d9e081aa878ef82d8012aaf4ae061eba87d5623d4b743f7c"
+  },
+  {
+    "path": "skills/refero-design-prompts/assets/templates/personal-homepage-skill/tests/fixtures/missing-shortcuts.html",
+    "group": "vendor",
+    "bytes": 1413,
+    "sha256": "a555e0802d730e563a9ae0a5129f2d1407e0e841d461b45f4552ca03fbaef01c"
+  },
+  {
+    "path": "skills/refero-design-prompts/assets/templates/personal-homepage-skill/tests/fixtures/transform-conflict.html",
+    "group": "vendor",
+    "bytes": 1268,
+    "sha256": "c24e566d07841d0b3c69ad4e745b07f51d6927836a3e8bf45bf3904818dec7d8"
+  },
+  {
+    "path": "skills/refero-design-prompts/assets/templates/personal-homepage-skill/tests/fixtures/valid-deck.html",
+    "group": "vendor",
+    "bytes": 3925,
+    "sha256": "e647b26a2a543dd68ed85f3f479fd599ead65a8cb1959b1b944a007e172b96b9"
+  },
+  {
+    "path": "skills/refero-design-prompts/assets/templates/personal-homepage-skill/tests/fixtures/verifier-edge-cases.html",
+    "group": "vendor",
+    "bytes": 6222,
+    "sha256": "dabfbfb2cac084d1dfe0dada15e082fef70d01d0e7ceaf70fe389ab98eeb6ac7"
+  },
+  {
+    "path": "skills/refero-design-prompts/assets/templates/personal-homepage-skill/tests/hero-portable.test.mjs",
+    "group": "vendor",
+    "bytes": 5955,
+    "sha256": "bf17a4473f011ab6c89b7ffdb5cf4e697bdc397e0de37c3fecc38088bf5c3c64"
+  },
+  {
+    "path": "skills/refero-design-prompts/assets/templates/personal-homepage-skill/tests/hero-template.test.mjs",
+    "group": "vendor",
+    "bytes": 6004,
+    "sha256": "52470dc495b7aec0dbd5fd0de37f62f6ca65e82b1a769fc5316f237a791f89a4"
+  },
+  {
+    "path": "skills/refero-design-prompts/assets/templates/personal-homepage-skill/tests/homepage-qa-rules.test.mjs",
+    "group": "vendor",
+    "bytes": 1998,
+    "sha256": "4c9c304f5062101228ea65c40665792fae2f1c281cd13fe83697b316f864efc1"
+  },
+  {
+    "path": "skills/refero-design-prompts/assets/templates/personal-homepage-skill/tests/homepage-regression.test.mjs",
+    "group": "vendor",
+    "bytes": 2263,
+    "sha256": "2c3170df71ff1b75578c811b4db523982eb1885cda7ef96d34ba0501a6c5e2f9"
+  },
+  {
+    "path": "skills/refero-design-prompts/assets/templates/personal-homepage-skill/tests/verify-html-ppt-stage.test.mjs",
+    "group": "vendor",
+    "bytes": 5308,
+    "sha256": "378b6f05d1603e5978b1f20e00b73dcf9e022b62c65b9dbd8d777e9a69214b0f"
+  },
+  {
+    "path": "skills/refero-design-prompts/assets/templates/personal-homepage-skill/tsconfig.json",
+    "group": "vendor",
+    "bytes": 565,
+    "sha256": "a2142d3681ba8b44fce4bc83ebd92d6657a76593047351879b4c834249de2b40"
+  },
+  {
+    "path": "skills/refero-design-prompts/assets/templates/personal-homepage-skill/vite.config.ts",
+    "group": "vendor",
+    "bytes": 353,
+    "sha256": "d122aa5f520a9c93ed43f4866d4a5cd70f2a3d26718f62324241b3b29dabc75d"
+  },
+  {
+    "path": "skills/refero-design-prompts/references/design-md-contract.md",
+    "group": "maintained",
+    "bytes": 3662,
+    "sha256": "95414f64cada500907c94db0b4fb77bb9c4e2ac5cdb3efc8d90008a125a2f3cb"
+  },
+  {
+    "path": "skills/refero-design-prompts/references/motion-craft-workflow.md",
+    "group": "maintained",
+    "bytes": 3271,
+    "sha256": "0671f16dc3d28f959bd89c6102ed6af02c4bd05ac9e5521bd8acff1e0c69512d"
+  },
+  {
+    "path": "skills/refero-design-prompts/references/output-templates.md",
+    "group": "maintained",
+    "bytes": 2302,
+    "sha256": "9e22a8c7f682809d32baa8dbb91967f1199f7a411d0edea1826161dae0e8a5da"
+  },
+  {
+    "path": "skills/refero-design-prompts/references/style-taxonomy.md",
+    "group": "maintained",
+    "bytes": 5968,
+    "sha256": "b36bbb5129a9e4bc922cb4fbb7f4d6c8f5c62cff40dd4d55cc70f4493a90c886"
+  },
+  {
+    "path": "skills/refero-design-prompts/references/substyle-recipes.md",
+    "group": "maintained",
+    "bytes": 4738,
+    "sha256": "400782146babeebda753b1779fa89ed8f8418a6a5a5ccb3e644c125afa46c8d5"
+  },
+  {
+    "path": "skills/refero-design-prompts/references/visual-archetypes.md",
+    "group": "maintained",
+    "bytes": 10877,
+    "sha256": "585ecec67aecdb426e975b57dadd6faf514d3923c4d1791076c183465e4373bd"
+  },
+  {
+    "path": "skills/refero-design-prompts/scripts/test-template-dependencies.py",
+    "group": "maintained",
+    "bytes": 3025,
+    "sha256": "1d1b9e9feccb4016d8850879d12a6196089613f02bf65dd79dc91318bffe390a"
+  },
+  {
+    "path": "skills/refero-design-prompts/scripts/verify-template-assets.sh",
+    "group": "maintained",
+    "bytes": 4034,
+    "sha256": "388ea7399a883d86c788f4e4b68804e03d120ef4726f349d2310ed7fe4c99f99"
+  },
+  {
+    "path": "skills/refero-design-prompts/scripts/verify-template-dependencies.py",
+    "group": "maintained",
+    "bytes": 9855,
+    "sha256": "49d4b3ff890001a54da040d57d6fa01d4174feaaf68c9fb4fc8fc765bb99a026"
+  }
+]

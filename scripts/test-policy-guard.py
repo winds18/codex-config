@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""验证全局 Codex lifecycle hook 的关键守门行为。"""
+"""Behavior regressions for the supplemental hook; dangerous text is never run."""
 
 from __future__ import annotations
 
@@ -7,28 +7,11 @@ import json
 import os
 import subprocess
 import sys
+import tempfile
 from pathlib import Path
-
 
 ROOT_DIR = Path(__file__).resolve().parent.parent
 HOOK = ROOT_DIR / "hooks" / "codex-policy-guard.py"
-
-
-def run_event(event: dict[str, object]) -> dict[str, object]:
-    env = os.environ.copy()
-    env.pop("CODEX_ALLOW_DESTRUCTIVE", None)
-    result = subprocess.run(
-        [sys.executable, str(HOOK)],
-        input=json.dumps(event, ensure_ascii=False),
-        text=True,
-        stdout=subprocess.PIPE,
-        stderr=subprocess.PIPE,
-        check=True,
-        env=env,
-    )
-    if not result.stdout.strip():
-        return {}
-    return json.loads(result.stdout)
 
 
 def require(condition: bool, message: str) -> None:
@@ -36,149 +19,110 @@ def require(condition: bool, message: str) -> None:
         raise AssertionError(message)
 
 
-def pre_tool(command: str) -> dict[str, object]:
-    return run_event(
-        {
-            "hook_event_name": "PreToolUse",
-            "tool_name": "Bash",
-            "tool_input": {"command": command},
-        }
+def run_event(event: dict[str, object], root: Path, **environment: str) -> dict:
+    env = {**os.environ, "CODEX_HOME": str(root), **environment}
+    result = subprocess.run(
+        [sys.executable, str(HOOK)], input=json.dumps(event), text=True,
+        stdout=subprocess.PIPE, stderr=subprocess.PIPE, check=True, env=env,
     )
+    return json.loads(result.stdout) if result.stdout.strip() else {}
 
 
-def pre_patch(command: str, *, cwd: str = "") -> dict[str, object]:
-    return run_event(
-        {
-            "hook_event_name": "PreToolUse",
-            "tool_name": "apply_patch",
-            "tool_input": {"command": command},
-            "cwd": cwd,
-        }
-    )
+def pre_tool(command: str, root: Path, **environment: str) -> dict:
+    return run_event({"hook_event_name": "PreToolUse", "tool_name": "Bash",
+                      "tool_input": {"command": command}}, root, **environment)
+
+
+def decision(output: dict) -> str | None:
+    return output.get("hookSpecificOutput", {}).get("permissionDecision")
 
 
 def main() -> int:
-    blocked_rm = pre_tool("rm -rf .")
-    require(
-        blocked_rm.get("hookSpecificOutput", {}).get("permissionDecision") == "deny",
-        "未阻断 rm -rf .",
-    )
-
-    blocked_override = pre_tool("CODEX_ALLOW_DESTRUCTIVE=1 git reset --hard")
-    require(
-        blocked_override.get("hookSpecificOutput", {}).get("permissionDecision")
-        == "deny",
-        "命令内绕过变量不应放行破坏性命令",
-    )
-
-    live_path = str(Path.home() / ".codex" / "AGENTS.md")
-    blocked_live_write = pre_tool(
-        f"python3 -c 'from pathlib import Path; Path(\"{live_path}\").write_text(\"x\")'"
-    )
-    require(
-        blocked_live_write.get("hookSpecificOutput", {}).get("permissionDecision")
-        == "deny",
-        "未阻断解释器直接写 live ~/.codex 入口",
-    )
-
-    safe_patch = pre_patch(
-        "*** Begin Patch\n"
-        "*** Update File: /tmp/codex-config-doc.md\n"
-        "@@\n"
-        "+文档示例：~/.codex/AGENTS.md\n"
-        "*** End Patch\n"
-    )
-    require(not safe_patch, "误把文档内容中的 live 路径当成补丁目标")
-
-    blocked_patch = pre_patch(
-        "*** Begin Patch\n"
-        f"*** Update File: {live_path}\n"
-        "@@\n"
-        "+x\n"
-        "*** End Patch\n"
-    )
-    require(
-        blocked_patch.get("hookSpecificOutput", {}).get("permissionDecision")
-        == "deny",
-        "未阻断直接修改 live 入口的补丁目标",
-    )
-
-    blocked_relative_patch = pre_patch(
-        "*** Begin Patch\n"
-        "*** Update File: .codex/AGENTS.md\n"
-        "@@\n"
-        "+x\n"
-        "*** End Patch\n",
-        cwd=str(Path.home()),
-    )
-    require(
-        blocked_relative_patch.get("hookSpecificOutput", {}).get(
-            "permissionDecision"
-        )
-        == "deny",
-        "未阻断相对路径形式的 live 补丁目标",
-    )
-
-    blocked_restore_entry = pre_tool(
-        f"cp /tmp/fake {Path.home() / '.codex' / 'restore-global-setup.sh'}"
-    )
-    require(
-        blocked_restore_entry.get("hookSpecificOutput", {}).get(
-            "permissionDecision"
-        )
-        == "deny",
-        "未保护 live 恢复入口脚本",
-    )
-
-    push_context = pre_tool("git push origin main")
-    require(
-        "guard"
-        in push_context.get("hookSpecificOutput", {}).get("additionalContext", ""),
-        "git push 前未注入 guard 要求",
-    )
-
-    compact_context = run_event(
-        {"hook_event_name": "SessionStart", "source": "compact"}
-    )
-    require(
-        "Mission"
-        in compact_context.get("hookSpecificOutput", {}).get("additionalContext", ""),
-        "压缩后未注入目标恢复要求",
-    )
-
-    subagent_context = run_event(
-        {"hook_event_name": "SubagentStart", "agent_type": "explorer-spark"}
-    )
-    require(
-        "关键证据"
-        in subagent_context.get("hookSpecificOutput", {}).get(
-            "additionalContext", ""
-        ),
-        "子代理启动时未注入摘要交付要求",
-    )
-
-    stop_without_verification = run_event(
-        {
-            "hook_event_name": "Stop",
-            "stop_hook_active": False,
-            "last_assistant_message": "修复已完成。",
-        }
-    )
-    require(
-        stop_without_verification.get("decision") == "block",
-        "完成但无验证时未要求继续",
-    )
-
-    stop_with_verification = run_event(
-        {
-            "hook_event_name": "Stop",
-            "stop_hook_active": False,
-            "last_assistant_message": "修复已完成，测试通过。",
-        }
-    )
-    require(not stop_with_verification, "已有验证证据时不应继续阻断")
-
-    print("Codex lifecycle hook 策略测试通过。")
+    count = 0
+    with tempfile.TemporaryDirectory(prefix="codex-policy-test-") as temp:
+        root = Path(temp) / "custom config"
+        root.mkdir()
+        (root / "AGENTS.md").symlink_to(ROOT_DIR / "AGENTS.md")
+        (root / "agents").mkdir()
+        (root / "skills").mkdir()
+        (root / "skills" / "project-bootstrap").symlink_to(ROOT_DIR / "skills" / "project-bootstrap")
+        # An unmanaged personal file in the same directory must remain editable.
+        (root / "agents" / "personal.toml").write_text("# personal\n")
+        for command in ("rm -rf .", "rm --recursive -- /", "rm -fr ..", "rm -r /./",
+                        "echo safe && rm -rf /", "env CODEX_ALLOW_DESTRUCTIVE=1 rm -rf /",
+                        "codex --yolo", "codex --dangerously-bypass-approvals-and-sandbox"):
+            require(decision(pre_tool(command, root)) == "deny", f"missed: {command}")
+            count += 1
+        require(decision(pre_tool("rm -rf .", root, CODEX_ALLOW_DESTRUCTIVE="1")) == "deny",
+                "environment variable became an approval credential")
+        for command in ("printf '%s\\n' 'git reset --hard'", "echo 'rm -rf /'",
+                        "printf '%s' 'codex --yolo'", "git clean -nd", "git clean -fn",
+                        "git push --forceful-example", "cat <<'EOF'\nrm -rf /\nEOF",
+                        "python3 -c 'print(\"git reset --hard\")'", "rm -rf ./build",
+                        "rm -rf '*'", "rm -rf '$HOME'", "rm -rf '~'",
+                        "'DEMO=example' rm -rf /", "'if' rm -rf /"):
+            require(not pre_tool(command, root), f"false positive: {command}")
+            count += 1
+        for command in ("git checkout -- file.txt", "git reset --hard",
+                        "git -C /tmp/project restore --worktree file.txt",
+                        "git clean -fd", "git push -f origin main",
+                        "git push origin +HEAD:main", "git push --force-with-lease=main:abc"):
+            output = pre_tool(command, root)
+            require(decision(output) is None and bool(output.get("hookSpecificOutput", {}).get("additionalContext")),
+                    f"ordinary destructive Git operation must be advice, not permission: {command}")
+            count += 1
+        for command in (f'cp /tmp/source "{root}/AGENTS.md"',
+                        f'printf x > "{root}/AGENTS.md"', f'rm -rf "{root}/skills"',
+                        'tee "$CODEX_HOME/AGENTS.md"', f'mv "{root}/AGENTS.md" /tmp/moved'):
+            require(decision(pre_tool(command, root)) == "deny", f"missed live target: {command}")
+            count += 1
+        for command in (f'cat "{root}/AGENTS.md"', f'cp "{root}/AGENTS.md" /tmp/copy',
+                        f'printf "%s" "{root}/AGENTS.md"', f'printf "%s" ">" "{root}/AGENTS.md"', f'touch "{root}/agents/personal.toml"'):
+            require(not pre_tool(command, root), f"blocked a read or personal file: {command}")
+            count += 1
+        for target in (str(root / "AGENTS.md"), "AGENTS.md"):
+            for marker in ("Update File", "Move to"):
+                patch = f"*** Begin Patch\n*** {marker}: {target}\n@@\n+x\n*** End Patch\n"
+                output = run_event({"hook_event_name": "PreToolUse", "tool_name": "apply_patch",
+                                    "tool_input": patch, "cwd": str(root)}, root)
+                require(decision(output) == "deny", f"missed patch target: {target}")
+                count += 1
+        patch = ("*** Begin Patch\n*** Update File: /tmp/readme.md\n@@\n"
+                 "+Do not run git reset --hard or rm -rf /.\n"
+                 f"+Managed path: {root}/AGENTS.md\n*** End Patch\n")
+        require(not run_event({"hook_event_name": "PreToolUse", "tool_name": "apply_patch",
+                               "tool_input": {"input": patch}}, root), "patch body was parsed as code")
+        for tool in ("Edit", "Write"):
+            require(decision(run_event({"hook_event_name": "PreToolUse", "tool_name": tool,
+                                       "tool_input": {"file_path": str(root / "AGENTS.md"), "content": "x"}}, root)) == "deny",
+                    f"missed structured file target for {tool}")
+            count += 1
+        for event in ("Stop", "SubagentStop", "SessionStart", "SubagentStart", "PreCompact",
+                      "PostCompact", "UserPromptSubmit", "PermissionRequest"):
+            for message in ("尚未完成，需要你提供目标文件。", "已完成，测试以后再说。", "结论：未发现问题。"):
+                require(not run_event({"hook_event_name": event, "last_assistant_message": message,
+                                       "source": "compact"}, root), f"obsolete lifecycle intervention: {event}")
+                count += 1
+        require(decision(run_event({"hook_event_name": "PreToolUse", "tool_name": "exec_command",
+                                    "tool_input": {"cmd": "rm -rf .", "workdir": str(root)}}, root)) == "deny",
+                "exec_command alias was not inspected")
+        require(not run_event({"hook_event_name": "PreToolUse", "tool_name": "Write",
+                               "tool_input": {"file_path": "$CODEX_HOME/AGENTS.md"}, "cwd": str(root)}, root),
+                "structured file path incorrectly received shell variable expansion")
+        count += 2
+        # Execute the configured entry in an isolated CODEX_HOME, including spaces.
+        (root / "hooks").mkdir()
+        (root / "hooks" / HOOK.name).symlink_to(HOOK)
+        config = json.loads((ROOT_DIR / "hooks" / "hooks.json").read_text())
+        require(set(config["hooks"]) == {"PreToolUse"}, "unexpected lifecycle hook installed")
+        entry = config["hooks"]["PreToolUse"][0]["hooks"][0]["command"]
+        output = subprocess.run(["/bin/sh", "-c", entry],
+                                input=json.dumps({"hook_event_name": "PreToolUse", "tool_name": "Bash",
+                                                  "tool_input": {"command": "rm -rf ."}}),
+                                text=True, capture_output=True, check=True,
+                                env={**os.environ, "CODEX_HOME": str(root)})
+        require(decision(json.loads(output.stdout)) == "deny", "custom CODEX_HOME hook entry failed")
+    print(f"Codex hook 行为测试通过：{count + 3} 个用例。")
     return 0
 
 

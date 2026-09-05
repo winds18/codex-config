@@ -1,228 +1,32 @@
-# Hook 守门点设计
+# Hooks 与验证边界
 
-这份文档定义如何把全局开发规范从“提醒”升级为“可检查的守门点”。
+当前只分发 PreToolUse。用户在客户端审查信任后才运行；沙箱、rules、permission profiles 与受管策略仍是实际权限机制。
 
-目标是增强可靠性，不是增加流程负担。
+## 当前行为
 
----
+- 对明确灾难性递归删除目标和直接绕过 Codex 沙箱/审批的选项作确定性阻断。
+- 普通 Git 丢弃改动或强推操作给短提示，按当前请求、已有授权与客户端审批决定；hook 不伪造 allow 或 ask。
+- 保护本仓库管理的 live 软连接目标；支持配置根和真实补丁/重命名目标，不把文档示例当成执行代码。
+- 不在 SessionStart/SubagentStart/压缩事件重复注入工作清单。
+- 不用 Stop/SubagentStop 的词语、长度或格式判断工作完成。
+- 不把用户已输入的文本扫描包装成“输入前防泄露”。凭证应从授权的安全来源处理；提交/推送边界有专门扫描。
 
-## 1. 设计原则
+## 限制与恢复
 
-- 文档定义意图
-- Hook 卡住高风险动作
-- Guard 脚本检查稳定事实
-- Git hook 保证提交和推送前的最低一致性
-- 不能自动判断的内容，保留为主编排者验收清单
+shell 解析仅覆盖直接命令及支持的简单包装，不承诺理解任意解释器、脚本、动态展开、MCP 或 UI 操作。提示不等于已经安全审批，正则/词元检查也不等于完整安全边界。
 
-不要试图把所有规范都做成硬阻断。
+PreToolUse 的 `permissionDecision: ask` 当前官方未支持；不要用它实现人工审批。也不设代理可自行开启的环境变量绕过开关。[官方 Hooks](https://learn.chatgpt.com/docs/hooks)
 
-只有高置信、低误伤、后果明确的节点才应强制阻断。
+自定义 hook 拒绝后，说明具体命中与路径；不要改用别的工具执行相同被拒动作。规则需调整时修改真源，先测试再由用户审查信任。必要时用户可停用该自定义 hook 或按安装清单卸载；已有授权不能被伪造成 hook 输出。
 
----
+## 验证职责
 
-## 2. 三层守门模型
+| 层 | 证据 |
+| --- | --- |
+| 行为规范 | 实际改动、命令结果和未验证面 |
+| 项目测试/CI | 当前改动是否正确，集成行为是否满足需求 |
+| 配置 guard | 结构、引用、行为回归和安装恢复 |
+| Git hooks | 暂存内容及将发送历史的检查 |
+| 客户端权限 | 工具执行与授权边界 |
 
-### Codex lifecycle hooks
-
-用于运行时守门。
-
-适合：
-
-- 在主任务压缩后提醒重新加载项目控制文档
-- 给新启动的子代理注入范围、摘要和证据要求
-- 在 session 启动时注入高效开发习惯
-- 阻断明显危险命令
-- 阻断明显泄露 secrets 的 prompt
-- 在完成声明前提醒验证
-- 在 push 前提醒运行 guard
-- 在 subagent 启停时约束摘要质量
-- 在 compact 前后提醒保留 goal、约束和验证证据
-
-不适合：
-
-- 复杂阶段编排
-- 判断某个功能线程是否真正完成
-- 替代主线程验收
-
-### Repository guard script
-
-用于检查仓库确定性事实。
-
-当前脚本：
-
-```bash
-bash scripts/codex-config-guard.sh
-```
-
-它检查：
-
-- 必要入口文件存在
-- shell 脚本语法正确
-- hooks JSON 合法
-- Python hook 可编译
-- 全局 `AGENTS.md` 和本仓库 `AGENTS.override.md` 保持精炼
-- 暂存区或已跟踪文件中没有高置信 secret
-- 恢复脚本可在临时目录完成安装、dry-run、官方恢复回环
-- lifecycle hook 的危险命令、压缩恢复、子代理摘要和完成验证规则通过测试
-- 全局 `AGENTS.md` 未超过仓库设定的轻量上限
-- 便携入口没有写死本机绝对路径
-
-### Git hooks
-
-用于提交和推送前守门。
-
-当前模板：
-
-- `git-hooks/pre-commit`
-- `git-hooks/pre-push`
-
-它们都调用：
-
-```bash
-bash scripts/codex-config-guard.sh
-```
-
-安装脚本通过 worktree-local `core.hooksPath` 激活 `git-hooks/` 目录，而不是手动复制单个 hook 文件：
-
-```bash
-bash scripts/install-git-hooks.sh
-```
-
-每个新 clone 和新 worktree 都应在当前 worktree 内各自执行一次安装脚本。
-
----
-
-## 3. 当前强制节点
-
-### Prompt 提交前
-
-高置信 secret 会被阻断，例如：
-
-- API key
-- GitHub token
-- 私钥块
-
-### 提交和推送前
-
-仓库 guard 会扫描暂存区；如果当前没有暂存内容，则扫描已跟踪文件。`pre-push` 会另外扫描待推送提交历史，即使 secret 已在后续提交中删除，也会阻止整段历史被推送。
-
-默认阻断：
-
-- API key
-- GitHub token
-- AWS access key id
-- Slack token
-- 私钥块
-- 高熵 inline secret
-
-如果发现真实 secret，应先移除并轮换凭证，再继续提交或推送。
-
-### 工具执行前
-
-明显危险动作会被阻断，例如：
-
-- `git reset --hard`
-- `git clean -fd`
-- `git push --force`
-- `rm -rf /`
-- `sudo rm`
-- `chmod -R 777`
-- `--dangerously-bypass` / `danger-full-access`
-
-如确实需要执行破坏性动作，应先停下来获得明确人类批准。
-
-### 直接修改 live `~/.codex` 入口
-
-默认阻断直接改：
-
-- `~/.codex/AGENTS.md`
-- `~/.codex/agents`
-- `~/.codex/docs`
-- `~/.codex/prompts`
-- `~/.codex/skills`
-- `~/.codex/hooks`
-- `~/.codex/hooks.json`
-
-正确做法是：
-
-1. 修改当前仓库真源文件
-2. 运行 `scripts/restore-codex-global-links.sh`
-
-### 完成声明前
-
-如果回复中出现完成/修复类表述，但没有任何验证证据，Stop hook 会要求继续补充验证或说明未验证原因。
-
-### 启动与子代理
-
-`SessionStart` 会在 `startup`、`resume` 和 `compact` 来源下注入 `prompts/agent-work-habits.md`，约束主线程默认开发习惯。
-
-`SessionStart(compact)` 会额外提醒主任务重新读取适用的 `AGENTS.md`、`docs/spec.md` 与 `docs/plan.md`，恢复目标和验收状态。它不自动改文档，也不阻止正常压缩。
-
-`SubagentStart` 会注入 `prompts/subagent-work-habits.md`，约束子代理边界、验证和摘要格式。
-
-`SubagentStop` 会要求子代理返回可验收摘要。摘要至少应包含结论、证据、风险、限制或未验证项之一。
-
-### 上下文压缩前后
-
-`PreCompact` 和 `PostCompact` 只做提醒：
-
-- 压缩前保留 Mission、Constraints、Working Goal、阶段目标、验证证据、用户决策、阻塞点和风险。
-- 压缩后先复核当前目标、最新用户要求、验证状态和未决风险。
-
-这两个 hook 不判断任务是否完成。
-
----
-
-## 4. 不做硬阻断的节点
-
-以下规则非常重要，但不适合用 hook 强制：
-
-- 主线程是否真的保持为控制面
-- 功能线程是否真的完成了合理拆解
-- goal delta 是否语义正确
-- 验收是否符合产品意图
-- 是否过早陷入局部细节
-
-这些应由主编排者结合 `docs/plan.md` 和功能线程回传摘要进行判断。
-
----
-
-## 5. 安装与信任
-
-首次部署或更新后执行：
-
-```bash
-bash scripts/restore-codex-global-links.sh
-```
-
-该脚本会挂载：
-
-- `~/.codex/hooks.json`
-- `~/.codex/hooks`
-
-Codex 对非托管 command hook 需要信任确认。新设备或 hook 改动后，应在 Codex 中打开 `/hooks`，检查并信任这些 hook。
-
-如果当前仓库已经是 git 仓库，可安装 Git hooks：
-
-```bash
-bash scripts/install-git-hooks.sh
-```
-
-确认方式：
-
-```bash
-git config --worktree --get core.hooksPath
-```
-
----
-
-## 6. 维护规则
-
-新增强制规则前先判断：
-
-- 是否高置信
-- 是否低误伤
-- 是否有明确恢复路径
-- 是否不会明显拖慢主体开发
-
-如果答案不满足，不要做硬阻断，改成文档清单或 guard warning。
+新增硬阻断须有具体故障、低误报范围和恢复方式。测试要包括正常文档、合法参数、带空格路径和负向行为，不靠关键词命中率评价效果。

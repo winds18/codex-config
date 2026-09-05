@@ -107,4 +107,6 @@ if find "$TEMPLATE_ROOT" -type f -empty -print -quit | rg . >/dev/null; then
   fail "模板快照包含空文件"
 fi
 
+# 只进行离线静态检查；不安装依赖、不执行上游代码。
+python3 "$SCRIPT_DIR/verify-template-dependencies.py"
 printf '前端模板资产校验通过。\n'

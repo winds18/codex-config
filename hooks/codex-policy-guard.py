@@ -1,74 +1,33 @@
 #!/usr/bin/env python3
-"""用于全局工作流安全守门的 Codex hook。"""
+"""Small, supplemental PreToolUse checks; never an approval mechanism.
+
+Only direct shell commands and structured file targets are inspected. Shell
+interpreters, heredocs, variable evaluation, substitutions and arbitrary code
+are outside this parser's guarantees. Native permissions remain authoritative.
+"""
 
 from __future__ import annotations
 
 import json
 import os
 import re
+import shlex
 import sys
 from pathlib import Path
 from typing import Any
 
 
-DESTRUCTIVE_PATTERNS = [
-    (
-        r"\brm\s+-[^\n;&|]*[rR][^\n;&|]*\s+"
-        r"(/|~|\$HOME|\$\{HOME\}|\.{1,2}(?:/|\s|$)|\*)(?:\s|$)",
-        "禁止对根目录、home、当前目录、上级目录或通配目标执行递归删除",
-    ),
-    (r"\bsudo\s+rm\b", "禁止使用 sudo rm"),
-    (r"\bgit\s+reset\s+--hard\b", "禁止 git reset --hard"),
-    (r"\bgit\s+clean\s+-[^\n;&|]*[fdx]", "禁止破坏性 git clean"),
-    (r"\bgit\s+checkout\s+--\b", "禁止使用 git checkout -- 丢弃改动"),
-    (
-        r"\bgit\s+restore\s+(?:\.|\*|:\(top\))(?=\s|$)",
-        "禁止大范围 git restore 丢弃改动",
-    ),
-    (r"\bgit\s+push\b[^\n;&|]*(--force|-f)\b", "禁止强制推送"),
-    (r"\bchmod\s+-R\s+777\b", "禁止递归 chmod 777"),
-    (
-        r"--dangerously-bypass|danger-full-access|--yolo\b",
-        "禁止绕过沙箱或审批机制",
-    ),
-]
-
-SECRET_PATTERNS = [
-    (r"sk-[A-Za-z0-9_-]{20,}", "OpenAI 风格 API 密钥"),
-    (r"ghp_[A-Za-z0-9_]{20,}", "GitHub 个人令牌"),
-    (r"github_pat_[A-Za-z0-9_]{20,}", "GitHub 细粒度令牌"),
-    (r"-----BEGIN (RSA |EC |OPENSSH |DSA )?PRIVATE KEY-----", "私钥内容"),
-    (
-        r"(?i)(api[_-]?key|secret|token|password)\s*[:=]\s*[\"']?[A-Za-z0-9_./+=-]{24,}",
-        "高熵内联敏感值",
-    ),
-]
-
-COMPLETION_WORDS = re.compile(
-    r"(已完成|已经完成|完成了|完成|修复了|处理好了|done\b|fixed\b|complete\b|completed\b)",
-    re.IGNORECASE,
-)
-VERIFICATION_WORDS = re.compile(
-    r"(验证|校验|测试|test|lint|build|typecheck|dry-run|bash -n|exit code 0|通过|passed|pass\b|0 failures)",
-    re.IGNORECASE,
-)
-SUBAGENT_SUMMARY_WORDS = re.compile(
-    r"(结论|摘要|发现|证据|验证|风险|限制|阻塞|文件|路径|未验证|下一步)",
-    re.IGNORECASE,
-)
-
-PROMPT_DIR = Path(__file__).resolve().parents[1] / "prompts"
-WORK_HABITS_PROMPT = PROMPT_DIR / "agent-work-habits.md"
-SUBAGENT_WORK_HABITS_PROMPT = PROMPT_DIR / "subagent-work-habits.md"
+SOURCE_ROOT = Path(__file__).resolve().parent.parent
+SHELL_TOOLS = {"Bash", "exec_command"}
+PATCH_TOOLS = {"apply_patch"}
+FILE_TOOLS = {"Edit", "Write"}
 
 
 def read_event() -> dict[str, Any]:
-    raw = sys.stdin.read()
-    if not raw.strip():
-        return {}
     try:
-        return json.loads(raw)
-    except json.JSONDecodeError:
+        event = json.load(sys.stdin)
+        return event if isinstance(event, dict) else {}
+    except (json.JSONDecodeError, ValueError):
         return {}
 
 
@@ -77,307 +36,312 @@ def emit(payload: dict[str, Any]) -> None:
 
 
 def block_pre_tool(reason: str) -> None:
-    emit(
-        {
-            "hookSpecificOutput": {
-                "hookEventName": "PreToolUse",
-                "permissionDecision": "deny",
-                "permissionDecisionReason": reason,
-            }
-        }
-    )
-
-
-def block_permission(reason: str) -> None:
-    emit(
-        {
-            "hookSpecificOutput": {
-                "hookEventName": "PermissionRequest",
-                "decision": {
-                    "behavior": "deny",
-                    "message": reason,
-                },
-            }
-        }
-    )
-
-
-def block_prompt(reason: str) -> None:
-    emit({"decision": "block", "reason": reason})
-
-
-def continue_turn(reason: str) -> None:
-    emit({"decision": "block", "reason": reason})
-
-
-def add_context(event_name: str, context: str) -> None:
-    emit(
-        {
-            "hookSpecificOutput": {
-                "hookEventName": event_name,
-                "additionalContext": context,
-            }
-        }
-    )
-
-
-def system_message(message: str) -> None:
-    emit({"systemMessage": message})
-
-
-def read_prompt_file(path: Path) -> str:
-    try:
-        return path.read_text(encoding="utf-8").strip()
-    except OSError:
-        return ""
+    emit({"hookSpecificOutput": {
+        "hookEventName": "PreToolUse", "permissionDecision": "deny",
+        "permissionDecisionReason": reason,
+    }})
 
 
 def command_from_tool_input(tool_input: Any) -> str:
     if isinstance(tool_input, dict):
-        for key in ("command", "cmd"):
-            command = tool_input.get(key)
-            if isinstance(command, str):
-                return command
-    if isinstance(tool_input, str):
-        return tool_input
-    return ""
+        for key in ("command", "cmd", "patch", "input"):
+            value = tool_input.get(key)
+            if isinstance(value, str):
+                return value
+    return tool_input if isinstance(tool_input, str) else ""
 
 
-def has_override(text: str) -> bool:
-    del text
-    return os.environ.get("CODEX_ALLOW_DESTRUCTIVE") == "1"
+class ShellWord(str):
+    """Decoded value plus source spelling, so quoted operators stay data."""
+
+    def __new__(cls, value: str, raw: str, operator: bool = False):
+        item = str.__new__(cls, value)
+        item.raw = raw
+        item.operator = operator
+        return item
 
 
-def high_confidence_secret(text: str) -> str | None:
-    for pattern, label in SECRET_PATTERNS:
-        if re.search(pattern, text):
-            return label
-    return None
+def shell_tokens(command: str) -> list[ShellWord]:
+    tokens: list[ShellWord] = []
+    index = 0
+    punctuation = ";&|()<>\n"
+    while index < len(command):
+        char = command[index]
+        if char in " \t\r":
+            index += 1
+            continue
+        if char == "#":
+            newline = command.find("\n", index)
+            index = len(command) if newline < 0 else newline
+            continue
+        start = index
+        if char in punctuation:
+            index += 1
+            while index < len(command) and command[index] in punctuation:
+                index += 1
+            raw = command[start:index]
+            if "<<" in raw:
+                return []
+            tokens.append(ShellWord(raw, raw, True))
+            continue
+        quote = ""
+        while index < len(command):
+            char = command[index]
+            if not quote and (char in " \t\r" or char in punctuation):
+                break
+            if char == "\\" and quote != "'":
+                index += 2
+                continue
+            if char in "\"'" and (not quote or quote == char):
+                quote = char if not quote else ""
+            elif quote != "'" and (char == "`" or command[index:index + 2] == "$("):
+                return []
+            index += 1
+        raw = command[start:index]
+        try:
+            decoded = shlex.split(raw, comments=False, posix=True)
+        except ValueError:
+            return []
+        if len(decoded) != 1 or quote:
+            return []
+        tokens.append(ShellWord(decoded[0], raw))
+    return tokens
+
+
+def shell_commands(command: str) -> list[list[str]]:
+    """Tokenize direct commands without executing or evaluating shell code."""
+    commands: list[list[str]] = []
+    current: list[str] = []
+    for token in shell_tokens(command):
+        if token.operator and all(char in ";&|()\n" for char in token):
+            if current:
+                commands.append(current)
+                current = []
+        else:
+            current.append(token)
+    if current:
+        commands.append(current)
+    return commands
+
+
+def shell_path(word: str) -> str:
+    """Expand only simple path spellings we can recognize without evaluation."""
+    raw = getattr(word, "raw", word)
+    if raw.startswith("'") and raw.endswith("'"):
+        return str(word)
+    if "\\" in raw or "'" in raw:
+        return str(word)
+    value = os.path.expandvars(str(word))
+    return os.path.expanduser(value) if not raw.startswith('"') else value
+
+
+def unwrap(words: list[str]) -> list[str]:
+    words = words[:]
+    while words and (re.match(r"^[A-Za-z_][A-Za-z0-9_]*=", getattr(words[0], "raw", words[0]))
+                     or getattr(words[0], "raw", words[0]) in {"!", "then", "do", "if", "elif"}):
+        words.pop(0)
+    # Limited wrappers with no option parsing ambiguity.
+    if words and words[0] in {"command", "exec", "env", "sudo"}:
+        words.pop(0)
+        while words and (words[0] == "--" or re.match(
+            r"^[A-Za-z_][A-Za-z0-9_]*=", getattr(words[0], "raw", words[0])
+        )):
+            words.pop(0)
+    return words
+
+
+def recursive_rm_targets(words: list[str]) -> list[str]:
+    recursive = False
+    targets: list[str] = []
+    options = True
+    for word in words:
+        if word == "--" and options:
+            options = False
+        elif options and word.startswith("-"):
+            recursive |= word == "--recursive" or (
+                not word.startswith("--") and bool(set(word[1:]) & {"r", "R"})
+            )
+        else:
+            targets.append(word)
+    return targets if recursive else []
 
 
 def destructive_reason(command: str) -> str | None:
-    if has_override(command):
-        return None
-    for pattern, label in DESTRUCTIVE_PATTERNS:
-        if re.search(pattern, command):
-            return (
-                f"已被全局 Codex 策略阻断：{label}。如果确实需要执行，"
-                "请先停止并获得明确人工批准；不要在命令中自行添加绕过变量。"
-            )
+    """Only catastrophic direct forms are denied; ordinary Git risk is advice."""
+    for segment in shell_commands(command):
+        words = unwrap(segment)
+        if not words:
+            continue
+        executable, args = os.path.basename(words[0]), words[1:]
+        if executable == "rm":
+            for target in recursive_rm_targets(args):
+                normalized = os.path.normpath(shell_path(target))
+                raw = getattr(target, "raw", target)
+                if normalized in {"*", "/*"} and ("\"" in raw or "\'" in raw or "\\" in raw):
+                    continue
+                if normalized in {"/", ".", "..", str(Path.home()), "*", "/*"}:
+                    return "检测到递归删除根目录、home、当前目录、上级目录或全部条目的直接命令。"
+        if executable == "codex" and any(
+            arg in {"--yolo", "--dangerously-bypass-approvals-and-sandbox"}
+            or arg.startswith("--dangerously-bypass") for arg in args
+        ):
+            return "检测到 Codex 绕过审批与沙箱的启动选项。"
     return None
 
 
-def writes_live_codex_entry(
-    command: str, *, tool_name: str, cwd: str = ""
-) -> bool:
-    if tool_name == "apply_patch":
-        live_root = Path(
-            os.path.abspath(Path.home() / (".co" + "dex"))
-        )
-        base_dir = Path(os.path.abspath(cwd or Path.cwd()))
-        headers = re.findall(
-            r"^\*\*\* (?:Add|Update|Delete) File: (.+)$",
-            command,
-            re.MULTILINE,
-        )
-        for raw_path in headers:
-            expanded = raw_path.strip()
-            expanded = expanded.replace("${HOME}", str(Path.home()))
-            expanded = expanded.replace("$HOME", str(Path.home()))
-            candidate = Path(expanded).expanduser()
-            if not candidate.is_absolute():
-                candidate = base_dir / candidate
-            candidate = Path(os.path.abspath(candidate))
-            if candidate == live_root or live_root in candidate.parents:
-                return True
+def git_advice(words: list[str]) -> str | None:
+    words = unwrap(words)
+    if not words or os.path.basename(words[0]) != "git":
+        return None
+    args = words[1:]
+    while args and args[0].startswith("-"):
+        option = args.pop(0)
+        if option in {"-C", "-c", "--git-dir", "--work-tree"} and args:
+            args.pop(0)
+    if not args:
+        return None
+    verb, args = args[0], args[1:]
+    if verb == "reset" and "--hard" in args:
+        return "git reset --hard 会丢弃工作区与索引改动"
+    if verb == "clean" and not any(arg in {"--dry-run", "-n"} for arg in args):
+        if any(arg.startswith("-") and not arg.startswith("--") and "n" in arg
+               for arg in args):
+            return None
+        return "git clean 可能删除未跟踪文件"
+    if verb == "checkout" and "--" in args:
+        return "git checkout 路径操作会覆盖对应工作区改动"
+    if verb == "restore":
+        return "git restore 会替换所选路径的工作区或索引内容"
+    if verb == "push" and any(
+        arg in {"-f", "--force", "--force-with-lease", "--force-if-includes"}
+        or arg.startswith("--force-with-lease=") or arg.startswith("+")
+        or (arg.startswith("-") and not arg.startswith("--") and "f" in arg[1:])
+        for arg in args
+    ):
+        return "git push 的强制更新选项可能重写远端历史"
+    return None
+
+
+def live_root() -> Path:
+    return Path(os.path.abspath(os.path.expanduser(
+        os.environ.get("CODEX_HOME") or str(Path.home() / ".codex")
+    )))
+
+
+def owned_live_target(raw_path: str, cwd: str = "") -> bool:
+    # Resolve paths lexically first: resolving a managed symlink too early
+    # loses the fact that an operation targets the live entry itself.
+    root = live_root()
+    candidate = Path(shell_path(raw_path) if isinstance(raw_path, ShellWord) else raw_path)
+    if not candidate.is_absolute():
+        candidate = Path(cwd or os.getcwd()) / candidate
+    candidate = Path(os.path.abspath(candidate))
+    if candidate != root and root not in candidate.parents:
         return False
-
-    home = os.path.expanduser("~").rstrip("/")
-    home_prefixes = (
-        f"{home}/.codex/",
-        "$HOME/.codex/",
-        "${HOME}/.codex/",
-        "~/.codex/",
-    )
-    managed_names = (
-        "AGENTS.md",
-        "agents",
-        "docs",
-        "prompts",
-        "skills",
-        "hooks",
-        "hooks.json",
-        "restore-global-setup.sh",
-        "restore-official-state.sh",
-    )
-    live_entry = any(
-        f"{prefix}{name}" in command
-        for prefix in home_prefixes
-        for name in managed_names
-    )
-    if not live_entry:
+    try:
+        resolved = candidate.resolve()
+        if resolved == SOURCE_ROOT or SOURCE_ROOT in resolved.parents:
+            return True
+        # Directory operations must also protect owned links inside that dir.
+        # Inspect known source paths only, never traverse runtime state/logs.
+        if candidate.is_dir():
+            for directory in ("agents", "docs", "prompts", "hooks", "skills"):
+                source = SOURCE_ROOT / directory
+                if not source.exists():
+                    continue
+                for source_file in source.rglob("*"):
+                    if not source_file.is_file():
+                        continue
+                    installed = root / source_file.relative_to(SOURCE_ROOT)
+                    if candidate == installed or candidate in installed.parents:
+                        if installed.resolve() == source_file.resolve():
+                            return True
+            for name in ("AGENTS.md", "hooks.json", "restore-global-setup.sh",
+                         "restore-official-state.sh"):
+                installed = root / name
+                if installed.is_symlink() and (candidate == installed or candidate in installed.parents):
+                    target = installed.resolve()
+                    if target == SOURCE_ROOT or SOURCE_ROOT in target.parents:
+                        return True
+    except (OSError, RuntimeError):
         return False
-
-    write_intent = re.search(
-        r"(\b(rm|mv|cp|ln|touch|mkdir|chmod|chown|install|truncate)\b|"
-        r"\bsed\s+-i\b|\bperl\s+-pi\b|\btee\b|>>|>)",
-        command,
-    )
-    interpreter_write = re.search(
-        r"\b(python[0-9.]*|node|ruby|php)\b.*"
-        r"(write|unlink|remove|rename|replace|mkdir|chmod|chown)",
-        command,
-        re.IGNORECASE,
-    )
-    return bool(
-        write_intent
-        or interpreter_write
-        or command.lstrip().startswith("*** Begin Patch")
-    )
+    return False
 
 
-def handle_user_prompt(event: dict[str, Any]) -> None:
-    prompt = str(event.get("prompt") or "")
-    label = high_confidence_secret(prompt)
-    if label:
-        block_prompt(
-            f"已被全局 Codex 策略阻断：提示词疑似包含{label}。"
-            "请改用本地环境文件或凭证存储，不要把真实敏感信息粘贴进任务。"
+def shell_write_targets(words: list[str]) -> list[str]:
+    words = unwrap(words)
+    if not words:
+        return []
+    targets = [words[index + 1] for index, word in enumerate(words[:-1])
+               if getattr(word, "operator", False) and word in {">", ">>", ">|", "&>"}]
+    executable, args = os.path.basename(words[0]), words[1:]
+    # A source path being read is not a destination being changed.
+    operands = [word for word in args if not word.startswith("-")]
+    if executable in {"cp", "ln", "install"}:
+        if operands:
+            targets.append(operands[-1])
+        for index, arg in enumerate(args):
+            if arg in {"-t", "--target-directory"} and index + 1 < len(args):
+                targets.append(args[index + 1])
+            elif arg.startswith("--target-directory="):
+                targets.append(arg.split("=", 1)[1])
+    elif executable in {"rm", "mv", "touch", "mkdir", "chmod", "chown", "truncate", "tee"}:
+        targets.extend(operands)
+    elif executable == "sed" and any(arg == "--in-place" or arg.startswith("-i") for arg in args):
+        targets.extend(operands[-1:])
+    return targets
+
+
+def writes_live_codex_entry(command: str, *, tool_name: str, cwd: str = "") -> bool:
+    if tool_name in PATCH_TOOLS:
+        targets = re.findall(
+            r"^\*\*\* (?:(?:Add|Update|Delete) File|Move to): (.+)$",
+            command, re.MULTILINE,
         )
+    elif tool_name in SHELL_TOOLS:
+        targets = [target for words in shell_commands(command)
+                   for target in shell_write_targets(words)]
+    else:
+        targets = [command]
+    return any(owned_live_target(target, cwd) for target in targets)
 
 
 def handle_pre_tool(event: dict[str, Any]) -> None:
     tool_name = str(event.get("tool_name") or "")
-    command = command_from_tool_input(event.get("tool_input"))
+    tool_input = event.get("tool_input")
+    cwd = str(event.get("cwd") or "")
+    if isinstance(tool_input, dict):
+        cwd = str(tool_input.get("workdir") or cwd)
+    if tool_name in FILE_TOOLS:
+        if not isinstance(tool_input, dict):
+            return
+        command = str(tool_input.get("file_path") or tool_input.get("path") or "")
+    elif tool_name in SHELL_TOOLS | PATCH_TOOLS:
+        command = command_from_tool_input(tool_input)
+    else:
+        return
     if not command:
         return
-
-    reason = destructive_reason(command)
-    if reason:
-        block_pre_tool(reason)
+    if tool_name in SHELL_TOOLS and (reason := destructive_reason(command)):
+        block_pre_tool(reason + "此自定义 hook 不接受环境变量授权；如需例外，由用户审查并调整 hook 配置，客户端权限仍然生效。")
         return
-
-    if tool_name in {"Bash", "apply_patch"} and writes_live_codex_entry(
-        command,
-        tool_name=tool_name,
-        cwd=str(event.get("cwd") or ""),
-    ):
-        block_pre_tool(
-            "已被全局 Codex 策略阻断：请修改 codex-config 真源仓库，"
-            "再运行 restore-codex-global-links.sh；不要直接修改 live ~/.codex 入口。"
-        )
+    if writes_live_codex_entry(command, tool_name=tool_name, cwd=cwd):
+        block_pre_tool("目标是 codex-config 管理的 live 链接；请修改真源文件，并通过安装/恢复脚本维护链接。")
         return
-
-    if re.search(r"\bgit\s+push\b", command):
-        emit(
-            {
-                "hookSpecificOutput": {
-                    "hookEventName": "PreToolUse",
-                    "additionalContext": "推送前必须运行仓库 guard，并报告验证结果。",
-                }
-            }
-        )
-
-
-def handle_permission_request(event: dict[str, Any]) -> None:
-    command = command_from_tool_input(event.get("tool_input"))
-    if not command:
-        return
-    reason = destructive_reason(command)
-    if reason:
-        block_permission(reason)
-
-
-def handle_session_start(event: dict[str, Any]) -> None:
-    contexts: list[str] = []
-
-    if event.get("source") == "compact":
-        contexts.append(
-            "上下文刚完成压缩。继续前先重新读取当前范围内的 AGENTS.md、"
-            "docs/spec.md 与 docs/plan.md，恢复 Mission、Constraints、"
-            "Working Goal、Stage Objective 和当前验收状态；不要仅依赖压缩摘要。"
-        )
-
-    prompt = read_prompt_file(WORK_HABITS_PROMPT)
-    if prompt:
-        contexts.append(prompt)
-
-    if contexts:
-        add_context("SessionStart", "\n\n".join(contexts))
-
-
-def handle_subagent_start(event: dict[str, Any]) -> None:
-    prompt = read_prompt_file(SUBAGENT_WORK_HABITS_PROMPT)
-    if prompt:
-        add_context("SubagentStart", prompt)
-        return
-
-    add_context(
-        "SubagentStart",
-        "子代理必须保持边界清晰：优先读多写少；不要倾倒原始日志；返回结论、关键证据、风险或未验证项；未经明确要求不要改写核心代码。",
-    )
-
-
-def handle_subagent_stop(event: dict[str, Any]) -> None:
-    if event.get("stop_hook_active"):
-        return
-
-    last = str(event.get("last_assistant_message") or "").strip()
-    if not last:
-        continue_turn("Subagent must return a concise summary before stopping.")
-        return
-
-    if len(last) < 30 or not SUBAGENT_SUMMARY_WORDS.search(last):
-        continue_turn(
-            "Before stopping, return a concise subagent summary with conclusion, evidence, risks or unverified items."
-        )
-
-
-def handle_pre_compact(event: dict[str, Any]) -> None:
-    system_message(
-        "Compaction guard: preserve Mission, Constraints, Working Goal, current stage, verification evidence, user decisions, blockers, and remaining risks."
-    )
-
-
-def handle_post_compact(event: dict[str, Any]) -> None:
-    system_message(
-        "After compaction, re-check the active goal, latest user instruction, verification state, and unresolved risks before continuing."
-    )
-
-
-def handle_stop(event: dict[str, Any]) -> None:
-    if event.get("stop_hook_active"):
-        return
-    last = str(event.get("last_assistant_message") or "")
-    if COMPLETION_WORDS.search(last) and not VERIFICATION_WORDS.search(last):
-        continue_turn(
-            "在宣称完成前，运行或引用最接近改动的可行验证。"
-            "如果无法验证，必须明确说明未验证项及原因。"
-        )
+    if tool_name in SHELL_TOOLS:
+        advice = list(dict.fromkeys(item for words in shell_commands(command)
+                                   if (item := git_advice(words))))
+        if advice:
+            emit({"hookSpecificOutput": {
+                "hookEventName": "PreToolUse",
+                "additionalContext": "；".join(advice) + "。依据本次已给授权及客户端权限执行；该提示不授予权限，也不要求重复审批。",
+            }})
 
 
 def main() -> int:
     event = read_event()
-    name = str(event.get("hook_event_name") or "")
-
-    if name == "SessionStart":
-        handle_session_start(event)
-    elif name == "UserPromptSubmit":
-        handle_user_prompt(event)
-    elif name == "PreToolUse":
+    if event.get("hook_event_name") == "PreToolUse":
         handle_pre_tool(event)
-    elif name == "PermissionRequest":
-        handle_permission_request(event)
-    elif name == "SubagentStart":
-        handle_subagent_start(event)
-    elif name == "SubagentStop":
-        handle_subagent_stop(event)
-    elif name == "PreCompact":
-        handle_pre_compact(event)
-    elif name == "PostCompact":
-        handle_post_compact(event)
-    elif name == "Stop":
-        handle_stop(event)
     return 0
 
 

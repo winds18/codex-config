@@ -1,255 +1,54 @@
-# Output Templates
+# 输出骨架
 
-Use these templates to keep responses consistent across design requests.
+只有用户要求 prompt / 契约时才使用；用户要求实现就推进代码和验证。删去不适用字段，不交付未解析占位符或虚构证据。
 
-## Preferred Response Shape
-
-````md
-结论
-- 主风格：
-- 备选风格：
-- 适配原因：
-
-风格判断
-- 目标受众：
-- 主要信号：
-- 信息密度：
-- 必须出现的产品证据：
-- 要避免的误区：
-
-Build Prompt
-```text
-[tool-specific prompt]
-```
-
-DESIGN.md
-[Use the Compact DESIGN.md Template below.]
-
-验证清单
-- [ ] ...
-- [ ] ...
-````
-
-## Prompt Skeleton
-
-Fill the blanks, then trim any section that does not help the task.
+## Build Prompt
 
 ```text
-Design a [surface] for [product / company].
+为 [产品] 实现 [页面/组件]，帮助 [受众] 完成 [主要任务]。
 
-User-facing outcome:
-- Help the user [primary task or impression].
-
-Primary style direction:
-- [style family]
-
-Backup style direction:
-- [backup style family]
-
-Audience and trust signal:
-- [who it is for]
-- [what should make it feel credible]
-
-Visual system:
-- Color: [palette direction]
-- Contrast: [high / medium / calm]
-- Typography: [tone and hierarchy]
-- Spacing: [dense / balanced / airy]
-- Radius and borders: [tight / soft / crisp]
-- Imagery: [screenshots / diagrams / product photos / none]
-- Motion: [quiet / guided / energetic]
-
-Motion Contract, only when motion matters:
-- Term: [exact motion term when motion matters]
-- Trigger / frequency / purpose: [event, how often, why it moves]
-- States: [start, end, exit]
-- Properties / timing: [animated properties, duration, easing or spring]
-- Accessibility: [reduced-motion and hover/touch behavior]
-
-Must show:
-- [product screenshot]
-- [workflow proof]
-- [benchmarks / docs / integrations / customer proof]
-
-Avoid:
-- [anti-pattern 1]
-- [anti-pattern 2]
-- [anti-pattern 3]
-
-Implementation bar:
-- Keep the layout coherent on desktop and mobile.
-- Make the hierarchy obvious in the first viewport.
-- Use real product evidence instead of decorative filler.
+依据：[用户参考、现有设计系统、token 文件与组件入口]。
+保留：[已接受的方向与交互]；本次调整：[具体范围]。
+视觉决定：[布局/密度、字体、颜色语义、关键组件状态]。
+真实内容与能力：[可用数据、操作、素材及原型占位边界]。
+若涉及动效：[作用、触发、关键状态、中断和降级]。
+若并行实现：[共享接口、文件 owner、独立页面/组件边界]。
+验收：[代表视口、交互状态、资源/溢出、键盘与焦点、项目检查命令]。
+完成后报告实现证据和未验证范围。
 ```
 
-## Tool Adapters
+对 Codex、Claude Code、Cursor 等代码工具，提供实际文件路径和接口约束；对页面生成工具，提供明确区段、内容和布局要求。按目标工具当前能力调整，不假设产品名决定固定输出格式。
 
-### Codex / Claude Code
+## 设计契约
 
-Add:
-
-- exact page or screen type
-- product evidence requirements
-- component expectations
-- post-build verification request
-
-Adapter line:
-
-```text
-After building, run the relevant checks and review the page for hierarchy, spacing, contrast, and whether the visual direction matches the requested style.
-```
-
-### Cursor
-
-Keep it shorter and implementation-oriented.
-
-Adapter line:
-
-```text
-Implement the visual direction with concrete layout, component, spacing, and typography choices. Keep the result aligned with the selected style family.
-```
-
-### v0 / Lovable
-
-Bias toward sections, layout rhythm, and visual polish.
-
-Adapter line:
-
-```text
-Focus on section composition, hierarchy, responsive layout, and polished components. Keep the style consistent across hero, proof sections, and repeated UI patterns.
-```
-
-## Compact DESIGN.md Template
+遵循 [design-md-contract.md](design-md-contract.md)。可用以下短格式，也可更新已有设计文档：
 
 ```md
----
-design_system: project-design
-version: 1
-source_templates: []
-borrowed_patterns: []
-excluded_assets: []
-tokens:
-  color:
-    canvas: "<value>"
-    surface: "<value>"
-    text-primary: "<value>"
-    text-muted: "<value>"
-    accent: "<value>"
-    border: "<value>"
-    focus: "<value>"
-  typography:
-    display: "<value>"
-    body: "<value>"
-    label: "<value>"
-    code-data: "<value>"
-  spacing:
-    unit: "<value>"
-    component-gap: "<value>"
-    section-gap: "<value>"
-  radius:
-    control: "<value>"
-    panel: "<value>"
-  motion:
-    fast: "<value>"
-    standard: "<value>"
-    easing-standard: "<value>"
-component_states:
-  button: [default, hover, pressed, disabled, focus-visible]
-  input: [default, hover, focus, error, disabled]
-  panel: [default, hover, selected, featured]
-  navigation: [default, active, hover, mobile-collapsed]
----
+# 项目设计契约
 
-# DESIGN.md
+## 目标与权威来源
+[用途、方向、设计系统/Figma、token 和组件实现入口]
 
-## Visual Direction
-- Overall style:
-- Emotional tone:
-- Density:
-- Trust signal:
+## 本次决定
+[变化、使用边界、真实组件状态、响应式/动效规则]
 
-## Source References
-- Primary:
-- Borrow:
-- Exclude:
-- License:
+## 协作与验收
+[仅必要的共享接口/owner、视口/关键状态、检查命令]
 
-## Color Tokens
-- Usage rules:
-- Contrast requirements:
-- State color rules:
-
-## Typography
-- Headline tone:
-- Body tone:
-- Scale behavior:
-- Code / data text:
-
-## Spacing And Layout
-- Preferred page rhythm:
-- Content width:
-- Section spacing:
-- Grid behavior:
-
-## Components
-- Buttons:
-- Cards / panels:
-- Navigation:
-- Tables / charts / code blocks:
-- Forms / filters:
-- Empty / loading / error:
-
-## Motion
-- Hover / focus behavior:
-- Transition character:
-- Motion terms:
-- Trigger / purpose:
-- Duration / easing:
-- Reduced motion:
-- Review risks:
-
-## Imagery And Assets
-- Use:
-- Do not use:
-
-## Responsive Rules
-- Desktop:
-- Tablet:
-- Mobile:
-- Touch / hover:
-
-## Do / Avoid
-- Do:
-- Avoid:
-
-## Verification
-- Product capability truth:
-- Frontmatter parse / placeholders:
-- Token and component-state mapping:
-- Desktop:
-- Mobile:
-- Overflow / overlap:
-- Resource loading:
-- Keyboard / focus / interaction states:
-- Touch targets / safe area:
-- Layout shift / rendering cost:
-- Reduced motion:
+## 参考与许可
+[实际使用的来源、commit、license、借鉴模式与排除资产]
 ```
 
-Replace every `<value>` before delivery. Keep only components in scope and list every supported state; remove unused optional entries.
+不在文档复制实现 token 数值；项目已有机器消费 schema 时沿用它。小改只记录差异，不要求生成完整章节。
 
-## Verification Checklist
+## 验证摘要
 
-Use 4-8 checks only. Favor observable outcomes.
+按任务挑选可观察结果：
 
-```md
-- [ ] The chosen style matches the audience and page type.
-- [ ] The first viewport makes the product or workflow obvious.
-- [ ] The interface shows real product proof, not placeholder atmosphere.
-- [ ] Contrast, spacing, and hierarchy are consistent.
-- [ ] Repeated UI patterns share the same visual rules.
-- [ ] Every visible control, metric, state, and claim is supported by the product requirements and implementation.
-- [ ] Mobile touch targets, safe areas, keyboard paths, labels, focus, and contrast are usable.
-- [ ] Motion has a named purpose, bounded timing, reduced-motion handling, and no high-frequency noise.
-- [ ] The page avoids the listed anti-patterns.
-```
+- 核心任务和所有可见操作与真实产品能力一致。
+- 改动页面的布局、文字换行、资源和关键状态在代表视口可用。
+- 共享组件和 token 用法与既有系统一致。
+- 相关键盘/焦点、触控和 reduced motion 路径有效。
+- 项目检查已运行；无法运行的项目和原因明确。
+
+只做 prompt 输出时将这些写成后续验收要求，不能声称已经渲染验证。

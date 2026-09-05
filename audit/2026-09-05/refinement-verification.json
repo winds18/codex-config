@@ -1,0 +1,181 @@
+{
+  "engineering_trial": {
+    "command": "python3 -B -m unittest discover -s tests -v",
+    "exit_code": 0,
+    "output": "test_contract_is_frozen (test_stock.StockTests) ... ok\ntest_public_contract (test_stock.StockTests) ... ok\ntest_accepts_one_shot_iterator (test_stock_parser.StockParserTests) ... ok\ntest_empty_input (test_stock_parser.StockParserTests) ... ok\ntest_failed_parse_does_not_modify_earlier_records (test_stock_parser.StockParserTests) ... ok\ntest_invalid_quantity_includes_one_based_row (test_stock_parser.StockParserTests) ... ok\ntest_invalid_sku_includes_one_based_row (test_stock_parser.StockParserTests) ... ok\ntest_missing_fields_and_non_mapping_records (test_stock_parser.StockParserTests) ... ok\ntest_normalizes_sku_and_preserves_input_records (test_stock_parser.StockParserTests) ... ok\ntest_invalid_file_fails_at_parse_boundary (test_stock_pipeline.StockPipelineTests) ... ok\ntest_json_file_to_sorted_totals (test_stock_pipeline.StockPipelineTests) ... ok\ntest_duplicate_skus_are_summed (test_stock_totals.TotalStockTests) ... ok\ntest_empty_input_returns_empty_dict (test_stock_totals.TotalStockTests) ... ok\ntest_one_shot_iterator_is_consumed_once (test_stock_totals.TotalStockTests) ... ok\ntest_original_skus_and_quantities_are_preserved (test_stock_totals.TotalStockTests) ... ok\ntest_result_keys_are_sorted (test_stock_totals.TotalStockTests) ... ok\n\n----------------------------------------------------------------------\nRan 16 tests in 0.002s\n\nOK\n",
+    "tests": 16,
+    "delegation": "parser and totals implemented by two agents after checking the shared Stock contract",
+    "original_files_preserved": [
+      "README.md",
+      "stock.py",
+      ".tmp/another-task/keep.txt",
+      "notes/user-draft.md",
+      ".gitignore",
+      "tests/test_stock.py"
+    ],
+    "only_expected_files_left": true,
+    "saved_evidence_files": [
+      "README.md",
+      "stock.py",
+      "stock_parser.py",
+      "stock_totals.py",
+      "tests/test_stock.py",
+      "tests/test_stock_parser.py",
+      "tests/test_stock_totals.py",
+      "tests/test_stock_pipeline.py"
+    ]
+  },
+  "official_skill_validation": {
+    "passed": 4,
+    "failed": 0
+  },
+  "full_toml_parse": {
+    "passed": 11,
+    "failed": 0
+  },
+  "ui_metadata_yaml_parse": "passed",
+  "changed_files": [
+    {
+      "path": "AGENTS.md",
+      "before_bytes": 5672,
+      "after_bytes": 3795,
+      "sha256": "8c48ffe2a801149f167cf4dc6054f32f01184d2b5ee8db6b1b167c6152963a3b"
+    },
+    {
+      "path": "AGENTS.override.md",
+      "before_bytes": 1483,
+      "after_bytes": 1663,
+      "sha256": "fdba1d50a9a3a769bb2a0d9b2898837e2e16a6352c9e3d2c1254d59b55fa9ca6"
+    },
+    {
+      "path": "README.md",
+      "before_bytes": 4546,
+      "after_bytes": 4905,
+      "sha256": "4e152124f7b86970839de16a653e12b655d7ed84e444ea75d744c533c7a5e94f"
+    },
+    {
+      "path": "agents/orchestrator.toml",
+      "before_bytes": 535,
+      "after_bytes": 487,
+      "sha256": "1d243abf5e8d6fbdc61019be5ad508187452b107d49ba5839bb2df47334a6016"
+    },
+    {
+      "path": "agents/worker.toml",
+      "before_bytes": 535,
+      "after_bytes": 484,
+      "sha256": "ca2f5b6f57adf2d96853f5c85407cc10289d2ed5aabd3c9e7cb034402f72971d"
+    },
+    {
+      "path": "docs/codex-global-setup-overview.md",
+      "before_bytes": 1967,
+      "after_bytes": 2053,
+      "sha256": "c7257c9821d18dd989165da212a5c76d9b29ac3a77d6047124195559b5615405"
+    },
+    {
+      "path": "docs/git-workflow-policy.md",
+      "before_bytes": 1907,
+      "after_bytes": 2257,
+      "sha256": "78666ce251e8e8143974e32293dbece3c5e0c2bfffe7fabf63aa0ed8bfacaff6"
+    },
+    {
+      "path": "docs/project-AGENTS-template.md",
+      "before_bytes": 1394,
+      "after_bytes": 1438,
+      "sha256": "8b3a714f46315013c5fe536df789c2772071aea900f55dd97d98fffa6ddad015"
+    },
+    {
+      "path": "docs/project-expansion-workflow.md",
+      "before_bytes": 1658,
+      "after_bytes": 1858,
+      "sha256": "eac739591c8c89b25105e48fcd933ade972d9d3885b813acd55dfdc5ec5d81fd"
+    },
+    {
+      "path": "docs/project-plan-template.md",
+      "before_bytes": 891,
+      "after_bytes": 960,
+      "sha256": "ca8d4493f006515c9bb4706d7876a8ec964ee3365e3a31041a1627bea7d152fe"
+    },
+    {
+      "path": "docs/thread-governance-policy.md",
+      "before_bytes": 3701,
+      "after_bytes": 933,
+      "sha256": "460d54758b409fec2e2dbe4e773c762272d963433e86fc709beecc285e7e3bb5"
+    },
+    {
+      "path": "prompts/agent-work-habits.md",
+      "before_bytes": 621,
+      "after_bytes": 342,
+      "sha256": "30ca6a78951165b11f926ada5126bf58b5b308278089764a5cb77ff0cd985926"
+    },
+    {
+      "path": "prompts/init-project.md",
+      "before_bytes": 585,
+      "after_bytes": 537,
+      "sha256": "861d0ea3a0e4d262a0be74ff237271d99a1743f070408c663ede4f4d2eb1f93c"
+    },
+    {
+      "path": "prompts/subagent-work-habits.md",
+      "before_bytes": 513,
+      "after_bytes": 507,
+      "sha256": "c67184142b8df09adb498b58a0450960299bd5a539160ec8f1032a6e28bc0d65"
+    },
+    {
+      "path": "skills/autonomous-project-execution/SKILL.md",
+      "before_bytes": 1834,
+      "after_bytes": 1329,
+      "sha256": "b114b6eb40e68d4f7f68a4f0319453d290dd22c7ef32866a634605bd3ca51ee1"
+    },
+    {
+      "path": "skills/autonomous-project-execution/references/agent-role-matrix.md",
+      "before_bytes": 1711,
+      "after_bytes": 1362,
+      "sha256": "f00233fc614e0f98ccc4185e76ed4d0d4b614ec234971d99bad837c6b3f1b65f"
+    },
+    {
+      "path": "skills/autonomous-project-execution/references/autonomous-execution-workflow.md",
+      "before_bytes": 1912,
+      "after_bytes": 2835,
+      "sha256": "bcfc5f877871359291eb8f01567e3933de1dcf5259b0116e4793a20c88a3f34d"
+    },
+    {
+      "path": "skills/project-bootstrap/SKILL.md",
+      "before_bytes": 1401,
+      "after_bytes": 1509,
+      "sha256": "997bb03752f634886d37174f11081b156ef4b19a2764c5e03d5b8f6da61931b6"
+    },
+    {
+      "path": "skills/autonomous-project-execution/references/software-engineering-workflow.md",
+      "before_bytes": 0,
+      "after_bytes": 5536,
+      "sha256": "071fc615646c4e49a4f10664ae0519b7cfdf72dcac1e526ec692757be6b0897c"
+    }
+  ],
+  "guard": {
+    "command": "bash scripts/codex-config-guard.sh",
+    "exit_code": 0,
+    "elapsed_seconds": 8.598,
+    "output": "配置结构与引用检查通过：11 个角色，31 个自维护文档。\nShell/Python 语法检查通过。\n敏感信息扫描通过。\nCodex hook 行为测试通过：74 个用例。\n敏感信息扫描行为测试通过：22 个用例。\ntest_linked_worktree_hook_settings_do_not_replace_main_worktree_settings (__main__.GitHooksTests) ... ok\ntest_original_hooks_path_preserves_spaces_and_newlines (__main__.GitHooksTests) ... ok\ntest_preview_install_idempotence_and_uninstall_in_temporary_repository (__main__.GitHooksTests) ... ok\ntest_process_exit_during_git_hook_install_is_recoverable (__main__.GitHooksTests) ... ok\ntest_changed_owned_hook_rejected_without_partial_mutation (__main__.RestoreTests) ... ok\ntest_config_root_cannot_overwrite_source_repository (__main__.RestoreTests) ... ok\ntest_default_preview_is_read_only (__main__.RestoreTests) ... ok\ntest_empty_hook_event_roundtrip_preserves_original_bytes (__main__.RestoreTests) ... ok\ntest_empty_root_restored_to_absent (__main__.RestoreTests) ... ok\ntest_external_entry_drift_rejected_before_any_change (__main__.RestoreTests) ... ok\ntest_foreign_hook_added_after_install_survives_uninstall (__main__.RestoreTests) ... ok\ntest_full_repository_shell_entrypoints_roundtrip_in_isolation (__main__.RestoreTests) ... ok\ntest_hook_command_uses_custom_root_without_runtime_environment (__main__.RestoreTests) ... ok\ntest_idempotent_repeat_preserves_first_backups (__main__.RestoreTests) ... ok\ntest_installed_restore_link_infers_its_own_custom_root (__main__.RestoreTests) ... ok\ntest_invalid_hooks_rejected_without_partial_install (__main__.RestoreTests) ... ok\ntest_journal_recovery_preserves_original (__main__.RestoreTests) ... ok\ntest_legacy_directory_link_refused_without_touching_source (__main__.RestoreTests) ... ok\ntest_mid_install_failure_rolls_back_all_started_changes (__main__.RestoreTests) ... ok\ntest_recover_uses_journal_when_manifest_is_incomplete (__main__.RestoreTests) ... ok\ntest_removed_source_restores_its_original_entry (__main__.RestoreTests) ... ok\ntest_repository_move_updates_old_broken_links (__main__.RestoreTests) ... ok\ntest_roundtrip_preserves_files_symlinks_modes_and_foreign_agents (__main__.RestoreTests) ... ok\ntest_skill_destination_cannot_overwrite_source_skills (__main__.RestoreTests) ... ok\ntest_skill_directory_change_removes_managed_old_location (__main__.RestoreTests) ... ok\ntest_user_edit_after_preflight_is_not_rolled_back (__main__.RestoreTests) ... ok\n\n----------------------------------------------------------------------\nRan 26 tests in 1.572s\n\nOK\n参考注记： personal-homepage-skill/tests/fixtures/broken-image.html: 页面资源缺失或越界 ./does-not-exist.png\n模板静态依赖校验：294 文件，152 本地引用，0 错误，1 注记。\n边界：来源标记不等于独立上游签名验证；未解析动态引用、包传递依赖、Markdown 锚点，未请求外部资源或运行浏览器。\n前端模板资产校验通过。\n.......\n----------------------------------------------------------------------\nRan 7 tests in 0.743s\n\nOK\n工作区清洁检查通过。\ncodex-config guard 通过。\n"
+  },
+  "owned_temporary_cleanup": {
+    "removed": [
+      "/var/folders/z2/kgqwl2_953l4f2cmx2r4rhl40000gn/T/codex-engineering-trial-b518zkra",
+      "/private/tmp/codex-refinement-before.json",
+      "/private/tmp/codex-refinement-changes.json",
+      "/private/tmp/codex-engineering-trial.json",
+      "/private/tmp/codex-config-audit-pylibs",
+      "/var/folders/z2/kgqwl2_953l4f2cmx2r4rhl40000gn/T/codex-workflow-check-_48yjxek",
+      "/private/tmp/codex-workflow-fixture-path"
+    ],
+    "kept_evidence": "audit/2026-09-05/engineering-trial and audit reports",
+    "note": "All original fixture files were verified unchanged before test-harness teardown; no user/other task directories outside the owned harness were removed."
+  },
+  "final_delivery": {
+    "diff_check": "passed",
+    "local_markdown_links": "passed",
+    "secret_scan_files": 389,
+    "findings": 0,
+    "changed_maintained_files": 19,
+    "unchanged_prior_files_verified_by_sha256": 341,
+    "owned_temporary_paths_absent": true
+  }
+}

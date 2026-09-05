@@ -1,5 +1,7 @@
 # Refero Substyle Recipes
 
+这些是可选方向，不覆盖既有设计系统、用户选择或具体内容需要；Avoid 项是常见风险提示，不是绝对美学禁令。
+
 Use this file when the top-level style family is correct, but the user wants a more specific feel.
 
 Common triggers:

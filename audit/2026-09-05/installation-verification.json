@@ -1,0 +1,125 @@
+{
+  "started_at_utc": "2026-09-05T03:36:04.611940+00:00",
+  "environment": {
+    "platform": "macOS-26.6.2-arm64-arm-64bit",
+    "python": "3.9.6",
+    "bash": "GNU bash, version 3.2.57(1)-release (arm64-apple-darwin25)"
+  },
+  "guard": {
+    "command": "bash scripts/codex-config-guard.sh",
+    "exit_code": 0,
+    "duration_seconds": 11.797,
+    "stdout": "配置结构与引用检查通过：11 个角色，31 个自维护文档。\nShell/Python 语法检查通过。\n敏感信息扫描通过。\nCodex hook 行为测试通过：74 个用例。\n敏感信息扫描行为测试通过：22 个用例。\n参考注记： personal-homepage-skill/tests/fixtures/broken-image.html: 页面资源缺失或越界 ./does-not-exist.png\n模板静态依赖校验：294 文件，152 本地引用，0 错误，1 注记。\n边界：来源标记不等于独立上游签名验证；未解析动态引用、包传递依赖、Markdown 锚点，未请求外部资源或运行浏览器。\n前端模板资产校验通过。\n工作区清洁检查通过。\ncodex-config guard 通过。\n",
+    "stderr": "test_linked_worktree_hook_settings_do_not_replace_main_worktree_settings (__main__.GitHooksTests) ... ok\ntest_original_hooks_path_preserves_spaces_and_newlines (__main__.GitHooksTests) ... ok\ntest_preview_install_idempotence_and_uninstall_in_temporary_repository (__main__.GitHooksTests) ... ok\ntest_process_exit_during_git_hook_install_is_recoverable (__main__.GitHooksTests) ... ok\ntest_changed_owned_hook_rejected_without_partial_mutation (__main__.RestoreTests) ... ok\ntest_config_root_cannot_overwrite_source_repository (__main__.RestoreTests) ... ok\ntest_default_preview_is_read_only (__main__.RestoreTests) ... ok\ntest_doctor_discovery_warnings_do_not_fail_or_modify_installation (__main__.RestoreTests) ... ok\ntest_doctor_integrity_errors_return_one_without_modifying_files (__main__.RestoreTests) ... ok\ntest_doctor_uses_explicit_skill_directory_without_creating_it (__main__.RestoreTests) ... ok\ntest_empty_hook_event_roundtrip_preserves_original_bytes (__main__.RestoreTests) ... ok\ntest_empty_root_restored_to_absent (__main__.RestoreTests) ... ok\ntest_external_entry_drift_rejected_before_any_change (__main__.RestoreTests) ... ok\ntest_foreign_hook_added_after_install_survives_uninstall (__main__.RestoreTests) ... ok\ntest_full_repository_shell_entrypoints_roundtrip_in_isolation (__main__.RestoreTests) ... ok\ntest_hook_command_uses_custom_root_without_runtime_environment (__main__.RestoreTests) ... ok\ntest_idempotent_repeat_preserves_first_backups (__main__.RestoreTests) ... ok\ntest_installed_restore_link_infers_its_own_custom_root (__main__.RestoreTests) ... ok\ntest_invalid_hooks_rejected_without_partial_install (__main__.RestoreTests) ... ok\ntest_journal_recovery_preserves_original (__main__.RestoreTests) ... ok\ntest_legacy_directory_link_refused_without_touching_source (__main__.RestoreTests) ... ok\ntest_mid_install_failure_rolls_back_all_started_changes (__main__.RestoreTests) ... ok\ntest_minimal_source_without_unified_entrypoint_still_installs (__main__.RestoreTests) ... ok\ntest_optional_unified_entrypoint_is_installed_and_restored (__main__.RestoreTests) ... ok\ntest_recover_uses_journal_when_manifest_is_incomplete (__main__.RestoreTests) ... ok\ntest_removed_source_restores_its_original_entry (__main__.RestoreTests) ... ok\ntest_repository_move_updates_old_broken_links (__main__.RestoreTests) ... ok\ntest_roundtrip_preserves_files_symlinks_modes_and_foreign_agents (__main__.RestoreTests) ... ok\ntest_skill_destination_cannot_overwrite_source_skills (__main__.RestoreTests) ... ok\ntest_skill_directory_change_removes_managed_old_location (__main__.RestoreTests) ... ok\ntest_user_edit_after_preflight_is_not_rolled_back (__main__.RestoreTests) ... ok\n\n----------------------------------------------------------------------\nRan 31 tests in 1.652s\n\nOK\ntest_apply_is_idempotent_and_uninstall_restores_foreign_content (__main__.SetupEntryTests) ... ok\ntest_apply_is_rejected_for_read_only_actions (__main__.SetupEntryTests) ... ok\ntest_archive_install_does_not_require_git_rg_or_codex (__main__.SetupEntryTests) ... ok\ntest_codex_home_environment_is_respected (__main__.SetupEntryTests) ... ok\ntest_custom_skill_directory_and_installed_launcher_bind_the_correct_root (__main__.SetupEntryTests) ... ok\ntest_default_preview_and_check_are_read_only (__main__.SetupEntryTests) ... ok\ntest_invalid_source_stops_before_writing (__main__.SetupEntryTests) ... ok\ntest_missing_runtime_dependency_is_rejected (__main__.SetupEntryTests) ... ok\ntest_post_install_failure_is_not_reported_as_success (__main__.SetupEntryTests) ... ok\ntest_recover_does_not_require_source_guidance_validation (__main__.SetupEntryTests) ... ok\ntest_source_and_destination_overlap_is_rejected (__main__.SetupEntryTests) ... ok\ntest_uninstall_remains_available_when_guidance_source_is_broken (__main__.SetupEntryTests) ... ok\n\n----------------------------------------------------------------------\nRan 12 tests in 3.432s\n\nOK\n.......\n----------------------------------------------------------------------\nRan 7 tests in 0.731s\n\nOK\n",
+    "test_suite_counts": {
+      "hooks": 74,
+      "secret_scanner": 22,
+      "configuration_and_git_recovery": 31,
+      "unified_entrypoint": 12,
+      "template_dependencies": 7
+    },
+    "total_behavior_tests": 146
+  },
+  "scope": {
+    "actual_user_config_installed": false,
+    "actual_git_hooks_modified": false,
+    "committed_or_pushed": false,
+    "tests_use_temporary_directories": true
+  },
+  "source_files": {
+    "comparison": "reviewed-files.json overlaid with refinement-verification.json changed_files",
+    "changed": [
+      {
+        "path": "README.md",
+        "before_bytes": 4905,
+        "after_bytes": 5697,
+        "sha256": "9ad58e8b3d66a9d0dc6305d6d12edb68c68e2f6e7659a4f05f9ff102e413eb4d"
+      },
+      {
+        "path": "docs/codex-global-setup-overview.md",
+        "before_bytes": 2053,
+        "after_bytes": 2135,
+        "sha256": "44d148537302ee58cf038fb294d81f600fe909d1b5e1d2ce5c9d700054c583c8"
+      },
+      {
+        "path": "docs/restore-codex-official-state.md",
+        "before_bytes": 1868,
+        "after_bytes": 2110,
+        "sha256": "a7abe09db1ce039c245356f25852e8840f66fa036aef814fdc4f4a4d5a7ec35d"
+      },
+      {
+        "path": "docs/restore-codex-setup.md",
+        "before_bytes": 2178,
+        "after_bytes": 3812,
+        "sha256": "5fc7a5b49d111082cb52832f15ba523569471e6e531838dd0aa814257bc9a381"
+      },
+      {
+        "path": "install.sh",
+        "before_bytes": 0,
+        "after_bytes": 1259,
+        "sha256": "bed0b49758a93fb8952ad8abc939f6bdc99e8cbec99167d71d1a660f57e42927"
+      },
+      {
+        "path": "scripts/codex-config-guard.sh",
+        "before_bytes": 1014,
+        "after_bytes": 1066,
+        "sha256": "d12ef123e695dbca234c0a2d780ebfc1eed73973c687993b8c5207acd3c13ca2"
+      },
+      {
+        "path": "scripts/manage-codex-config.py",
+        "before_bytes": 21834,
+        "after_bytes": 23705,
+        "sha256": "a4d1b4f952de0b7ef1fdce6ab00f13a55c17206497eaa6f937ad3cc79135c292"
+      },
+      {
+        "path": "scripts/setup-codex-config.py",
+        "before_bytes": 0,
+        "after_bytes": 5885,
+        "sha256": "5770f592253b456b6f4f6801570137de7d04ce7c31abebb559bcf3f1149cfca0"
+      },
+      {
+        "path": "scripts/test-restore-roundtrip.py",
+        "before_bytes": 20297,
+        "after_bytes": 24415,
+        "sha256": "236a1eacb302d177fa1feff71912fa2dfd996b33c68211db588d5c7e1f38d7fc"
+      },
+      {
+        "path": "scripts/test-setup-entrypoint.py",
+        "before_bytes": 0,
+        "after_bytes": 10499,
+        "sha256": "8a3f059aef43086e5907c4d62fe95eaafc60f94014cfc46cd1114c2b91eb0358"
+      }
+    ],
+    "unchanged": 353,
+    "vendor_unchanged": 294
+  },
+  "independent_review": {
+    "result": "No reproducible findings",
+    "cases": [
+      "preview zero writes",
+      "custom repo/config/skills paths",
+      "installed launcher root binding",
+      "damaged guidance uninstall",
+      "damaged manifest journal recovery",
+      "read-only action rejects --apply",
+      "config.toml/auth.json preserved",
+      "no hook trust writes"
+    ],
+    "temporary_fixtures_cleaned": true
+  },
+  "delivery_checks": {
+    "tracked_and_untracked_files_scanned": 394,
+    "secret_findings": [],
+    "maintained_and_audit_markdown_files_checked": 41,
+    "broken_relative_links": [],
+    "changed_source_hashes_match_tested_state": true,
+    "temporary_file_noise": [],
+    "git_diff_check_exit_code": 0,
+    "final_source_check": {
+      "command": "bash install.sh check",
+      "exit_code": 0,
+      "stdout": "源码预检：/Users/haze/zcode/codex-config\n配置结构与引用检查通过：11 个角色，31 个自维护文档。\n模板离线预检通过：294 文件，1 个已知注记。\n源码配置、引用及脚本语法预检通过。\n",
+      "stderr": ""
+    }
+  }
+}

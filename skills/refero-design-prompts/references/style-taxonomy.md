@@ -1,5 +1,7 @@
 # Refero Style Taxonomy
 
+这些是可选方向，不覆盖既有设计系统、用户选择或具体内容需要；Avoid 项是常见风险提示，不是绝对美学禁令。
+
 This reference compresses the style-selection patterns behind Refero-style design prompts into a reusable taxonomy.
 
 Use it when the user says things like:

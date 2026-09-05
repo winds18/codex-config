@@ -1,0 +1,66 @@
+{
+  "skills/autonomous-project-execution/SKILL.md": {
+    "passed": true,
+    "message": "Skill is valid!"
+  },
+  "skills/feature-thread-launch/SKILL.md": {
+    "passed": true,
+    "message": "Skill is valid!"
+  },
+  "skills/project-bootstrap/SKILL.md": {
+    "passed": true,
+    "message": "Skill is valid!"
+  },
+  "skills/refero-design-prompts/SKILL.md": {
+    "passed": true,
+    "message": "Skill is valid!"
+  },
+  "agents/explorer-lite.toml": {
+    "parsed": true,
+    "parser": "tomli"
+  },
+  "agents/orchestrator.toml": {
+    "parsed": true,
+    "parser": "tomli"
+  },
+  "agents/planner.toml": {
+    "parsed": true,
+    "parser": "tomli"
+  },
+  "agents/pr-preparer.toml": {
+    "parsed": true,
+    "parser": "tomli"
+  },
+  "agents/refiner.toml": {
+    "parsed": true,
+    "parser": "tomli"
+  },
+  "agents/reviewer-lite.toml": {
+    "parsed": true,
+    "parser": "tomli"
+  },
+  "agents/security-lite.toml": {
+    "parsed": true,
+    "parser": "tomli"
+  },
+  "agents/security-reviewer.toml": {
+    "parsed": true,
+    "parser": "tomli"
+  },
+  "agents/summarizer-lite.toml": {
+    "parsed": true,
+    "parser": "tomli"
+  },
+  "agents/tester-lite.toml": {
+    "parsed": true,
+    "parser": "tomli"
+  },
+  "agents/worker.toml": {
+    "parsed": true,
+    "parser": "tomli"
+  },
+  "skills/refero-design-prompts/agents/openai.yaml": {
+    "parsed": true,
+    "parser": "PyYAML"
+  }
+}

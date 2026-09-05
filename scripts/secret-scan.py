@@ -50,7 +50,7 @@ def split_nul(raw: bytes) -> list[str]:
 
 
 def staged_paths() -> list[str]:
-    result = git(["diff", "--cached", "--name-only", "--diff-filter=ACMR", "-z"], check=True)
+    result = git(["diff", "--cached", "--name-only", "--diff-filter=ACMRT", "-z"], check=True)
     return split_nul(result.stdout)
 
 
@@ -68,6 +68,8 @@ def staged_blob(path: str) -> bytes | None:
 
 def file_bytes(path: str) -> bytes | None:
     try:
+        if os.path.islink(path):
+            return os.fsencode(os.readlink(path))
         with open(path, "rb") as handle:
             return handle.read(MAX_BYTES + 1)
     except OSError:
@@ -138,62 +140,94 @@ def scan_tracked() -> list[Finding]:
     return findings
 
 
+def is_zero_sha(value: str) -> bool:
+    return bool(re.fullmatch(r"0{40}|0{64}", value))
+
+
 def outgoing_commits(lines: list[str]) -> list[str]:
+    """Use only the advertised destination tip as a safe exclusion.
+
+    New refs and missing local destination objects deliberately scan full
+    reachable history. Other remotes (and stale tracking refs) are not evidence
+    that the push destination already has an object.
+    """
     commits: set[str] = set()
     for line in lines:
         fields = line.split()
         if not fields:
             continue
         if len(fields) != 4:
-            raise ValueError(f"无法解析 pre-push 输入：{line}")
-
+            raise ValueError("无法解析 pre-push ref 记录")
         _, local_sha, _, remote_sha = fields
-        if local_sha == ZERO_SHA:
+        if not all(re.fullmatch(r"[0-9a-f]{40}|[0-9a-f]{64}", sha)
+                   for sha in (local_sha, remote_sha)):
+            raise ValueError("pre-push 对象 ID 格式无效")
+        if is_zero_sha(local_sha):
             continue
-        if remote_sha == ZERO_SHA:
-            result = git(["rev-list", local_sha, "--not", "--remotes"])
-        else:
-            result = git(["rev-list", f"{remote_sha}..{local_sha}"])
-        commits.update(result.stdout.decode("ascii").splitlines())
+        # Reject non-commit tags rather than silently skipping their payload.
+        git(["rev-parse", "--verify", f"{local_sha}^{{commit}}"])
+        args = ["rev-list", local_sha]
+        if not is_zero_sha(remote_sha) and git(
+            ["cat-file", "-e", f"{remote_sha}^{{commit}}"], check=False
+        ).returncode == 0:
+            args += ["--not", remote_sha]
+        commits.update(git(args).stdout.decode("ascii").splitlines())
     return sorted(commits)
 
 
+def commit_entries(commit: str) -> list[tuple[str, str]]:
+    """Changed file paths and blob IDs, including each parent of a merge.
+
+    Disable rename detection so every new path is checked, even when it reuses
+    a blob that was previously committed under a harmless filename.
+    """
+    raw = git([
+        "diff-tree", "--root", "-m", "--no-commit-id", "--raw", "--no-renames",
+        "--diff-filter=AMT", "-r", "-z", commit,
+    ]).stdout.split(b"\0")
+    entries: set[tuple[str, str]] = set()
+    for index in range(0, len(raw) - 1, 2):
+        metadata = raw[index].split()
+        if len(metadata) != 5:
+            raise ValueError("无法解析提交文件记录")
+        # Gitlinks refer to commits in another repository, not file blobs.
+        if metadata[1] == b"160000":
+            continue
+        entries.add((raw[index + 1].decode("utf-8", "surrogateescape"),
+                     metadata[3].decode("ascii")))
+    return sorted(entries)
+
+
 def commit_paths(commit: str) -> list[str]:
-    result = git(
-        [
-            "diff-tree",
-            "--root",
-            "--no-commit-id",
-            "--name-only",
-            "--diff-filter=ACMR",
-            "-r",
-            "-z",
-            commit,
-        ]
-    )
-    return split_nul(result.stdout)
-
-
-def commit_blob(commit: str, path: str) -> bytes | None:
-    result = git(["show", f"{commit}:{path}"], check=False)
-    if result.returncode != 0:
-        return None
-    return result.stdout
+    return sorted({path for path, _ in commit_entries(commit)})
 
 
 def scan_outgoing(lines: list[str]) -> list[Finding]:
     findings: list[Finding] = []
+    # Content is scanned once per object, while sensitive names are checked at
+    # every distinct path. A harmless filename must not allowlist a later .env.
+    content_findings: dict[str, list[Finding]] = {}
+    seen_entries: set[tuple[str, str]] = set()
     for commit in outgoing_commits(lines):
-        for path in commit_paths(commit):
-            content = commit_blob(commit, path)
-            if content is not None:
-                display_path = f"{path}@{commit[:12]}"
-                path_label = sensitive_path_label(path)
-                if path_label:
-                    findings.append(
-                        Finding(path=display_path, line=1, label=path_label)
+        for path, blob in commit_entries(commit):
+            if (path, blob) in seen_entries:
+                continue
+            seen_entries.add((path, blob))
+            display_path = f"{path}@{commit[:12]}"
+            if label := sensitive_path_label(path):
+                findings.append(Finding(display_path, 1, label))
+            if blob not in content_findings:
+                size = int(git(["cat-file", "-s", blob]).stdout)
+                if size > MAX_BYTES:
+                    content_findings[blob] = [Finding(
+                        "", 1, f"文件超过 {MAX_BYTES} 字节，无法完成敏感信息扫描"
+                    )]
+                else:
+                    content_findings[blob] = scan_content(
+                        "", git(["cat-file", "blob", blob]).stdout
                     )
-                findings.extend(scan_content(display_path, content))
+            findings.extend(Finding(display_path, item.line, item.label)
+                            for item in content_findings[blob])
     return findings
 
 
@@ -201,7 +235,7 @@ def report(findings: list[Finding], *, success_message: str) -> int:
     if findings:
         print("敏感信息扫描失败：发现疑似敏感内容", file=sys.stderr)
         for finding in findings:
-            print(f"- {finding.path}:{finding.line}: {finding.label}", file=sys.stderr)
+            print(f"- {finding.path!r}:{finding.line}: {finding.label}", file=sys.stderr)
         print("请先移除敏感内容；如果是真实凭证，还必须先轮换凭证。", file=sys.stderr)
         return 1
 

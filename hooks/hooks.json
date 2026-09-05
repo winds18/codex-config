@@ -1,116 +1,14 @@
 {
   "hooks": {
-    "SessionStart": [
-      {
-        "matcher": "startup|resume|compact",
-        "hooks": [
-          {
-            "type": "command",
-            "command": "python3 \"$HOME/.codex/hooks/codex-policy-guard.py\"",
-            "timeout": 10,
-            "statusMessage": "注入主线程工作习惯",
-            "additionalContextLimit": 8000
-          }
-        ]
-      }
-    ],
-    "UserPromptSubmit": [
-      {
-        "hooks": [
-          {
-            "type": "command",
-            "command": "python3 \"$HOME/.codex/hooks/codex-policy-guard.py\"",
-            "timeout": 10,
-            "statusMessage": "检查提示词安全策略"
-          }
-        ]
-      }
-    ],
     "PreToolUse": [
       {
-        "matcher": "Bash|apply_patch|Edit|Write",
+        "matcher": "Bash|exec_command|apply_patch|Edit|Write",
         "hooks": [
           {
             "type": "command",
-            "command": "python3 \"$HOME/.codex/hooks/codex-policy-guard.py\"",
+            "command": "python3 \"${CODEX_HOME:-$HOME/.codex}/hooks/codex-policy-guard.py\"",
             "timeout": 10,
-            "statusMessage": "检查工具执行策略"
-          }
-        ]
-      }
-    ],
-    "PermissionRequest": [
-      {
-        "matcher": "Bash|apply_patch|Edit|Write",
-        "hooks": [
-          {
-            "type": "command",
-            "command": "python3 \"$HOME/.codex/hooks/codex-policy-guard.py\"",
-            "timeout": 10,
-            "statusMessage": "检查权限升级策略"
-          }
-        ]
-      }
-    ],
-    "SubagentStart": [
-      {
-        "hooks": [
-          {
-            "type": "command",
-            "command": "python3 \"$HOME/.codex/hooks/codex-policy-guard.py\"",
-            "timeout": 10,
-            "statusMessage": "注入子代理工作习惯",
-            "additionalContextLimit": 3000
-          }
-        ]
-      }
-    ],
-    "SubagentStop": [
-      {
-        "hooks": [
-          {
-            "type": "command",
-            "command": "python3 \"$HOME/.codex/hooks/codex-policy-guard.py\"",
-            "timeout": 10,
-            "statusMessage": "检查子代理交付摘要"
-          }
-        ]
-      }
-    ],
-    "PreCompact": [
-      {
-        "matcher": "manual|auto",
-        "hooks": [
-          {
-            "type": "command",
-            "command": "python3 \"$HOME/.codex/hooks/codex-policy-guard.py\"",
-            "timeout": 10,
-            "statusMessage": "检查压缩前上下文"
-          }
-        ]
-      }
-    ],
-    "PostCompact": [
-      {
-        "matcher": "manual|auto",
-        "hooks": [
-          {
-            "type": "command",
-            "command": "python3 \"$HOME/.codex/hooks/codex-policy-guard.py\"",
-            "timeout": 10,
-            "statusMessage": "检查压缩后上下文"
-          }
-        ]
-      }
-    ],
-    "Stop": [
-      {
-        "hooks": [
-          {
-            "type": "command",
-            "command": "python3 \"$HOME/.codex/hooks/codex-policy-guard.py\"",
-            "timeout": 10,
-            "statusMessage": "检查完成声明与验证证据"
+            "statusMessage": "检查直接命令与受管文件目标"
           }
         ]
       }

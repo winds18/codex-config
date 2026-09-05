@@ -2,5 +2,7 @@
 set -euo pipefail
 
 ROOT_DIR="$(git rev-parse --show-toplevel)"
+# stdin contains the destination's advertised tips. The scanner never excludes
+# other remotes or local tracking refs, which can hide a first-publication leak.
 python3 "$ROOT_DIR/scripts/secret-scan.py" --pre-push
 bash "$ROOT_DIR/scripts/codex-config-guard.sh"

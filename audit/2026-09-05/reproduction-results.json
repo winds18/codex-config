@@ -1,0 +1,13 @@
+{
+  "negated_completion": "block",
+  "unverified_claim": "allow",
+  "valid_short_summary": "block",
+  "quoted_documentation": "block",
+  "checkout_discard": "allow",
+  "safe_documentation_patch": "block",
+  "merge_paths": [],
+  "direct_merge_blob_findings": 1,
+  "merge_outgoing_findings": 0,
+  "unrelated_remote_excludes_ordinary_commit": true,
+  "new_remote_outgoing_findings": 0
+}

@@ -1,249 +1,81 @@
 # codex-config
 
-这是一套面向个人 AI 开发的 Codex 全局配置仓库。
+一套以自主完成、有效并行和证据交付为目标的个人 Codex 配置。主任务直接推进关键路径，子代理负责独立模块，公共接口由明确负责人集成；专业流程按需加载。
 
-核心目标只有三个：
+## 使用入口
 
-- 让当前仓库目录成为唯一真源目录
-- 让 `~/.codex` 只承担可恢复的软连接入口
-- 让新设备能够被人类或 AI 快速接管，而不是重新手配一遍
+- [全局工作约定](AGENTS.md)：授权、并行、范围与交付。
+- [并行开发流程](docs/thread-governance-policy.md)：任务拆分、文件归属、等待与集成。
+- [软件工程流程](skills/autonomous-project-execution/references/software-engineering-workflow.md)：需求与验收 → 架构 → 接口契约 → 并行实现 → 集成测试；目录与临时文件清理。
+- [客户端与模型适配](docs/client-compatibility.md)：模型继承、Goal、定时任务和技能发现。
+- [体系总览](docs/codex-global-setup-overview.md)：各层职责和维护入口。
 
----
+主任务先确定架构和共享契约，再分发独立模块并推进关键路径；局部修复复用现有设计。文件及运行资源明确归属，改派确认停止，证据对应当前集成状态，临时文件用完即删。相关工作在当前任务完成，新用户任务只响应明确请求。
 
-## 1. 仓库定位
+## 一键安装与维护
 
-这套配置不是某个单项目的局部规则，而是跨项目复用的 Codex 全局工作流。
-
-当前已经包含：
-
-- 全局 `AGENTS.md`
-- 本仓库 `AGENTS.override.md`
-- 全局 agents 角色
-- 全局 skills
-- 前端视觉交付、动效与项目级 `DESIGN.md` 契约
-- 可离线使用的品牌设计、个人主页、Hero、单 HTML 与 HTML 演示稿模板快照
-- 全局 docs 模板与治理文档
-- 全局 Codex hooks 守门点
-- 仓库 guard 与 Git hooks 模板
-- 提交和推送前敏感内容扫描
-- 提交和推送前项目目录清洁检查
-- Git 分支、提交、发布与构建产物策略
-- 一键挂载脚本
-- 一键恢复官方原版状态脚本
-
-日常维护原则：
-
-- 只改这个仓库里的真源文件
-- 不直接手改 `~/.codex` 里的软连接内容
-- 改完后通过恢复脚本重新挂载或开新会话验证
-- 提交说明、文档记录、执行总结和代码注释默认使用中文
-
----
-
-## 2. 目录结构
-
-```text
-AGENTS.md
-AGENTS.override.md
-README.md
-agents/
-docs/
-git-hooks/
-hooks/
-prompts/
-scripts/
-skills/
-```
-
-目录职责：
-
-- `AGENTS.md`：全局行为契约
-- `AGENTS.override.md`：本仓库维护规则，避免全局总纲在本仓库重复加载
-- `agents/`：全局角色分工
-- `skills/`：可被 Codex 发现和调用的全局能力
-- `docs/`：模板、治理规则、恢复说明
-- `hooks/`：Codex lifecycle hooks 与策略脚本
-- `git-hooks/`：提交和推送前的仓库守门模板，通过 `core.hooksPath` 激活
-- `scripts/`：挂载与恢复脚本
-- `prompts/`：保留的轻量 prompt 入口
-
-Git 工作流策略包含：
-
-- 分支管理
-- 提交前整理
-- 版本发布
-- 构建产物管理
-
----
-
-## 3. 新设备首次部署
-
-前提：
-
-- 目标机器已安装 Codex
-- 目标机器已安装 Git，并可访问 `https://github.com/winds18/codex-config.git`
-
-推荐流程：
+需要 Bash、Python 3.9+；克隆使用 Git。完整源码压缩包也可离线安装，无需 Git、rg 或 Codex CLI。入口面向 macOS/Linux/WSL，回归测试在 macOS 运行。
 
 ```bash
 git clone https://github.com/winds18/codex-config.git
 cd codex-config
-bash scripts/restore-codex-global-links.sh
+bash install.sh --apply
 ```
 
-说明：
-
-- 脚本会自动根据自身位置识别仓库根目录
-- 仓库不需要 clone 到固定绝对路径
-- `~/.codex` 不存在时会自动创建必要目录
-
-执行完成后：
-
-- 重新打开 Codex，或至少开启一个新会话
-- 在 Codex 中打开 `/hooks`，检查并信任本仓库挂载的 hooks
-
----
-
-## 4. 挂载后常用入口
-
-挂载完成后，优先使用这些入口：
+这一条命令依次完成**源码预检 → 按清单事务安装 → 安装后诊断**。不带 `--apply` 默认只预览；重复执行应用当前本地仓库版本，不自动拉取远程或重置源码。
 
 ```bash
-bash ~/.codex/restore-global-setup.sh
-bash ~/.codex/restore-official-state.sh --dry-run
-bash ~/.codex/restore-official-state.sh --apply
+bash install.sh                  # 预检并预览安装，不写配置
+bash install.sh check            # 只检查源码
+bash install.sh doctor           # 只检查已安装文件和环境
+bash install.sh uninstall        # 预览卸载；添加 --apply 执行
+bash install.sh recover          # 预览中断事务恢复；添加 --apply 执行
 ```
 
-用途：
+安装后开启新任务验证规则和技能发现；自定义 hook 在客户端 `/hooks` 审查信任。安装器不修改账号、个人 config.toml 或信任状态。doctor 区分文件错误与环境提示；未发现 CLI 不等于桌面客户端不可用。
 
-- `restore-global-setup.sh`：重新挂回这套全局配置
-- `restore-official-state.sh --dry-run`：预览回退动作
-- `restore-official-state.sh --apply`：回退到尽量接近官方原版状态
-
----
-
-## 5. 部署后校验
-
-最小校验命令：
+脚本按本仓库拥有的文件安装，保留外来 agent 和 hook，记录精确备份与事务清单。默认技能位置为配置根下的 skills；目标客户端使用 `.agents/skills` 时可显式选择 `--skills-dir`，不要双重安装同名技能。
 
 ```bash
-ls -l ~/.codex/AGENTS.md ~/.codex/agents ~/.codex/docs ~/.codex/prompts
-ls -l ~/.codex/hooks.json ~/.codex/hooks
-ls -l ~/.codex/restore-global-setup.sh ~/.codex/restore-official-state.sh
-ls -l ~/.codex/skills/project-bootstrap ~/.codex/skills/autonomous-project-execution ~/.codex/skills/feature-thread-launch ~/.codex/skills/refero-design-prompts
+bash install.sh --codex-home /path/to/config --skills-dir /path/to/skills --apply
+bash /path/to/config/codex-config.sh doctor
+bash /path/to/config/codex-config.sh uninstall
 ```
 
-校验目标：
+安装后的 `codex-config.sh` 自动绑定所在配置根；卸载沿用清单中的技能目录。旧 `scripts/restore-codex-global-links.sh`、`scripts/codex-config-doctor.sh`、`scripts/restore-codex-official-state.sh` 继续兼容；日常维护使用统一入口。卸载恢复安装前状态，不保证出厂默认状态。
 
-- 这些入口应存在
-- 它们应指向当前 clone 的仓库目录
+旧版无清单的整目录软连接需先按已确认的原备份还原，脚本不会猜测最新备份覆盖用户状态。具体步骤与故障恢复见 [安装说明](docs/restore-codex-setup.md) 和 [卸载说明](docs/restore-codex-official-state.md)。
 
-如果入口缺失或目标不对，重新执行：
+## 按需技能与角色
 
-```bash
-bash scripts/restore-codex-global-links.sh
-```
+| 入口 | 用途 |
+| --- | --- |
+| `$project-bootstrap` | 建立真实运行和验证入口；不强制文档五件套 |
+| `$autonomous-project-execution` | 跨模块/阶段的自主推进、并行实现和集成 |
+| `$feature-thread-launch` | 用户明确要求独立任务时交接 |
+| `$refero-design-prompts` | 视觉方向、现有设计系统适配、模板与渲染验证 |
 
-仓库自身一致性校验：
+保留 11 个兼容角色名，按需要选用；主执行与高难复核默认继承宿主模型，轻量角色保留有明确用途的配置。没有固定“每阶段派全套角色”的流程，也没有按模型代际硬封禁。
+
+`prompts/` 是人工可选入口；hooks 不再全局注入架构、前端或工作习惯，不通过“完成/测试”等关键词阻断结束。
+
+## 检查与 Git hooks
 
 ```bash
 bash scripts/codex-config-guard.sh
-```
-
-该 guard 会同时执行高置信 secret scan，防止敏感内容进入提交；`pre-push` 还会扫描全部待推送提交历史，避免已在后续提交中删除的 secret 随历史进入远程。
-
-该 guard 也会执行项目目录清洁检查，防止临时文件、日志和备份文件进入暂存区或散落在仓库根目录。
-
-该 guard 还会在临时目录执行入口挂载/官方恢复回环测试和 lifecycle hook 策略测试，不会修改真实 `~/.codex`。
-
-如果当前目录已经是 git 仓库，可以安装提交和推送前守门：
-
-```bash
 bash scripts/install-git-hooks.sh
+bash scripts/install-git-hooks.sh --apply
 git config --worktree --get core.hooksPath
 ```
 
-每个新 worktree 都需要在该 worktree 内重新执行一次安装脚本。
+Git hooks 安装也先预览，保留已有配置以便卸载；新 worktree 确认其作用域。不要把本仓库 hooks 安装到缺少相应 scripts 的其他项目。
 
----
+Guard 检查配置结构、引用、脚本语法、运行行为、敏感信息、安装恢复及模板资产。pre-push 扫描将发送的历史，覆盖合并提交和新远程分支。它不验证文档必须包含某些口号，也不把当前工作树安全等同于历史安全。
 
-## 6. 日常更新方式
+权限仍由宿主控制；自定义 hook 仅覆盖有限的直接工具操作。[Hooks 边界](docs/hook-enforcement-policy.md)、[Git 工作流](docs/git-workflow-policy.md)。
 
-当你在一台机器上更新了真源文件，另一台机器同步时按下面顺序：
+## 维护
 
-```bash
-cd /path/to/codex-config
-git pull
-bash ~/.codex/restore-global-setup.sh
-```
+修改真源后运行完整 guard；获取并审查新版本后，重复 `bash install.sh --apply` 应用变更。不直接编辑已安装软连接。hooks 合并内容和新入口需重新安装，规则文件软连接读取到的是当前真源；安装器不切换或下载源码。
 
-原则：
-
-- `git pull` 负责更新真源
-- `restore-global-setup.sh` 负责刷新入口
-- 新 skill 或新 prompt 如果没马上显示，直接开新会话验证
-- hooks 发生变化后，打开 `/hooks` 重新检查信任状态
-
----
-
-## 7. AI 自动部署说明
-
-如果你要让 AI 在新设备自动完成接管，给它的目标可以直接写成：
-
-```text
-将 https://github.com/winds18/codex-config.git clone 到本机，
-执行仓库内 scripts/restore-codex-global-links.sh，
-确认 ~/.codex 下的 AGENTS、agents、docs、prompts、hooks、restore 脚本和 skills 入口均已正确挂载，
-运行 scripts/codex-config-guard.sh，
-提醒我在 Codex 中打开 /hooks 检查并信任 hook，
-最后回报校验结果，但不要推送、不要改官方目录内容。
-```
-
-AI 执行时应遵守：
-
-- 优先在仓库内改真源，不改 `~/.codex` 入口内容
-- 优先用恢复脚本重建入口，而不是手动补单个软连接
-- 在宣称完成前先做软连接校验
-- 不替我静默信任 hook；只提醒我进入 `/hooks` 审查
-
----
-
-## 8. 官方原版恢复
-
-如果你要临时或长期撤销这套自定义体系：
-
-```bash
-bash ~/.codex/restore-official-state.sh --dry-run
-bash ~/.codex/restore-official-state.sh --apply
-```
-
-恢复后如果还要重新挂回本仓库：
-
-```bash
-bash /path/to/codex-config/scripts/restore-codex-global-links.sh
-```
-
----
-
-## 9. 维护约定
-
-为了避免前后不一：
-
-- `docs/` 里的项目模板是唯一维护版本
-- `project-bootstrap` 直接读取 `../../docs/`，不再维护模板副本
-- 自然语言记录默认中文，只有命令、标识符、协议字段、外部 API 名称和错误原文保留英文
-- skill 为保持外部资料和提示词效果可以保留必要英文，但入口描述和面向我的摘要应优先使用中文
-- 任何会影响跨设备部署的改动，都必须同时检查：
-  - `scripts/`
-  - `hooks/`
-  - `git-hooks/`
-  - `scripts/secret-scan.py`
-  - `scripts/workspace-cleanliness-check.sh`
-  - `docs/restore-*`
-  - `docs/hook-enforcement-policy.md`
-  - `docs/git-workflow-policy.md`
-  - `docs/codex-global-setup-overview.md`
-  - `AGENTS.override.md`
-  - 本 README
-
-这份 README 是人类和 AI 在仓库层面的单入口。
+项目模板保持短、具体；领域细节留在技能。第三方模板保留来源、许可与固定快照，不全量加载为上下文。查看 [一键安装优化与验证](audit/2026-09-05/INSTALLATION.md)、[工程流程与约束优化](audit/2026-09-05/REFINEMENT.md)、[首轮优化与验证](audit/2026-09-05/IMPLEMENTATION.md) 和 [首轮逐文件清单](audit/2026-09-05/file-review.md)。
