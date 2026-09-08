@@ -19,4 +19,6 @@
 重要调整：<仅记录影响范围、依赖或交付承诺的变化与原因>
 ```
 
+多端项目按需在已有计划中关联实际职责、真实任务 ID、负责目录、共享契约负责人及联合验收负责人；组织方式见[按职责组织多端任务](../skills/autonomous-project-execution/references/autonomous-execution-workflow.md#按职责组织多端任务)。
+
 用户任务、子代理和自动化的实时状态以应用工具为准。不复制完整线程台账，不为每次工具调用写 goal delta。文档目标不等于已创建原生 Goal。

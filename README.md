@@ -14,6 +14,8 @@
 
 交付同时要求功能健壮、执行高效和代码清晰：按实际规模选择算法与数据结构，必要时研究比较，以测量验证性能，控制重复、耦合及抽象成本；详细要求统一维护在软件工程流程中。
 
+多端项目可[按职责组织任务](skills/autonomous-project-execution/references/autonomous-execution-workflow.md#按职责组织多端任务)：前端、后端等保留各自上下文，各端围绕同一功能与契约并行交付，主任务负责集成；短期工作用子代理，不固定建立全套团队。
+
 ## 一键安装与维护
 
 需要 Bash、Python 3.9+；克隆使用 Git。完整源码压缩包也可离线安装，无需 Git、rg 或 Codex CLI。入口面向 macOS/Linux/WSL，回归测试在 macOS 运行。

@@ -31,6 +31,8 @@ AGENTS 层级和同目录 override 仍有效；本仓库 override 只用于维�
 
 工程流程统一维护在 [跨项目与既有任务统筹](../skills/autonomous-project-execution/references/autonomous-execution-workflow.md#跨项目与既有任务统筹)。下列工具是 2026-09-08 根任务提供的桌面接口，子代理、CLI 或其他客户端不保证相同；先看当前契约，不把工具名或参数上限写成全局要求。
 
+多端任务可按“项目·职责·阶段目标”辅助命名，职责模式见 [多端任务分工](../skills/autonomous-project-execution/references/autonomous-execution-workflow.md#按职责组织多端任务)。当前桌面提供 `create_sidebar_section` 及移动项目/任务到分类的工具；创建、移动或重命名按用户相应组织请求执行。侧栏分类和标题用于导航，不能据此推定上下文共享、层级从属或写入隔离；应用中的用户任务仍是平级，调度以真实 ID 和归属为准。
+
 | 用途 | 当前接口与关键边界 |
 | --- | --- |
 | 查找/读取既有工作 | `list_projects`、`list_threads`、`read_thread`；按返回 ID、宿主和项目定位，先摘要后必要历史，动态状态不另建台账 |

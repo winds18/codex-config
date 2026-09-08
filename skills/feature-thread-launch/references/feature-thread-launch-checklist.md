@@ -15,6 +15,8 @@
 
 跨仓交接按需补充：仓库/目录与既有任务 ID、契约权威来源及版本、生产者/消费者关系、参与验收的 SHA 或包版本组合、联合验收负责人。详细流程见[并行执行与交接](../../autonomous-project-execution/references/autonomous-execution-workflow.md)。
 
+按职责交接的专责任务须限定本阶段成果、负责目录和完成条件，按需引用已有计划中的关联任务与共享契约归属；组织方式见[按职责组织多端任务](../../autonomous-project-execution/references/autonomous-execution-workflow.md#按职责组织多端任务)。
+
 调用前核实工具能力与项目；用户未指定模型时保持默认。创建后只用真实返回 ID，等待异步状态；同一状态不反复读取完整历史。
 
 交付摘要包括实际变更、验证、限制和需接续的事项。状态、合并与归档以工具事实为准，计划文档不充当第二份应用数据库。
