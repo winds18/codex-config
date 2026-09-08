@@ -1,6 +1,6 @@
 # 客户端与模型适配
 
-核实日期：2026-09-05。本次测试主机：macOS，Codex CLI 0.153.3。配置可用性仍取决于实际客户端、账号与受管策略；本仓库不替用户切换账号或更改模型权限。
+基线核实：2026-09-05，macOS / Codex CLI 0.153.3；跨项目与任务能力于 2026-09-08 复核，本机 CLI 已为 0.153.4。配置可用性仍取决于实际客户端、账号与受管策略；本仓库不替用户切换账号或更改模型权限。
 
 ## 模型路由
 
@@ -26,6 +26,25 @@ AGENTS 层级和同目录 override 仍有效；本仓库 override 只用于维�
 - 桌面定时本地工作要求应用/电脑运行；网页工作不能直接读取本机目录。网页/移动事件触发不能视为桌面已有能力。[Scheduled tasks](https://learn.chatgpt.com/docs/automations)
 - Hooks 的 Bash matcher 也覆盖 unified exec；apply_patch 有 Edit/Write aliases。PreToolUse 的 ask 尚不支持，不能当成审批实现。自定义 hook 是额外检查，不能替代客户端权限。[Hooks](https://learn.chatgpt.com/docs/hooks)
 - 外部软件、浏览器、文档/表格等任务按实际插件和工具执行，技能说明按需读取，不复制完整产品工具手册。
+
+## 跨项目与任务工具
+
+工程流程统一维护在 [跨项目与既有任务统筹](../skills/autonomous-project-execution/references/autonomous-execution-workflow.md#跨项目与既有任务统筹)。下列工具是 2026-09-08 根任务提供的桌面接口，子代理、CLI 或其他客户端不保证相同；先看当前契约，不把工具名或参数上限写成全局要求。
+
+| 用途 | 当前接口与关键边界 |
+| --- | --- |
+| 查找/读取既有工作 | `list_projects`、`list_threads`、`read_thread`；按返回 ID、宿主和项目定位，先摘要后必要历史，动态状态不另建台账 |
+| 续接/等待 | `send_message_to_thread` 会形成用户可见提示并触发执行；按已有授权发送增量。`wait_threads` 优先游标/事件，当前最多 8 个目标，`timeoutMs: 0` 适合即时快照；等待中继续独立工作，不循环回读全历史 |
+| 创建/分叉 | `create_thread` 需明确新任务请求，先查项目；Git 项目默认 worktree，遵从用户明确起点。异步 `clientThreadId` 不是就绪 `threadId`，先定位真实任务再供后续工具使用。`fork_thread` 仅复制已完成历史，不包含运行中的本轮及未完成回答 |
+| 移动执行环境 | `handoff_thread` 移动其他任务及 Git 状态并中断其运行；不能移动调用任务自己，当前不支持 cloud handoff。按返回 operationId 用 `get_handoff_status` 确认完成，无变化时退避；可选宿主以实际列表为准 |
+
+本地多目录项目的 Git 默认操作、AGENTS/技能/config 自动发现，以及 worktree/PR 操作以主目录或主仓为中心；次目录仍挂载，不能假设其规则已加载或写入已隔离。跨仓操作需逐仓核对。[项目文档](https://learn.chatgpt.com/docs/projects)
+
+Local environments 可复用 worktree 初始化与 Run/Test 等 Actions；配置放所属项目，调用已有脚本并按实际需要准备依赖。`.worktreeinclude` 的忽略文件复制适用于本地受管 worktree，远程或手工 worktree 不应推定相同。[本地环境](https://learn.chatgpt.com/docs/environments/local-environment)、[Worktrees](https://learn.chatgpt.com/docs/environments/git-worktrees)
+
+需要同任务稍后续办时，按后续工作请求使用 `automation_update` 的 heartbeat；独立定时运行依工具契约。公开文档的多项目定时和网页/移动事件触发，不代表当前桌面创建接口提供同样参数；本轮 cron 接口仅有单个 projectId。可用时先用普通任务验证跟进提示与结果，再安排定时，通知及结束条件明确。[定时任务](https://learn.chatgpt.com/docs/automations)
+
+异步澄清只在当前会话确实提供相应工具时使用；必要答案仍是依赖工作的前置条件。记忆用于召回线索，不能替代当前契约、授权和验证证据；实验性上下文管理不作为必需工具或默认安装项。[变更日志](https://learn.chatgpt.com/docs/changelog)、[记忆](https://learn.chatgpt.com/docs/customization/memories)
 
 ## 衡量是否提效
 
