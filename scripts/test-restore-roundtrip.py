@@ -614,6 +614,16 @@ module.main(['uninstall', '--repo', repo, '--codex-home', root, '--apply'])
 
 
 class GitHooksTests(unittest.TestCase):
+    def setUp(self):
+        # Temporary repositories must not inherit the invoking hook's Git paths.
+        local_variables = subprocess.check_output(
+            ['git', 'rev-parse', '--local-env-vars'], text=True
+        ).splitlines()
+        environment = {key: value for key, value in os.environ.items() if key not in local_variables}
+        isolation = patch.dict(os.environ, environment, clear=True)
+        isolation.start()
+        self.addCleanup(isolation.stop)
+
     def test_linked_worktree_hook_settings_do_not_replace_main_worktree_settings(self):
         with tempfile.TemporaryDirectory(prefix='codex-worktree-hooks-test-') as directory:
             repo = Path(directory) / 'main'

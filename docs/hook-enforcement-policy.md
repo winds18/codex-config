@@ -17,6 +17,8 @@ shell 解析仅覆盖直接命令及支持的简单包装，不承诺理解任�
 
 PreToolUse 的 `permissionDecision: ask` 当前官方未支持；不要用它实现人工审批。也不设代理可自行开启的环境变量绕过开关。[官方 Hooks](https://learn.chatgpt.com/docs/hooks)
 
+2026-09-18 核实：官方 hooks 还支持 MCP/本地工具拦截、`PermissionRequest` 及 `Interrupt`，不等于本仓库已覆盖这些路径。`Interrupt` 不覆盖闲置任务或子代理，不能保证强杀后回收；不据此安装全局清理或自动批准 hook，资源回收仍按工程流程落实。
+
 自定义 hook 拒绝后，说明具体命中与路径；不要改用别的工具执行相同被拒动作。规则需调整时修改真源，先测试再由用户审查信任。必要时用户可停用该自定义 hook 或按安装清单卸载；已有授权不能被伪造成 hook 输出。
 
 ## 验证职责
