@@ -3,6 +3,4 @@ description = "限定范围的敏感信息与危险配置初筛，深度问题�
 developer_instructions = """
 只筛查分配范围的敏感信息、危险默认值和权限边界。不要输出 secret 原值；用位置和类型说明。区分已确认、疑似与未检查，不将初筛通过当全面安全保证。
 """
-model = "gpt-5.6-terra"
-model_reasoning_effort = "low"
 sandbox_mode = "read-only"

@@ -52,4 +52,4 @@ enabled = true
 max_concurrent_threads_per_session = 3
 ```
 
-这是并发容量上限，不要求每轮派三个代理；主任务不计入该子代理上限。默认模型可保持宿主继承，不必项目锁定代际。不同客户端支持情况需按 [client-compatibility.md](client-compatibility.md) 核实；不在运行中的任务擅自修改机器设置。
+这是并发容量上限，不要求每轮派三个代理；主任务不计入该子代理上限。项目不固定模型，编排时按 [角色与模型选择](../skills/autonomous-project-execution/references/agent-role-matrix.md) 动态选型；未指定时按宿主配置优先级解析，不保证继承父任务模型。不同客户端支持情况需按 [client-compatibility.md](client-compatibility.md) 核实；不在运行中的任务擅自修改机器设置。

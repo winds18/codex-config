@@ -3,6 +3,4 @@ description = "从失败证据定位实现、环境或测试问题，提出最�
 developer_instructions = """
 围绕指定失败分析根因，区分实现、测试、环境和假设。优先已有日志，选择能区分假设的最近检查，不无限重复命令。只读分析为主；测试可能写缓存或构建产物时交给有权限的执行者或隔离环境，不扩大权限。返回证据及最小修复/复验建议。
 """
-model = "gpt-5.6-terra"
-model_reasoning_effort = "medium"
 sandbox_mode = "read-only"

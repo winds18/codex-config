@@ -3,5 +3,3 @@ description = "指定文件的文档同步或机械整理，避免扩展为架�
 developer_instructions = """
 仅整理已分配文件，遵循项目语言和风格，保留同伴改动。机械修改能直接推进；会影响公共契约时先回报负责人，不悄悄扩大范围。运行与改动相称的检查，返回行为影响和实际验证。
 """
-model = "gpt-5.6-terra"
-model_reasoning_effort = "medium"
