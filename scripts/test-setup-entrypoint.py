@@ -136,6 +136,7 @@ class SetupEntryTests(unittest.TestCase):
     def test_missing_runtime_dependency_is_rejected(self):
         source = self.alternate_source()
         for name in ('scripts/validate-config.py',
+                     'scripts/update-codex-config.py',
                      'skills/refero-design-prompts/scripts/verify-template-dependencies.py'):
             with self.subTest(name=name):
                 path = source / name
@@ -149,6 +150,94 @@ class SetupEntryTests(unittest.TestCase):
                     self.assertFalse(self.root.exists())
                 finally:
                     path.write_bytes(original)
+
+    def test_installed_daily_update_uses_own_root_and_uninstalls_cleanly(self):
+        writer = self.base / 'update-writer'
+        shutil.copytree(self.source, writer, symlinks=True)
+        origin = self.base / 'update-origin.git'
+        checkout = self.base / 'update-source'
+        environment = {key: value for key, value in self.environment.items()
+                       if not key.startswith('GIT_')}
+        environment.update(GIT_CONFIG_GLOBAL=os.devnull, GIT_CONFIG_NOSYSTEM='1',
+                           GIT_ALLOW_PROTOCOL='file', GIT_TERMINAL_PROMPT='0',
+                           GIT_AUTHOR_NAME='Update Test', GIT_COMMITTER_NAME='Update Test',
+                           GIT_AUTHOR_EMAIL='update@example.invalid',
+                           GIT_COMMITTER_EMAIL='update@example.invalid')
+
+        def git(directory, *arguments):
+            result = subprocess.run(['git', '-C', str(directory), *arguments],
+                                    text=True, capture_output=True, env=environment, timeout=20)
+            self.success(result)
+            return result.stdout.strip()
+
+        git(self.base, 'init', '--bare', '--initial-branch=main', str(origin))
+        git(writer, 'init', '--initial-branch=main')
+        git(writer, 'add', '--all')
+        git(writer, '-c', 'commit.gpgsign=false', 'commit', '-m', 'Initial configuration')
+        git(writer, 'remote', 'add', 'origin', str(origin))
+        git(writer, 'push', '-u', 'origin', 'main')
+        git(self.base, 'clone', str(origin), str(checkout))
+        skills = self.base / 'update-skills'
+        self.success(self.invoke('--skills-dir', str(skills), '--apply', source=checkout,
+                                 environment=dict(environment, GIT_DIR=str(writer / '.git'),
+                                                  GIT_WORK_TREE=str(writer))))
+        initial_receipt = json.loads((self.root / '.codex-config-state/manifest.json').read_text())
+        self.assertEqual(initial_receipt['source_revision'], git(checkout, 'rev-parse', 'HEAD'))
+        second = self.base / 'second-update-config'
+        second_skills = self.base / 'second-update-skills'
+        result = subprocess.run(['bash', str(checkout / 'install.sh'), '--apply',
+                                 '--codex-home', str(second), '--skills-dir', str(second_skills)],
+                                env=environment, text=True, capture_output=True, timeout=90)
+        self.success(result)
+        (writer / 'docs/update-proof.md').write_text('# Updated configuration\n', encoding='utf-8')
+        git(writer, 'add', '--all')
+        git(writer, '-c', 'commit.gpgsign=false', 'commit', '-m', 'New configuration entry')
+        git(writer, 'push', 'origin', 'main')
+        decoy = self.base / 'unrelated-config'
+        backups_path = self.root / '.codex-config-state/backups.json'
+        before_backups = backups_path.read_bytes()
+        damaged = json.loads(before_backups)
+        damaged[next(iter(damaged))] = {'kind': 'file', 'data': '', 'mode': 0o600}
+        backups_path.write_text(json.dumps(damaged))
+        rejected = subprocess.run(['bash', str(self.root / 'codex-config.sh'), 'update', '--apply'],
+                                  env=environment, text=True, capture_output=True, timeout=90)
+        self.assertNotEqual(rejected.returncode, 0)
+        self.assertIn('备份摘要不匹配', rejected.stderr)
+        self.assertEqual(git(checkout, 'rev-parse', 'HEAD'), initial_receipt['source_revision'])
+        self.assertFalse((self.root / '.codex-config-state/daily-update.json').exists())
+        backups_path.write_bytes(before_backups)
+        result = subprocess.run(['bash', str(self.root / 'codex-config.sh'), 'update', '--apply'],
+                                text=True, capture_output=True, cwd=self.base,
+                                env=dict(environment, CODEX_HOME=str(decoy)), timeout=90)
+        self.success(result)
+        self.assertEqual(git(checkout, 'rev-parse', 'HEAD'), git(writer, 'rev-parse', 'HEAD'))
+        self.assertTrue((self.root / 'docs/update-proof.md').is_symlink())
+        self.assertTrue((skills / 'autonomous-project-execution').is_symlink())
+        self.assertFalse(decoy.exists())
+        state = json.loads((self.root / '.codex-config-state/daily-update.json').read_text())
+        self.assertEqual(state['status'], 'updated')
+        self.assertFalse((second / 'docs/update-proof.md').exists())
+        result = subprocess.run(['bash', str(second / 'codex-config.sh'), 'update', '--apply'],
+                                env=environment, text=True, capture_output=True, timeout=90)
+        self.success(result)
+        self.assertTrue((second / 'docs/update-proof.md').is_symlink())
+        receipt = json.loads((second / '.codex-config-state/manifest.json').read_text())
+        self.assertEqual(receipt['source_revision'], git(writer, 'rev-parse', 'HEAD'))
+        self.success(self.invoke('uninstall', '--apply', source=checkout, environment=environment))
+        self.assertFalse(self.root.exists())
+
+    def test_uninstall_retains_pending_candidate_record(self):
+        self.success(self.invoke('--apply'))
+        candidate = self.base / 'retained candidate'
+        candidate.mkdir()
+        (candidate / 'evidence').write_text('interrupted validation\n')
+        record = self.root / '.codex-config-state/daily-update.json'
+        record.write_text(json.dumps({'candidate_path': str(candidate), 'status': 'failed'}))
+        self.success(self.invoke('uninstall', '--apply'))
+        self.assertTrue(candidate.exists())
+        self.assertEqual(json.loads(record.read_text())['candidate_path'], str(candidate))
+        self.success(self.invoke('--apply'))
+        self.assertEqual(json.loads(record.read_text())['candidate_path'], str(candidate))
 
     def test_source_and_destination_overlap_is_rejected(self):
         before = (self.source / 'AGENTS.md').read_bytes()

@@ -9,6 +9,7 @@ export PYTHONDONTWRITEBYTECODE=1
 # 结构、引用和真实行为；不锁定模型代际或自然语言原句。
 python3 scripts/validate-config.py
 python3 scripts/test-validate-config.py
+python3 scripts/test-config-update.py
 for script in install.sh scripts/*.sh git-hooks/*; do
   bash -n "$script"
 done

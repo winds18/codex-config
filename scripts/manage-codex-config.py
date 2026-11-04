@@ -352,6 +352,29 @@ def backup_key(path):
     return hashlib.sha256(path.encode()).hexdigest()
 
 
+def source_revision(repo):
+    if not shutil.which('git'):
+        return None
+    try:
+        environment = dict(os.environ)
+        local = subprocess.run(['git', 'rev-parse', '--local-env-vars'], check=True,
+                               capture_output=True, text=True, timeout=5)
+        for name in local.stdout.splitlines():
+            environment.pop(name, None)
+
+        def git(*args):
+            return subprocess.run(['git', '-C', str(repo), *args], check=True,
+                                  capture_output=True, text=True, timeout=5,
+                                  env=environment).stdout.strip()
+        if Path(git('rev-parse', '--show-toplevel')).resolve() != repo.resolve():
+            return None
+        if git('status', '--porcelain', '--untracked-files=all'):
+            return None
+        return git('rev-parse', 'HEAD')
+    except (OSError, subprocess.SubprocessError):
+        return None
+
+
 def build_plan(args, root, repo, state, old):
     skills = absolute(args.skills_dir or (old or {}).get('skills_dir') or root / 'skills')
     if not old and exists(state / 'backups.json'):
@@ -426,7 +449,8 @@ def build_plan(args, root, repo, state, old):
     if installing:
         manifest = {'version': VERSION, 'root': str(root), 'repo': str(repo), 'skills_dir': str(skills),
                     'entries': next_entries, 'owned_hooks': new_owned, 'baseline_hooks': baseline_hooks,
-                    'created_dirs': (old or {}).get('created_dirs', [])}
+                    'created_dirs': (old or {}).get('created_dirs', []),
+                    'source_revision': source_revision(repo)}
         backups = {entry['backup']: backups[entry['backup']] for entry in next_entries.values()}
     else:
         manifest = None
@@ -721,6 +745,18 @@ def main(argv=None):
             raise Conflict('安装状态已改变，请重新预览。')
         setup_dirs = ([str(root)] if not root_existed else []) + ([str(state)] if not state_existed else [])
         apply_plan(state, changes, manifest, backups, old, setup_dirs)
+        if not manifest:
+            daily = state / 'daily-update.json'
+            if exists(daily):
+                try:
+                    record = read_json(daily)
+                except (Conflict, OSError, ValueError):
+                    print(f'更新记录不可读，已保留供恢复：{daily}')
+                else:
+                    if isinstance(record, dict) and not record.get('candidate_path'):
+                        daily.unlink()
+                    else:
+                        print(f'候选回收记录尚需核对，已保留：{daily}')
     finally:
         (lock / 'pid').unlink(missing_ok=True)
         lock.rmdir()

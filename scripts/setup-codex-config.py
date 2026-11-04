@@ -28,7 +28,7 @@ def check_source(repo):
     required = (
         'AGENTS.md', 'install.sh', 'hooks/hooks.json', 'hooks/codex-policy-guard.py',
         'scripts/setup-codex-config.py', 'scripts/manage-codex-config.py',
-        'scripts/validate-config.py',
+        'scripts/validate-config.py', 'scripts/update-codex-config.py',
         'scripts/restore-codex-global-links.sh', 'scripts/restore-codex-official-state.sh',
         'scripts/codex-config-doctor.sh',
     )
@@ -68,12 +68,12 @@ def check_source(repo):
 def main(argv=None):
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument('action', nargs='?', default='install',
-                        choices=('install', 'check', 'doctor', 'uninstall', 'recover'))
-    parser.add_argument('--repo', default=str(REPO), help='安装来源；默认入口所在仓库，不自动拉取远程')
+                        choices=('install', 'check', 'doctor', 'uninstall', 'recover', 'update'))
+    parser.add_argument('--repo', default=str(REPO), help='安装来源；默认入口所在仓库，仅 update 动作同步上游')
     parser.add_argument('--codex-home', default=os.environ.get('CODEX_HOME') or str(Path.home() / '.codex'))
     parser.add_argument('--skills-dir', help='唯一技能目录；默认沿用清单或配置根/skills')
     mode = parser.add_mutually_exclusive_group()
-    mode.add_argument('--apply', action='store_true', help='执行 install/uninstall/recover；缺省只预览')
+    mode.add_argument('--apply', action='store_true', help='执行 install/uninstall/recover/update；缺省只预览')
     mode.add_argument('--dry-run', action='store_true', help='明确只预览')
     args = parser.parse_args(argv)
     if args.apply and args.action in ('check', 'doctor'):
@@ -89,6 +89,25 @@ def main(argv=None):
     if args.skills_dir:
         options += ['--skills-dir', str(installer.absolute(args.skills_dir))]
     try:
+        if args.action == 'update':
+            def apply_update(source, destination):
+                command = ['bash', str(source / 'install.sh'), 'install',
+                           '--repo', str(source), '--codex-home', str(destination), '--apply']
+                if args.skills_dir:
+                    command += ['--skills-dir', str(installer.absolute(args.skills_dir))]
+                return subprocess.run(command, timeout=180, env=updater.git_environment()).returncode
+
+            if args.apply:
+                manifest_path = root / installer.STATE / 'manifest.json'
+                manifest = installer.read_json(manifest_path)
+                installer.validate_manifest(manifest, root)
+                installer.validate_backups(
+                    installer.read_json(root / installer.STATE / 'backups.json', {}), manifest)
+                if (root / installer.STATE / 'transaction.json').exists():
+                    raise installer.Conflict('存在未完成安装事务；先恢复，不激活源码更新。')
+            updater = load('setup_updater', SCRIPTS / 'update-codex-config.py')
+            return updater.update(repo, root, apply=args.apply,
+                                  check_source=check_source, install_source=apply_update)
         if args.action in ('install', 'check'):
             print(f'源码预检：{repo}', flush=True)
             check_source(repo)
