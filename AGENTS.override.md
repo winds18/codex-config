@@ -17,7 +17,7 @@
 bash scripts/codex-config-guard.sh
 ```
 
-纯文档的结构与引用检查：`python3 -B scripts/validate-config.py`；差异检查：`git diff --check`。完整 guard 已覆盖的检查，无新变化或未决风险不重复运行。
+纯文档的结构与引用检查：`python3 -B scripts/validate-config.py`；差异检查：`git diff --check`。完整 guard 已覆盖的检查，仅因相关变化、具体失败证据或明确覆盖缺口补跑。
 
 安装/卸载更改在临时目录运行恢复测试；不因测试要求修改真实全局配置。Git hooks 更改在临时 Git 仓库验证安装与作用域。技能入口或结构更改运行 skill-creator 的 quick_validate；触发条件或行为改变时再做代表任务验证，纯措辞及引用修改不重跑无关任务。
 
