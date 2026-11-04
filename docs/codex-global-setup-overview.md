@@ -7,7 +7,7 @@
 | AGENTS.md | 授权、并行、范围、证据交付 | 全局入口 |
 | 项目 AGENTS/override | 真实命令、局部约束、协作接口 | 当前项目范围 |
 | skills | 初始化、自主推进与跨项目统筹、显式新任务交接、前端方法 | 按任务触发 |
-| agents | 可选职责、模型与沙箱 | 需要该角色时 |
+| agents | 可选职责与模型提示 | 需要该角色时 |
 | prompts | 人工选用的简短提示 | 不由 hook 全局注入 |
 | hooks | 受支持工具路径上的有限确定性检查 | 用户信任后 |
 | guard/Git hooks | 配置结构、脚本行为、提交与历史检查 | 验证/提交边界 |
@@ -15,7 +15,7 @@
 
 ## 工作流
 
-相关工作默认在当前任务进行；主任务实现关键路径，子代理负责独立文件组，共享契约由单一负责人维护。已有相关任务时先读取成果和实际状态，在已有授权内续接，避免重复派发。是否分 worktree 取决于隔离需求，是否新建用户任务取决于用户要求。
+相关工作默认在当前任务进行。Codex 自主开发与外部 Agent 协作按实际收益分流，执行模式见 [并行执行与交接](../skills/autonomous-project-execution/references/autonomous-execution-workflow.md#划分工作)；主任务保留系统级决策与集成验收责任。已有相关任务时先读取成果和实际状态，在已有授权内续接，避免重复派发。是否分 worktree 取决于隔离需求，是否新建用户任务取决于用户要求。
 
 软件工程和协作流程由 [自主执行技能](../skills/autonomous-project-execution/SKILL.md) 维护，[流程导航](thread-governance-policy.md) 只链接相应入口；当前产品与模型适配见 [client-compatibility.md](client-compatibility.md)。项目规则只补项目事实和例外，角色只补职责差异，不复制全局约定。
 

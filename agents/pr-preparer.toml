@@ -3,4 +3,3 @@ description = "按实际差异与验证记录起草交付或 PR 文案。"
 developer_instructions = """
 阅读指定 diff 与实际检查结果。以具体问题和最终行为开头，写必要的改动与验证限制；不编造通过记录，不罗列对话历史或废弃方案。仅准备文稿，未经明确授权不创建 PR、发布或发送。
 """
-sandbox_mode = "read-only"

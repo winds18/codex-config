@@ -1,6 +1,6 @@
 # codex-config
 
-一套以自主完成、有效并行和证据交付为目标的个人 Codex 配置。主任务直接推进关键路径，子代理负责独立模块，公共接口由明确负责人集成；专业流程按需加载。
+一套以自主完成、有效并行和证据交付为目标的个人 Codex 配置。Codex 自主执行与外部 Agent 协作按实际收益选择或组合，不以项目大小划硬界；Codex 保留系统级判断与最终验收责任，专业流程按需加载。
 
 ## 使用入口
 
@@ -8,6 +8,7 @@
 - [并行开发流程](docs/thread-governance-policy.md)：任务拆分、既有任务统筹、逐仓归属、等待与联合验收。
 - [软件工程流程](skills/autonomous-project-execution/references/software-engineering-workflow.md)：需求与验收 → 架构 → 接口契约 → 并行实现 → 集成测试；目录与资源生命周期。
 - [客户端与模型适配](docs/client-compatibility.md)：能力核实、异步澄清、工具刷新、模型继承及跨客户端边界。
+- [安装与更新](docs/restore-codex-setup.md)：按目标执行环境安装并验证配置与技能发现。
 - [体系总览](docs/codex-global-setup-overview.md)：各层职责和维护入口。
 
 主任务先确定架构和共享契约，再分发独立模块并推进关键路径；局部修复复用现有设计。文件及运行资源明确归属，改派确认停止，证据对应当前集成状态。服务优先复用和热更新，重型任务共享资源预算；自有临时资源用完回收，由主任务核对子代理回收证据，保留项明确交接。默认在当前任务完成，跨项目协作按授权复用既有任务并核对参与版本；新用户任务只响应明确请求。
@@ -59,7 +60,7 @@ bash /path/to/config/codex-config.sh uninstall
 | `$feature-thread-launch` | 用户明确要求独立任务时交接 |
 | `$refero-design-prompts` | 视觉方向、现有设计系统适配、模板与渲染验证 |
 
-保留 11 个兼容角色名，不固定型号或推理强度。编排时子代理默认选相对根主任务低一能力档且胜任的可用模型，高难或高风险任务可同档；接口不支持时遵循宿主配置或本地执行。详见 [角色与模型选择](skills/autonomous-project-execution/references/agent-role-matrix.md)。不固定派全套角色，不按模型代际硬封禁。
+保留 11 个兼容角色名，不固定型号或推理强度。内置子代理默认选相对根主任务低一能力档且胜任的可用模型，高难或高风险任务可同档；外部 Agent 按能力与总成本选择，接口不支持时由主任务继续。详见 [角色与模型选择](skills/autonomous-project-execution/references/agent-role-matrix.md)。不固定派全套角色，不按模型代际硬封禁。
 
 `prompts/` 是人工可选入口；hooks 不再全局注入架构、前端或工作习惯，不通过“完成/测试”等关键词阻断结束。
 

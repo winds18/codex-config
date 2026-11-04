@@ -13,7 +13,7 @@
 验收：<实际命令或场景>
 ```
 
-跨仓交接按需补充：仓库/目录与既有任务 ID、契约权威来源及版本、生产者/消费者关系、参与验收的 SHA 或包版本组合、联合验收负责人。详细流程见[并行执行与交接](../../autonomous-project-execution/references/autonomous-execution-workflow.md)。
+跨仓或跨执行环境交接按需补充：执行位置、仓库/目录与既有任务 ID、契约权威来源及版本、生产者/消费者关系、参与验收的 SHA 或包版本组合、联合验收负责人。详细流程见[并行执行与交接](../../autonomous-project-execution/references/autonomous-execution-workflow.md)。
 
 按职责交接的专责任务须限定本阶段成果、负责目录和完成条件，按需引用已有计划中的关联任务与共享契约归属；组织方式见[按职责组织多端任务](../../autonomous-project-execution/references/autonomous-execution-workflow.md#按职责组织多端任务)。
 

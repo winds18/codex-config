@@ -17,6 +17,8 @@
 
 `--codex-home DIR` 选择配置根，缺省为 `$CODEX_HOME` 或 `~/.codex`；`--skills-dir DIR` 选择唯一技能目录，缺省沿用安装清单或配置根下的 skills；`--repo DIR` 选择完整源码来源，缺省为入口所在仓库。源码位置须在安装后保留，安装内容通过软连接引用它。
 
+在实际运行 Codex/工具的目标执行环境中运行安装器，并使用该执行进程账号实际的 `CODEX_HOME` 与技能目录；本机客户端配置不会自动同步到其他主机。安装后在目标环境检查规则和技能发现。软链接源也须在该环境可达并保持可用；源不可达时，应先将仓库放到目标环境可访问的位置，再用现有参数安装。
+
 ```bash
 bash install.sh --codex-home /path/to/config --skills-dir /path/to/skills --apply
 bash /path/to/config/codex-config.sh doctor

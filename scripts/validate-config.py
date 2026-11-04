@@ -47,7 +47,7 @@ def check(root=ROOT):
     errors = []
     names = set()
     allowed = {"name", "description", "developer_instructions", "model",
-               "model_reasoning_effort", "sandbox_mode"}
+               "model_reasoning_effort"}
     for path in sorted((root / "agents").glob("*.toml")):
         try:
             config = agent_config(path)
@@ -64,9 +64,6 @@ def check(root=ROOT):
             if config.get("model_reasoning_effort", "medium") not in {
                     "none", "minimal", "low", "medium", "high", "xhigh", "max", "ultra"}:
                 raise ValueError("未知推理档位")
-            if config.get("sandbox_mode", "workspace-write") not in {
-                    "read-only", "workspace-write", "danger-full-access"}:
-                raise ValueError("未知沙箱模式")
         except (ValueError, TypeError) as error:
             errors.append(f"{path.relative_to(root)}: {error}")
 

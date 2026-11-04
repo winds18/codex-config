@@ -1,6 +1,6 @@
 # Hooks 与验证边界
 
-当前只分发本地命令型 PreToolUse。须由支持该处理器的客户端加载，并经用户审查信任才运行；沙箱、rules、permission profiles 与受管策略仍是实际权限机制。
+当前只分发命令型 PreToolUse。须由实际执行环境中支持该处理器的宿主加载，并经用户审查信任才运行；交互端连接方式不决定 hook 是否生效，沙箱、rules、permission profiles 与受管策略仍是实际权限机制。
 
 ## 当前行为
 
@@ -15,9 +15,9 @@
 
 ### 执行环境
 
-2026-10-04 核实：Work Cloud 和 dots 的云端编排不支持本地配置、插件或本地目录中的 hooks，也不支持命令/shell、prompt、agent 处理器，即使工具在本机执行。本仓库 hooks 不覆盖该模式；本地 Work/Codex 仍按宿主支持范围运行。
+2026-10-04 核实：Work Cloud 和 dots 的云端编排不支持设备目录中的配置、插件或 hooks，也不支持命令/shell、prompt、agent 处理器，即使工具在用户设备执行。本仓库 hooks 不覆盖该模式；这不等同于通过 SSH 使用服务器上的 Codex CLI，后者按执行端实际支持、配置加载和信任状态判断。
 
-符合条件的企业环境可配置远程 MCP hooks，但不是本仓库分发能力；回调错误、超时或无效响应不保证阻断工具，不能作为完整审计或资源回收机制。依赖本地 hook 的工作流在替代防护验证前保留兼容的本地模式；不以切换环境规避拒绝，不因工具仍在本机执行而宣称保护等效。[官方兼容性说明](https://learn.chatgpt.com/docs/enterprise/cloud-local-access)
+符合条件的企业环境可配置远程 MCP hooks，但不是本仓库分发能力；回调错误、超时或无效响应不保证阻断工具，不能作为完整审计或资源回收机制。依赖命令型 hook 的工作流在替代防护验证前保留兼容执行方式；不以切换环境规避拒绝，不因工具仍在同一设备执行而宣称保护等效。[官方兼容性说明](https://learn.chatgpt.com/docs/enterprise/cloud-local-access)
 
 ### 解析与恢复
 
