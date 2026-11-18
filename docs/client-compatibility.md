@@ -6,7 +6,7 @@
 
 主任务保持用户所选模型；内置子代理默认按根主任务低一能力档动态选型，不固定型号。外部 Agent 按能力与总成本选择，不假定其模型档位或配置与 Codex 相同。判断依据、同档例外与不可用时的处理见 [角色与模型选择](../skills/autonomous-project-execution/references/agent-role-matrix.md)；两种执行模式见 [并行执行与交接](../skills/autonomous-project-execution/references/autonomous-execution-workflow.md#划分工作)。
 
-显式选型以客户端可用列表为准，不按代际禁用仍支持的模型。[官方模型](https://learn.chatgpt.com/docs/models)
+显式选型以执行端可用列表为准。例如 GPT-6.2 Astra 适合跨服务诊断，Sol 适合常规实现与复核，不构成固定配对。Max 加深单任务推理；Ultra 可自动派出子代理，适合能独立推进的工作。使用 Ultra 时只手动委派尚未覆盖的工作包，共用主任务资源额度；它不授权接入外部 Agent。[官方模型](https://learn.chatgpt.com/docs/models)、[Codex 提示指南](https://learn.chatgpt.com/guides/prompting-gpt-6-2-astra)
 
 API 的异步工具、mid-turn steering 与 `configuration_update` 不代表所有客户端均支持。CLI 0.163 起即时纠偏默认开启；打断会停止活跃 Code Mode 单元及其嵌套工具调用，但不证明由它们启动的外部进程已经回收。仍须按进程所有权和实际状态确认清理。[模型指导](https://developers.openai.com/api/docs/guides/latest-model)、[变更日志](https://learn.chatgpt.com/docs/changelog)
 
@@ -18,7 +18,7 @@ API 的异步工具、mid-turn steering 与 `configuration_update` 不代表所�
 
 本仓库配置按 [安装说明](restore-codex-setup.md) 分发到 Agent 运行账号实际使用的配置根和技能目录；交互端安装不代表另一执行环境已加载。技能入口包括 `~/.agents/skills`、项目 `.agents/skills`；`.codex/skills` 兼容入口按宿主实际发现情况使用，不重复安装同名技能。[技能发现](https://learn.chatgpt.com/docs/build-skills)
 
-AGENTS 层级和同目录 override 仍有效；本仓库 override 只用于维护，不能装到用户全局。项目权限模板仅在宿主支持且不违背受管策略时采用。[AGENTS](https://learn.chatgpt.com/docs/agent-configuration/agents-md)、[配置参考](https://learn.chatgpt.com/docs/config-file/config-reference)
+AGENTS 层级和同目录 override 仍有效；本仓库 override 只用于维护，不能装到用户全局。项目权限模板仅在宿主支持且不违背受管策略时采用。非交互 CLI 缺少项目配置或 MCP 时，区分沙箱写权限与项目信任；支持的 `exec` / `review` 中，`--trust` 持久生效，不作为临时修复自动追加。[AGENTS](https://learn.chatgpt.com/docs/agent-configuration/agents-md)、[非交互项目信任](https://github.com/openai/codex/pull/60041)
 
 支持的客户端可在既有会话刷新插件工具、技能与 hooks，不等于任意 AGENTS 或角色配置自动热刷新。规则更新可显式重读适用文件并保留目标、成果和授权；实际发现结果仍需确认，hook 信任仍由用户审查。仅在刷新未生效或宿主要求时重建会话。[变更日志](https://learn.chatgpt.com/docs/changelog)
 
@@ -72,14 +72,10 @@ Local environments 复用项目脚本准备 worktree 与 Run/Test；`.worktreein
 
 异步澄清须当前会话提供相应工具，必要答案仍是依赖工作的前置条件。记忆只作线索，不替代契约、授权与证据。[记忆](https://learn.chatgpt.com/docs/customization/memories)
 
-## 版本核验（2026-11-04）
-
-本机 macOS 实测：PATH 中 `codex` 为 0.149.1；桌面内置 `/Applications/ChatGPT.app/Contents/Resources/codex-cli/bin/codex` 为 `0.166.0-alpha.5.1`，不等同于稳定版。桌面 CLI 的 `doctor --help` 提供 `--network-only`，`queue --help` 提供 `--resume`，`review --help` 提供 `--uncommitted`、`--base`、`--commit`。版本与参数检查不代表已运行诊断、续办或审查，也不证明账号已获插件或云端能力；桌面能力不能外推到 PATH CLI 或其他客户端。
-
-[官方变更日志](https://learn.chatgpt.com/docs/changelog)：0.156.0 默认启用 worktree 支持，不代表每个任务默认创建 worktree；`/usage` 提供用量及插件、技能统计。0.157.0 会在合适的交互会话中自动共享后台服务，不能据此推定所有会话或跨端共享；资源归属与回收仍按实际会话核对。
+桌面端重启可能自动续办同账号近 24 小时内活跃且仍中断的本地会话。先确认原任务及其外部操作状态，再决定是否续办或补做；不据此推断 SSH 会话也已恢复。CLI 0.168 起，已打开或恢复的会话保留原模型提供方，变更新会话默认值不迁移旧会话。[客户端变更日志](https://learn.chatgpt.com/docs/changelog)
 
 ## 衡量是否提效
 
-技能描述简短准确、参考按需读取，避免全仓必读与小改全套测试。[9/11 官方指导](https://learn.chatgpt.com/blog/rethinking-skills-and-prompts-for-gpt-6-astra)。固定模型比较规则，再固定规则比较模型；覆盖局部修复、跨模块、前端、非代码、权限受阻与长任务纠偏。记录质量、耗时、追问、重复检查、并行及用量；失败不能凭速度胜出，静态检查不替代行为评估。
+调整默认策略前，按影响选代表任务（如局部修复、跨模块交付、前端还原），固定输入、起点和验收标准；模型、推理强度、规则一次只改一项。先比验收结果，再比耗时、用量与返工。未做对照，不声称提效；不把评测设为日常任务门禁。
 
 流程调优时优先使用可用的 `/usage` 等原生统计，结合任务耗时与验收质量抽样比较技能加载和委派收益；不为每个任务新建用量台账。视觉链路更新只复验受影响场景，见 [前端交付技能](../skills/refero-design-prompts/SKILL.md)；相关修复依据见 [API 更新日志](https://developers.openai.com/api/docs/changelog)。
